@@ -1,5 +1,5 @@
 require "bundler/setup"
-require "iiif/to/jekyll"
+require "iiif_to_jekyll"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

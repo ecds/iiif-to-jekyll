@@ -1,11 +1,11 @@
 
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "iiif/to/jekyll/version"
+require "iiif_to_jekyll/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "iiif-to-jekyll"
-  spec.version       = Iiif::To::Jekyll::VERSION
+  spec.name          = "iiif_to_jekyll"
+  spec.version       = IiifToJekyll::VERSION
   spec.authors       = ["Emory Center for Digital Scholarship"]
   spec.email         = ["benwbrum@gmail.com"]
 
@@ -35,7 +35,6 @@ Gem::Specification.new do |spec|
   spec.bindir        = "exe"
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
-
 
   spec.add_development_dependency "bundler", "~> 1.17"
   spec.add_development_dependency "rake", "~> 10.0"
