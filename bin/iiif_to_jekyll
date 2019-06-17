@@ -25,7 +25,11 @@ dir_name = ARGV[0]
 puts 'Export directory must contain manifest.json' unless File.exist?(File.join(dir_name, 'manifest.json'))
 # FIXME: how to display option parser help instead?
 
-IiifToJekyll.import(dir_name, **options)
+
+output_dir = ARGV[1]
+puts 'Jekyll directory is required' unless ARGV[1] && Dir.exist?(ARGV[1])
+
+IiifToJekyll.import(dir_name, output_dir, **options)
 
 #IiifToJekyll.import(ARGV[0], **options)
 

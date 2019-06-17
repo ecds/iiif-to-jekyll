@@ -1,6 +1,7 @@
 require "iiif_to_jekyll/version"
 require "pry"
 require 'iiif/presentation'
+require 'date'
 
 module IiifToJekyll
 
@@ -23,12 +24,13 @@ module IiifToJekyll
   # @param dirname [String] directory containing Readux export
   #
   # This code is based extensively on teifacsimile-to-jekyll
-  def self.import(dirname, opts={})
+  def self.import(dirname, output_dir, opts={})
     manifest = load_manifest(dirname)
 
-    write_volume_pages(manifest, opts)
+    Dir.chdir(output_dir) do
+      write_volume_pages(manifest, opts)
 
-    write_annotations(manifest, dirname, opts)
+      write_annotations(manifest, dirname, opts)
 
 # => Functionality not implemented yet in Readux 2
 #    output_tags(teidoc.tags, **opts)
@@ -38,9 +40,9 @@ module IiifToJekyll
     # opts['tei_filename'] = 'tei.xml'
     # FileUtils.copy_file(filename, opts['tei_filename'])
 
-    write_site_config(manifest, opts)
+      write_site_config(manifest, opts)
 
-
+    end
   end
 
   # TODO: Why update?  Does it start with the theme?
@@ -64,7 +66,8 @@ module IiifToJekyll
 
       # use first page (which should be the cover) as a default splash
       # image for the home page
-      siteconfig['homepage_image'] = manifest.sequences.first.canvases.first.service['@id']
+      siteconfig['homepage_image'] = manifest.sequences.first.canvases.first.images.first.resource['@id']
+
 
       # TODO
       # add image dimensions to config so that thumbnail display can be tailored
@@ -167,7 +170,7 @@ module IiifToJekyll
   def self.write_site_config(manifest, opts)
     if File.exist?(CONFIG_FILE)
         puts '** Updating site config' unless opts[:quiet]
-        update_site_config(manifest, opts)
+        update_site_config(manifest, CONFIG_FILE, opts)
     end
   end
 
@@ -248,7 +251,7 @@ module IiifToJekyll
         'sort_order'=> page_number,
         'canvas_id' => canvas['@id'],
 #          'annotation_count' => teipage.annotation_count,
-        'annotation_count' => 10000,  # TODO
+        'annotation_count' => 0,  # TODO
         'images' => images,
 #          'title'=> 'Page %s' % page_number,
         'title'=> canvas.label,
@@ -272,7 +275,7 @@ module IiifToJekyll
       # base output filename on page number
       path = File.join(VOLUME_PAGE_DIR, "%04d.html" % index)
 
-      front_matter = page_frontmatter(canvas, opts)
+      front_matter = page_frontmatter(canvas, index, opts)
 
       File.open(path, 'w') do |file|
           # write out front matter as yaml
