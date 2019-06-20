@@ -273,55 +273,121 @@ module IiifToJekyll
   # metadata from a canvas
   # @param canvas
   def self.output_page(canvas, index, opts={})
-      puts "Page #{index}" unless opts[:quiet]
-      # base output filename on page number
-      path = File.join(VOLUME_PAGE_DIR, "%04d.html" % index)
+    puts "Page #{index}" unless opts[:quiet]
+    # base output filename on page number
+    path = File.join(VOLUME_PAGE_DIR, "%04d.html" % index)
 
-      front_matter = page_frontmatter(canvas, index, opts)
+    front_matter = page_frontmatter(canvas, index, opts)
 
-      File.open(path, 'w') do |file|
-          # write out front matter as yaml
-          file.write front_matter.to_yaml
-          # ensure separation between yaml and page content
-          file.write  "\n---\n\n"
-           # page text content as html with annotation highlights
-           # TODO
-#          file.write teipage.html()
-          # each line of OCR looks like this:
-          #TODO figure otu how to check SSL correctly in production mode
-          # TODO add require statement and bundle for open-uri   
-          connection = open(canvas.other_content.first['@id'], {ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE})
-          raw_list = connection.read
-          json_list = JSON.parse(raw_list)
-          file.write oa_to_display(canvas, json_list)
+    File.open(path, 'w') do |file|
+      # write out front matter as yaml
+      file.write front_matter.to_yaml
+      # ensure separation between yaml and page content
+      file.write  "\n---\n\n"
+      # page text content as html with annotation highlights # TODO annotation highlights
+      json_list = fetch_annotation_list(canvas)
+      file.write oa_to_display(canvas, json_list)
 
-# <div class="ocr-line ocrtext" style="left:11.73%;top:64.23%;width:62.94%;height:2%;text-align:left;font-size:19.96px" data-vhfontsize="2">
-#   <span>Ad vnamquamque praterea Euangelicam leétionem fua</span>
-# </div>
-      end
     end
+  end
 
+  def self.fetch_annotation_list(canvas)
+    # TODO figure out how to check SSL correctly in production mode
+    # TODO add require statement and bundle for open-uri if it's necessary  
+    connection = open(canvas.other_content.first['@id'], {ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE})
+    raw_list = connection.read
+    json_list = JSON.parse(raw_list)
 
-    def self.oa_to_display(canvas, anno_list_json)
-      page_ocr_html = ""
-      Annotation.ocr_annotations(anno_list_json, canvas) do |anno|
-        style="left:#{anno.left_pct}%;top:#{anno.top_pct}%;width:#{anno.width_pct}%;height:#{anno.height_pct}%;text-align:left;font-size:#{anno.font_size}px"
-        page_ocr_html << "<div class=\"ocr-line ocrtext\" style=\"#{style}\" data-vhfontsize=\"2\">\n"
-        page_ocr_html << "   <span>#{anno.text}</span>\n"
-        page_ocr_html << "</div>\n"
-      end
-      page_ocr_html
-   end    
+    json_list
+  end
 
-  def self.write_annotations(manifest, dirname, opts={})
-    # # generate an annotation document for every annotation in the TEI
-    # puts "** Writing annotations" unless opts[:quiet]
-    # FileUtils.rm_rf(@annotation_dir)
-    # Dir.mkdir(@annotation_dir) unless File.directory?(@annotation_dir)
-    # teidoc.annotations.each do |teinote|
-    #     output_annotation(teinote, **opts)
+  def self.oa_to_display(canvas, anno_list_json)
+    page_ocr_html = ""
+    Annotation.ocr_annotations(anno_list_json, canvas) do |anno|
+      style="left:#{anno.left_pct}%;top:#{anno.top_pct}%;width:#{anno.width_pct}%;height:#{anno.height_pct}%;text-align:left;font-size:#{anno.font_size}px"
+      page_ocr_html << "<div class=\"ocr-line ocrtext\" style=\"#{style}\" data-vhfontsize=\"2\">\n"
+      page_ocr_html << "   <span>#{anno.text}</span>\n"
+      page_ocr_html << "</div>\n"
+    end
+    page_ocr_html
+  end    
+
+  # Generate annotation metadata from a WebAnnotation to be used
+  # in the jekyll annotation page front matter
+  # @param annotation
+  def self.annotation_frontmatter(annotation)
+    front_matter = {
+      'annotation_id' => annotation.anno_id,
+      'author' => annotation.user,
+#        'tei_target' => teinote.target,
+      'annotated_page' => annotation.canvas.canvas_id,
+      'page_index' => annotation.canvas.index,
+#        'target' => teinote.start_target,
+    }
+
+    # TODO handle tags
+    # if not teinote.tags.empty?
+    #   front_matter['tags'] = teinote.tags
     # end
 
+    # TODO handle related pages
+    # if not teinote.related_pages.empty?
+    #   front_matter['related_pages'] = teinote.related_page_ids
+    # end
+
+    # TODO handle targets
+    # if teinote.range_target?
+    #   front_matter['end_target'] = teinote.end_target
+    # end
+
+    return front_matter
+  end
+
+
+
+  # Generate a jekyll collection annotation with appropriate yaml
+  # metadata from a commenting annotation
+  # @param annotation
+  def self.output_annotation(annotation, opts)
+    puts "Annotation #{annotation.anno_id}" unless opts[:quiet]
+
+    # use id without leading annotation- as filename
+    # (otherwise results in redundant file path and name/url)
+    path = File.join(ANNOTATION_DIR, "%s.md" % annotation.anno_id)
+    # TODO consider changing these to HTML instead of Markdown, since our annotations will be in HTML now
+
+    front_matter = annotation_frontmatter(annotation)
+
+    File.open(path, 'w') do |file|
+      # write out front matter as yaml
+      file.write front_matter.to_yaml
+      file.write  "\n---\n"
+      # annotation content
+      file.write annotation.text
+    end
+  end
+
+
+  def self.output_page_annotations(canvas, i, opts)
+    # page text content as html with annotation highlights # TODO annotation highlights
+    anno_list_json = fetch_annotation_list(canvas)
+    Annotation.comment_annotations(anno_list_json, canvas) do |anno|
+      print "Found one!"
+      output_annotation(anno)
+    end
+  end
+
+  def self.write_annotations(manifest, dirname, opts={})
+    # generate an annotation document for every commenting annotation in the TEI
+    puts "** Writing annotations" unless opts[:quiet]
+    FileUtils.rm_rf(ANNOTATION_DIR)
+    Dir.mkdir(ANNOTATION_DIR) unless File.directory?(ANNOTATION_DIR)
+
+    unless manifest.sequences.empty?
+      manifest.sequences.first.canvases.each_with_index do |canvas,i|
+        output_page_annotations(canvas, i, opts)
+      end
+    end
   end
 
   def self.validate_manifest(service)
