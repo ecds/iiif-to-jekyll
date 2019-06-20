@@ -55,124 +55,123 @@ module IiifToJekyll
   # @param manifest [TeiFacsimile]
   # @param configfile [String] path to existing config file to be updated
   def self.update_site_config(manifest, configfile, opts={})
-      siteconfig = YAML.load_file(configfile)
+    siteconfig = YAML.load_file(configfile)
 
-      # set site title and subtitle from the tei
-      siteconfig['title'] = manifest.label
+    # set site title and subtitle from the tei
+    siteconfig['title'] = manifest.label
 #      siteconfig['tagline'] = teidoc.title_statement.subtitle
 
-      # placeholder description for author to edit (todo: include annotation author name here?)
-      siteconfig['description'] = 'An annotated digital edition created with <a href="http://readux.library.emory.edu/">Readux</a>'
+    # placeholder description for author to edit (todo: include annotation author name here?)
+    siteconfig['description'] = 'An annotated digital edition created with <a href="http://readux.library.emory.edu/">Readux</a>'
 
-      # add urls to readux volume and pdf
+    # add urls to readux volume and pdf
 
-      # use first page (which should be the cover) as a default splash
-      # image for the home page
-      siteconfig['homepage_image'] = manifest.sequences.first.canvases.first.images.first.resource['@id']
+    # use first page (which should be the cover) as a default splash
+    # image for the home page
+    siteconfig['homepage_image'] = manifest.sequences.first.canvases.first.images.first.resource['@id']
 
 
-      # TODO
-      # add image dimensions to config so that thumbnail display can be tailored
-      # to the current volume page size
-      # thumbnail_width, thumbnail_height = FastImage.size(teidoc.pages[0].images_by_type['thumbnail'].url)
-      # sm_thumbnail_width, sm_thumbnail_height = FastImage.size(teidoc.pages[0].images_by_type['small-thumbnail'].url)
-      # page_img_width, page_img_height = FastImage.size(teidoc.pages[0].images_by_type['page'].url)
-      siteconfig['image_size'] = {
-          # 'page' => {'width' => page_img_width, 'height' => page_img_height},
-          # 'thumbnail' => {'width' => thumbnail_width, 'height' => thumbnail_height},
-          # 'small-thumbnail' => {'width' => sm_thumbnail_width, 'height' => sm_thumbnail_height}
-      }
+    # TODO
+    # add image dimensions to config so that thumbnail display can be tailored
+    # to the current volume page size
+    # thumbnail_width, thumbnail_height = FastImage.size(teidoc.pages[0].images_by_type['thumbnail'].url)
+    # sm_thumbnail_width, sm_thumbnail_height = FastImage.size(teidoc.pages[0].images_by_type['small-thumbnail'].url)
+    # page_img_width, page_img_height = FastImage.size(teidoc.pages[0].images_by_type['page'].url)
+    siteconfig['image_size'] = {
+      # 'page' => {'width' => page_img_width, 'height' => page_img_height},
+      # 'thumbnail' => {'width' => thumbnail_width, 'height' => thumbnail_height},
+      # 'small-thumbnail' => {'width' => sm_thumbnail_width, 'height' => sm_thumbnail_height}
+    }
 
-      # TODO deal with this
-      # add source publication information, including
-      # urls to volume and pdf on readux
+    # TODO deal with this
+    # add source publication information, including
+    # urls to volume and pdf on readux
 #      original = teidoc.source_bibl['original']
-      source_info = {
-        'title' => manifest.label, 
-        # 'author' => original.author,
-          # 'date' => original.date,
-          # 'url' => teidoc.source_bibl['digital'].references['digital-edition'].target,
-          # 'pdf_url' => teidoc.source_bibl['digital'].references['pdf'].target,
-          'via_readux' => true
-        }
-
-      # preliminary publication information for the annotated edition
-      pub_info = {
-        'title' => manifest.label,
-          'date' => Date.today.strftime("%Y"), # current year
-#          'author' => original.author,
-          'editors' => [],
+    source_info = {
+      'title' => manifest.label, 
+      # 'author' => original.author,
+        # 'date' => original.date,
+        # 'url' => teidoc.source_bibl['digital'].references['digital-edition'].target,
+        # 'pdf_url' => teidoc.source_bibl['digital'].references['pdf'].target,
+        'via_readux' => true
       }
 
+    # preliminary publication information for the annotated edition
+    pub_info = {
+      'title' => manifest.label,
+      'date' => Date.today.strftime("%Y"), # current year
+#          'author' => original.author,
+      'editors' => [],
+    }
 
-      # configure extra js for volume pages based on deep zoom configuration
-      volume_js = ['volume-page.js', 'hammer.min.js']
-      if opts[:deep_zoom]
-          volume_js.push('deepzoom.js').push('openseadragon.min.js')
-      end
 
-      # TODO: read annotator names
-      # # add all annotator names to the document as editors
-      # # of the annotated edition; use username if name is empty
-      # teidoc.resp.each do |resp, name|
-      #     pub_info['editors']  << (name.value != '' ? name.value : resp)
-      # end
+    # configure extra js for volume pages based on deep zoom configuration
+    volume_js = ['volume-page.js', 'hammer.min.js']
+    if opts[:deep_zoom]
+      volume_js.push('deepzoom.js').push('openseadragon.min.js')
+    end
 
-      # configure collections specific to tei facsimile + annotation data
-      siteconfig.merge!({
-          'source_info' => source_info,
-          'publication_info' => pub_info,
-          'collections' => {
-              # NOTE: annotations *must* come first, so content can
-              # be rendered for display in volume pages templates
-              'annotations' => {
-                  'output' => true,
-                  'permalink' => '/annotations/:path/'
-              },
-              'volume_pages' => {
-                  'output' => true,
-                  'permalink' => '/pages/:path/'
-              },
+    # TODO: read annotator names
+    # # add all annotator names to the document as editors
+    # # of the annotated edition; use username if name is empty
+    # teidoc.resp.each do |resp, name|
+    #     pub_info['editors']  << (name.value != '' ? name.value : resp)
+    # end
+
+    # configure collections specific to tei facsimile + annotation data
+    siteconfig.merge!({
+      'source_info' => source_info,
+      'publication_info' => pub_info,
+      'collections' => {
+        # NOTE: annotations *must* come first, so content can
+        # be rendered for display in volume pages templates
+        'annotations' => {
+          'output' => true,
+          'permalink' => '/annotations/:path/'
+        },
+        'volume_pages' => {
+          'output' => true,
+          'permalink' => '/pages/:path/'
+        },
+      },
+      'defaults' => [{
+         'scope' => {
+            'path' => '',
+            'type' => 'volume_pages',
           },
-          'defaults' => [{
-             'scope' => {
-                  'path' => '',
-                  'type' => 'volume_pages',
-              },
-              'values' => {
-                  'layout' => 'volume_page',
-                  'short_label' => 'p.',
-                  'deep_zoom' => opts[:deep_zoom],
-                  'extra_js' => volume_js
-              }
-            },
-            {'scope' => {
-                  'path' => '',
-                  'type' => 'annotations',
-              },
-              'values' => {
-                  'layout' => 'annotation'
-              }
-            }
-        ]
-      })
-      # TODO:
-      # - author information from resp statement?
+          'values' => {
+            'layout' => 'volume_page',
+            'short_label' => 'p.',
+            'deep_zoom' => opts[:deep_zoom],
+            'extra_js' => volume_js
+          }
+        },
+        {'scope' => {
+            'path' => '',
+            'type' => 'annotations',
+          },
+          'values' => {
+            'layout' => 'annotation'
+          }
+      }]
+    })
+    # TODO:
+    # - author information from resp statement?
 
-      # NOTE: this generates a config file without any comments,
-      # and removes existing comments - which is not very user-friendly;
-      # look into generating/updating config with comments
+    # NOTE: this generates a config file without any comments,
+    # and removes existing comments - which is not very user-friendly;
+    # look into generating/updating config with comments
 
-      File.open(configfile, 'w') do |file|
-          # write out updated site config
-          file.write siteconfig.to_yaml
-      end
+    File.open(configfile, 'w') do |file|
+      # write out updated site config
+      file.write siteconfig.to_yaml
+    end
   end
 
   def self.write_site_config(manifest, opts)
     if File.exist?(CONFIG_FILE)
-        puts '** Updating site config' unless opts[:quiet]
-        update_site_config(manifest, CONFIG_FILE, opts)
+      puts '** Updating site config' unless opts[:quiet]
+      update_site_config(manifest, CONFIG_FILE, opts)
     end
   end
 
@@ -250,14 +249,14 @@ module IiifToJekyll
 
     # construct page front matter
     front_matter = {
-        'sort_order'=> page_number,
-        'canvas_id' => canvas['@id'],
+      'sort_order'=> page_number,
+      'canvas_id' => canvas['@id'],
 #          'annotation_count' => teipage.annotation_count,
-        'annotation_count' => 0,  # TODO
-        'images' => images,
+      'annotation_count' => 0,  # TODO
+      'images' => images,
 #          'title'=> 'Page %s' % page_number,
-        'title'=> canvas.label,
-        'number' => page_number
+      'title'=> canvas.label,
+      'number' => page_number
     }
 
     # TODO consider opts[:page_one] functionality; IIIF has something similar with `startCanvas`
