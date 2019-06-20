@@ -1,7 +1,9 @@
 require "iiif_to_jekyll/version"
+require "iiif_to_jekyll/annotation"
 require "pry"
 require 'iiif/presentation'
 require 'date'
+require 'open-uri'
 
 module IiifToJekyll
 
@@ -285,9 +287,31 @@ module IiifToJekyll
            # page text content as html with annotation highlights
            # TODO
 #          file.write teipage.html()
+          # each line of OCR looks like this:
+          #TODO figure otu how to check SSL correctly in production mode
+          # TODO add require statement and bundle for open-uri   
+          connection = open(canvas.other_content.first['@id'], {ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE})
+          raw_list = connection.read
+          json_list = JSON.parse(raw_list)
+          file.write oa_to_display(canvas, json_list)
+
+# <div class="ocr-line ocrtext" style="left:11.73%;top:64.23%;width:62.94%;height:2%;text-align:left;font-size:19.96px" data-vhfontsize="2">
+#   <span>Ad vnamquamque praterea Euangelicam leétionem fua</span>
+# </div>
       end
     end
 
+
+    def self.oa_to_display(canvas, anno_list_json)
+      page_ocr_html = ""
+      Annotation.ocr_annotations(anno_list_json, canvas) do |anno|
+        style="left:#{anno.left_pct}%;top:#{anno.top_pct}%;width:#{anno.width_pct}%;height:#{anno.height_pct}%;text-align:left;font-size:#{anno.font_size}px"
+        page_ocr_html << "<div class=\"ocr-line ocrtext\" style=\"#{style}\" data-vhfontsize=\"2\">\n"
+        page_ocr_html << "   <span>#{anno.text}</span>\n"
+        page_ocr_html << "</div>\n"
+      end
+      page_ocr_html
+   end    
 
   def self.write_annotations(manifest, dirname, opts={})
     # # generate an annotation document for every annotation in the TEI
