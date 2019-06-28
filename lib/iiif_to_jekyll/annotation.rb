@@ -63,9 +63,8 @@ class Annotation
     anno
   end
 
-  # TODO determine font size (from what?)
   def font_size 
-    "20px"  # this is specified in pixels, but surely that's wrong?
+    h_px
   end
 
   # helper for line calculation
@@ -79,7 +78,9 @@ class Annotation
   end
 
 
-  Y_MARGIN = 10 # pixels considered probably the same line
+  Y_MARGIN_OF_ERROR = 10 # pixels considered probably the same line regardless 
+  # of skew, strange OCR, or bizarre printing
+
   # factory method for creating an arry of Annotation objectss from a raw hash
   # parsed from an AnnotationList 
   def self.all_annotations(annotation_list_json)
@@ -89,7 +90,7 @@ class Annotation
     end
 
     annotations.sort! do |a,b|
-      if (a.y_px - b.y_px).abs < Y_MARGIN
+      if (a.y_px - b.y_px).abs < Y_MARGIN_OF_ERROR
         a.x_px <=> b.x_px
       else
         a.y_px <=> b.y_px

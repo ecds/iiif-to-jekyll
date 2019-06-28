@@ -38,13 +38,18 @@ module IiifToJekyll
 # => Functionality not implemented yet in Readux 2
 #    output_tags(teidoc.tags, **opts)
 
-# TODO: what does this do?
+    # Readux 1 copies the TEI files produced by Readux into the static
+    # site export so that scholars can download it (from the static site)
+    # for reuse.  Should we do something similar with the IIIF bundle?
+    # If so, does that need to be the kind heavy-weight export that 
+    # includes images?
+    # TODO: log issue in Pivotal
+
     # # copy annotated tei into jekyll site
     # opts['tei_filename'] = 'tei.xml'
     # FileUtils.copy_file(filename, opts['tei_filename'])
 
       write_site_config(manifest, opts)
-
     end
   end
 
@@ -293,7 +298,6 @@ module IiifToJekyll
 
   def self.fetch_annotation_list(canvas)
     # TODO figure out how to check SSL correctly in production mode
-    # TODO add require statement and bundle for open-uri if it's necessary  
     connection = open(canvas.other_content.first['@id'], {ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE})
     raw_list = connection.read
     json_list = JSON.parse(raw_list)
@@ -301,7 +305,6 @@ module IiifToJekyll
     json_list
   end
 
-  # TODO: remove canvas from Annotation
   # TODO move somewhere better
   def self.x_px_to_pct(x, canvas)
     (100 * x.to_f / canvas.width).floor(2)
@@ -315,24 +318,22 @@ module IiifToJekyll
 
   def self.oa_to_display(canvas, anno_list_json)
     page_ocr_html = ""
-    p anno_list_json["resources"].map{|r| r["resource"]["chars"] }.join " "
+#    p anno_list_json["resources"].map{|r| r["resource"]["chars"] }.join " "
     words = Annotation.ocr_annotations(anno_list_json)
     lines = OcrLine.lines_from_words(words)
     lines.each do |line|
-      # TODO: figure out how to convert XY to percent; rip this out of Annotation and put it here in a helper
-      # taking canvas and line?  Canvas and annotations?
       left_pct = x_px_to_pct(line.x_min, canvas)
       top_pct = y_px_to_pct(line.y_min, canvas)
       width_pct = x_px_to_pct(line.width, canvas)
       height_pct = y_px_to_pct(line.height, canvas)
-      font_size = line.annotations.first.font_size # TODO replace with legitimate code
-      style="left:#{left_pct}%;top:#{top_pct}%;width:#{width_pct}%;height:#{height_pct}%;text-align:left;font-size:#{font_size}"
+      style="left:#{left_pct}%;top:#{top_pct}%;width:#{width_pct}%;height:#{height_pct}%;text-align:left"
       page_ocr_html << "<div class=\"ocr-line ocrtext\" style=\"#{style}\" data-vhfontsize=\"2\">\n"
       # consider moving font-size to here
       line.annotations.each do |anno|
+        style="font-size:#{anno.font_size}px"
         page_ocr_html << "   <span>#{anno.text}</span>\n"
       end
-      p line.annotations.map {|a| a.text}.join(" ")
+#      p line.annotations.map {|a| a.text}.join(" ")
       page_ocr_html << "</div>\n"
     end
     page_ocr_html

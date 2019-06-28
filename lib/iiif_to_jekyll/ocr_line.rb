@@ -29,23 +29,23 @@ class OcrLine
   end
 
   def bottom_higher_than_top_of?(next_word)
-    self.y_max < next_word.y_px # TODO relativize by canvas pct
+    self.y_max < next_word.y_px
   end
 
   # tests to see if an annotation starts a new line or not
   def ends_before?(next_word)
     if self.bottom_higher_than_top_of?(next_word)
       # this is clear-cut -- the new word's top is below this line's bottom
-      print "\tbottom of line #{self.y_max} higher than top of next word (#{next_word.text}) #{next_word.y_px}\n"
+#      print "\tbottom of line #{self.y_max} higher than top of next word (#{next_word.text}) #{next_word.y_px}\n"
       return true
     else
-      # TODO handle ambiguous skewing scenario 
       # ambiguous scenario: a real new line could start above our bottom due to positive degree skewing
+      # TODO: test with highly skewed works in both directions
 
       # a real continuation will have similar y values, but will start further left than our line ends
       # (so our line ends farther right then the beginning fo the new word)
       if self.ends_farther_right_than_beginning_of?(next_word)
-        print "\tline ends farther right #{self.x_max} than beginning of next word (#{next_word.text}) #{next_word.x_px}\n"
+#        print "\tline ends farther right #{self.x_max} than beginning of next word (#{next_word.text}) #{next_word.x_px}\n"
         return true
       end  
     end
@@ -134,19 +134,19 @@ class OcrLine
 
     annotations.each do |next_word|
 #      binding.pry
-      print "#{next_word.x_px},#{next_word.y_px}\n"
+#      print "#{next_word.x_px},#{next_word.y_px}\n"
       if this_line.annotations.empty? && lines.empty?
         # handle starting scenario
-        print "\tfirst word -- adding\t#{next_word.text}\n"
+#        print "\tfirst word -- adding\t#{next_word.text}\n"
         this_line.add_word(next_word)
       else      
         if this_line.ends_before?(next_word)
-          print "\tstarting new line\t#{next_word.text}\n"
+#          print "\tstarting new line\t#{next_word.text}\n"
           lines << this_line
           this_line = OcrLine.new
           this_line.add_word(next_word)
         else
-          print "\tcontinuation--adding\t#{next_word.text}\n"
+#          print "\tcontinuation--adding\t#{next_word.text}\n"
           this_line.add_word(next_word)
         end
       end
