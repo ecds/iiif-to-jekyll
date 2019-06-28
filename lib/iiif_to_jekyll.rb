@@ -1,5 +1,6 @@
 require "iiif_to_jekyll/version"
 require "iiif_to_jekyll/annotation"
+require "iiif_to_jekyll/ocr_line"
 require "pry"
 require 'iiif/presentation'
 require 'date'
@@ -300,12 +301,38 @@ module IiifToJekyll
     json_list
   end
 
+  # TODO: remove canvas from Annotation
+  # TODO move somewhere better
+  def self.x_px_to_pct(x, canvas)
+    (100 * x.to_f / canvas.width).floor(2)
+  end
+
+  # TODO move somewhere better
+  def self.y_px_to_pct(y, canvas)
+    (100 * y.to_f / canvas.height).floor(2)
+  end
+
+
   def self.oa_to_display(canvas, anno_list_json)
     page_ocr_html = ""
-    Annotation.ocr_annotations(anno_list_json, canvas) do |anno|
-      style="left:#{anno.left_pct}%;top:#{anno.top_pct}%;width:#{anno.width_pct}%;height:#{anno.height_pct}%;text-align:left;font-size:#{anno.font_size}px"
+    p anno_list_json["resources"].map{|r| r["resource"]["chars"] }.join " "
+    words = Annotation.ocr_annotations(anno_list_json)
+    lines = OcrLine.lines_from_words(words)
+    lines.each do |line|
+      # TODO: figure out how to convert XY to percent; rip this out of Annotation and put it here in a helper
+      # taking canvas and line?  Canvas and annotations?
+      left_pct = x_px_to_pct(line.x_min, canvas)
+      top_pct = y_px_to_pct(line.y_min, canvas)
+      width_pct = x_px_to_pct(line.width, canvas)
+      height_pct = y_px_to_pct(line.height, canvas)
+      font_size = line.annotations.first.font_size # TODO replace with legitimate code
+      style="left:#{left_pct}%;top:#{top_pct}%;width:#{width_pct}%;height:#{height_pct}%;text-align:left;font-size:#{font_size}"
       page_ocr_html << "<div class=\"ocr-line ocrtext\" style=\"#{style}\" data-vhfontsize=\"2\">\n"
-      page_ocr_html << "   <span>#{anno.text}</span>\n"
+      # consider moving font-size to here
+      line.annotations.each do |anno|
+        page_ocr_html << "   <span>#{anno.text}</span>\n"
+      end
+      p line.annotations.map {|a| a.text}.join(" ")
       page_ocr_html << "</div>\n"
     end
     page_ocr_html
@@ -370,7 +397,7 @@ module IiifToJekyll
   def self.output_page_annotations(canvas, i, opts)
     # page text content as html with annotation highlights # TODO annotation highlights
     anno_list_json = fetch_annotation_list(canvas)
-    Annotation.comment_annotations(anno_list_json, canvas) do |anno|
+    Annotation.comment_annotations(anno_list_json) do |anno|
       print "Found one!"
       output_annotation(anno)
     end
