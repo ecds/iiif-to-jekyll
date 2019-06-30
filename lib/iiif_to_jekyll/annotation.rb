@@ -9,7 +9,7 @@ class Annotation
 
   # Constants used for distinguishing OCR annotations from scholarly commentary
   module Motivation
-    COMMENTING = "sc:commenting"
+    COMMENTING = "['oa:commenting']"
     PAINTING = "sc:painting"
   end
 
