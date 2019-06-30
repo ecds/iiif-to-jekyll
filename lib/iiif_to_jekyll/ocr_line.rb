@@ -24,6 +24,11 @@ class OcrLine
     y_max - y_min
   end
 
+  def font_size
+    total_height = annotations.inject(0) { |accum, anno| accum += anno.h_px }
+    total_height / annotations.count # mean height
+  end
+
   def ends_farther_right_than_beginning_of?(next_word)
     self.x_max > next_word.x_px
   end

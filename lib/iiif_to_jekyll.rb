@@ -323,13 +323,15 @@ module IiifToJekyll
       top_pct = y_px_to_pct(line.y_min, canvas)
       width_pct = x_px_to_pct(line.width, canvas)
       height_pct = y_px_to_pct(line.height, canvas)
-      style="left:#{left_pct}%;top:#{top_pct}%;width:#{width_pct}%;height:#{height_pct}%;text-align:left"
+      font_size = line.font_size
+      style="left:#{left_pct}%;top:#{top_pct}%;width:#{width_pct}%;height:#{height_pct}%;text-align:left;font-size:#{font_size}px"
       page_ocr_html << "<div class=\"ocr-line ocrtext\" style=\"#{style}\" data-vhfontsize=\"2\">\n"
+      page_ocr_html << "\t<span>\n\t\t"
       # consider moving font-size to here
       line.annotations.each do |anno|
-        style="font-size:#{anno.font_size}px"
-        page_ocr_html << "   <span>#{anno.text}</span>\n"
+        page_ocr_html << "#{anno.text} "
       end
+      page_ocr_html << "\t</span>\n"
 #      p line.annotations.map {|a| a.text}.join(" ")
       page_ocr_html << "</div>\n"
     end
