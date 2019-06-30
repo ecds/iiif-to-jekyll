@@ -53,8 +53,6 @@ module IiifToJekyll
     end
   end
 
-  # TODO: Why update?  Does it start with the theme?
-
   # Update jekyll site config with values from the IIIF manifest
   # and necessary configurations for setting up jekyll collections
   # of volume pages and annotation content.
@@ -72,9 +70,10 @@ module IiifToJekyll
 
     # add urls to readux volume and pdf
 
+    first_canvas = manifest.sequences.first.canvases.first
     # use first page (which should be the cover) as a default splash
     # image for the home page
-    siteconfig['homepage_image'] = manifest.sequences.first.canvases.first.images.first.resource['@id']
+    siteconfig['homepage_image'] = first_canvas.images.first.resource['@id']
 
 
     # TODO
@@ -82,9 +81,9 @@ module IiifToJekyll
     # to the current volume page size
     # thumbnail_width, thumbnail_height = FastImage.size(teidoc.pages[0].images_by_type['thumbnail'].url)
     # sm_thumbnail_width, sm_thumbnail_height = FastImage.size(teidoc.pages[0].images_by_type['small-thumbnail'].url)
-    # page_img_width, page_img_height = FastImage.size(teidoc.pages[0].images_by_type['page'].url)
+    page_img_width, page_img_height = first_canvas.height, first_canvas.width
     siteconfig['image_size'] = {
-      # 'page' => {'width' => page_img_width, 'height' => page_img_height},
+      'page' => {'width' => page_img_width, 'height' => page_img_height},
       # 'thumbnail' => {'width' => thumbnail_width, 'height' => thumbnail_height},
       # 'small-thumbnail' => {'width' => sm_thumbnail_width, 'height' => sm_thumbnail_height}
     }
@@ -305,12 +304,10 @@ module IiifToJekyll
     json_list
   end
 
-  # TODO move somewhere better
   def self.x_px_to_pct(x, canvas)
     (100 * x.to_f / canvas.width).floor(2)
   end
 
-  # TODO move somewhere better
   def self.y_px_to_pct(y, canvas)
     (100 * y.to_f / canvas.height).floor(2)
   end
