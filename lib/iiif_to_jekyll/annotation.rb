@@ -54,6 +54,7 @@ class Annotation
     anno.text = json_hash['resource']['chars']
     anno.anno_id = json_hash['@id']
     anno.motivation = json_hash['motivation']
+    anno.user = json_hash['annotatedBy']['name']
 
     # complex/parsed attributes
     selector = json_hash['on']['selector']['value']
@@ -106,13 +107,15 @@ class Annotation
   # factory method parsing only OCR annotations
   def self.ocr_annotations(annotation_list_json, canvas)
     annotations = all_annotations(annotation_list_json, canvas)
-    annotations.reject { |anno| anno.motivation != Motivation::PAINTING }
+    annotations.reject! { |anno| anno.motivation != Motivation::PAINTING }
+    annotations || []
   end
 
   # factory method parsing only commentary annotations
   def self.comment_annotations(annotation_list_json, canvas)
     annotations = all_annotations(annotation_list_json, canvas)
-    annotations.reject { |anno| anno.motivation != Motivation::COMMENTING }
+    annotations.reject! { |anno| anno.motivation != Motivation::COMMENTING }
+    annotations || []
   end
 
 

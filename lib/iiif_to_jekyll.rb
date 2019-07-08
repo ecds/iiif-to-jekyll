@@ -247,12 +247,16 @@ module IiifToJekyll
       'thumbnail' => thumbnail
     }
 
+    anno_list_json = fetch_annotation_list(canvas)
+    #binding.pry
+    anno_count=Annotation.comment_annotations(anno_list_json, canvas).count
+
     # construct page front matter
     front_matter = {
       'sort_order'=> page_number,
       'canvas_id' => canvas['@id'],
 #          'annotation_count' => teipage.annotation_count,
-      'annotation_count' => 0,  # TODO
+      'annotation_count' => anno_count,  # TODO
       'images' => images,
 #          'title'=> 'Page %s' % page_number,
       'title'=> canvas.label,
@@ -314,13 +318,13 @@ module IiifToJekyll
   # Generate annotation metadata from a WebAnnotation to be used
   # in the jekyll annotation page front matter
   # @param annotation
-  def self.annotation_frontmatter(annotation)
+  def self.annotation_frontmatter(annotation, i)
     front_matter = {
       'annotation_id' => annotation.anno_id,
       'author' => annotation.user,
 #        'tei_target' => teinote.target,
-      'annotated_page' => annotation.canvas.canvas_id,
-      'page_index' => annotation.canvas.index,
+      'annotated_page' => annotation.canvas["@id"],
+      'page_index' => i,
 #        'target' => teinote.start_target,
     }
 
@@ -347,7 +351,7 @@ module IiifToJekyll
   # Generate a jekyll collection annotation with appropriate yaml
   # metadata from a commenting annotation
   # @param annotation
-  def self.output_annotation(annotation, opts)
+  def self.output_annotation(annotation, i, opts)
     puts "Annotation #{annotation.anno_id}" unless opts[:quiet]
 
     # use id without leading annotation- as filename
@@ -355,7 +359,7 @@ module IiifToJekyll
     path = File.join(ANNOTATION_DIR, "%s.md" % annotation.anno_id)
     # TODO consider changing these to HTML instead of Markdown, since our annotations will be in HTML now
 
-    front_matter = annotation_frontmatter(annotation)
+    front_matter = annotation_frontmatter(annotation, i)
 
     File.open(path, 'w') do |file|
       # write out front matter as yaml
@@ -370,9 +374,10 @@ module IiifToJekyll
   def self.output_page_annotations(canvas, i, opts)
     # page text content as html with annotation highlights # TODO annotation highlights
     anno_list_json = fetch_annotation_list(canvas)
-    Annotation.comment_annotations(anno_list_json, canvas) do |anno|
+    #binding.pry
+    Annotation.comment_annotations(anno_list_json, canvas).each do |anno|
       print "Found one!"
-      output_annotation(anno)
+      output_annotation(anno, i, opts)
     end
   end
 
