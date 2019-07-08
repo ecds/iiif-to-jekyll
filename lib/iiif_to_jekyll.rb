@@ -1,5 +1,6 @@
 require "iiif_to_jekyll/version"
 require "iiif_to_jekyll/annotation"
+require "iiif_to_jekyll/ocr_line"
 require "pry"
 require 'iiif/presentation'
 require 'date'
@@ -37,17 +38,20 @@ module IiifToJekyll
 # => Functionality not implemented yet in Readux 2
 #    output_tags(teidoc.tags, **opts)
 
-# TODO: what does this do?
+    # Readux 1 copies the TEI files produced by Readux into the static
+    # site export so that scholars can download it (from the static site)
+    # for reuse.  Should we do something similar with the IIIF bundle?
+    # If so, does that need to be the kind heavy-weight export that 
+    # includes images?
+    # TODO: log issue in Pivotal
+
     # # copy annotated tei into jekyll site
     # opts['tei_filename'] = 'tei.xml'
     # FileUtils.copy_file(filename, opts['tei_filename'])
 
       write_site_config(manifest, opts)
-
     end
   end
-
-  # TODO: Why update?  Does it start with the theme?
 
   # Update jekyll site config with values from the IIIF manifest
   # and necessary configurations for setting up jekyll collections
@@ -66,9 +70,10 @@ module IiifToJekyll
 
     # add urls to readux volume and pdf
 
+    first_canvas = manifest.sequences.first.canvases.first
     # use first page (which should be the cover) as a default splash
     # image for the home page
-    siteconfig['homepage_image'] = manifest.sequences.first.canvases.first.images.first.resource['@id']
+    siteconfig['homepage_image'] = first_canvas.images.first.resource['@id']
 
 
     # TODO
@@ -76,9 +81,9 @@ module IiifToJekyll
     # to the current volume page size
     # thumbnail_width, thumbnail_height = FastImage.size(teidoc.pages[0].images_by_type['thumbnail'].url)
     # sm_thumbnail_width, sm_thumbnail_height = FastImage.size(teidoc.pages[0].images_by_type['small-thumbnail'].url)
-    # page_img_width, page_img_height = FastImage.size(teidoc.pages[0].images_by_type['page'].url)
+    page_img_width, page_img_height = first_canvas.height, first_canvas.width
     siteconfig['image_size'] = {
-      # 'page' => {'width' => page_img_width, 'height' => page_img_height},
+      'page' => {'width' => page_img_width, 'height' => page_img_height},
       # 'thumbnail' => {'width' => thumbnail_width, 'height' => thumbnail_height},
       # 'small-thumbnail' => {'width' => sm_thumbnail_width, 'height' => sm_thumbnail_height}
     }
@@ -296,7 +301,6 @@ module IiifToJekyll
 
   def self.fetch_annotation_list(canvas)
     # TODO figure out how to check SSL correctly in production mode
-    # TODO add require statement and bundle for open-uri if it's necessary  
     connection = open(canvas.other_content.first['@id'], {ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE})
     raw_list = connection.read
     json_list = JSON.parse(raw_list)
@@ -304,12 +308,35 @@ module IiifToJekyll
     json_list
   end
 
+  def self.x_px_to_pct(x, canvas)
+    (100 * x.to_f / canvas.width).floor(2)
+  end
+
+  def self.y_px_to_pct(y, canvas)
+    (100 * y.to_f / canvas.height).floor(2)
+  end
+
+
   def self.oa_to_display(canvas, anno_list_json)
     page_ocr_html = ""
-    Annotation.ocr_annotations(anno_list_json, canvas) do |anno|
-      style="left:#{anno.left_pct}%;top:#{anno.top_pct}%;width:#{anno.width_pct}%;height:#{anno.height_pct}%;text-align:left;font-size:#{anno.font_size}px"
+#    p anno_list_json["resources"].map{|r| r["resource"]["chars"] }.join " "
+    words = Annotation.ocr_annotations(anno_list_json)
+    lines = OcrLine.lines_from_words(words)
+    lines.each do |line|
+      left_pct = x_px_to_pct(line.x_min, canvas)
+      top_pct = y_px_to_pct(line.y_min, canvas)
+      width_pct = x_px_to_pct(line.width, canvas)
+      height_pct = y_px_to_pct(line.height, canvas)
+      font_size = line.font_size
+      style="left:#{left_pct}%;top:#{top_pct}%;width:#{width_pct}%;height:#{height_pct}%;text-align:left;font-size:#{font_size}px"
       page_ocr_html << "<div class=\"ocr-line ocrtext\" style=\"#{style}\" data-vhfontsize=\"2\">\n"
-      page_ocr_html << "   <span>#{anno.text}</span>\n"
+      page_ocr_html << "\t<span>\n\t\t"
+      # consider moving font-size to here
+      line.annotations.each do |anno|
+        page_ocr_html << "#{anno.text} "
+      end
+      page_ocr_html << "\t</span>\n"
+#      p line.annotations.map {|a| a.text}.join(" ")
       page_ocr_html << "</div>\n"
     end
     page_ocr_html
@@ -374,7 +401,6 @@ module IiifToJekyll
   def self.output_page_annotations(canvas, i, opts)
     # page text content as html with annotation highlights # TODO annotation highlights
     anno_list_json = fetch_annotation_list(canvas)
-    #binding.pry
     Annotation.comment_annotations(anno_list_json, canvas).each do |anno|
       print "Found one!"
       output_annotation(anno, i, opts)

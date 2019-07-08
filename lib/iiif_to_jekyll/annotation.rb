@@ -5,7 +5,7 @@
 # Static methods like `from_oa` or `ocr_annotations` parse WebAnnotation JSON
 # hashes and AnnotationLists into usable collections of Annotation objects.
 class Annotation
-  attr_accessor :x_px, :y_px, :w_px, :h_px, :motivation, :text, :user, :anno_id, :canvas
+  attr_accessor :x_px, :y_px, :w_px, :h_px, :motivation, :text, :user, :anno_id
 
   # Constants used for distinguishing OCR annotations from scholarly commentary
   module Motivation
@@ -44,11 +44,8 @@ class Annotation
 
   # Factory method creating Annotation objects from hashes created by
   # parsing individual JSON WebAnnotations.
-  def self.from_oa(json_hash, canvas)
+  def self.from_oa(json_hash)
     anno = Annotation.new
-
-    # reference to canvas object
-    anno.canvas = canvas
 
     # simple attributes
     anno.text = json_hash['resource']['chars']
@@ -67,38 +64,38 @@ class Annotation
     anno
   end
 
-  # helper method for HTML positioning
-  def left_pct
-    (100 * x_px.to_f / canvas.width).floor(2)
-  end
-
-  # helper method for HTML positioning
-  def top_pct
-    (100 * y_px.to_f / canvas.height).floor(2)
-  end
-
-  # helper method for HTML positioning
-  def width_pct
-    (100 * w_px.to_f / canvas.width).floor(2)
-  end
-
-  # helper method for HTML positioning
-  def height_pct
-    (100 * h_px.to_f / canvas.height).floor(2)
-  end
-
-  # TODO determine font size (from what?)
   def font_size 
-    "20px"  # this is specified in pixels, but surely that's wrong?
+    h_px
   end
 
+  # helper for line calculation
+  def right_x
+    x_px + w_px
+  end
+
+  # helper for line calculation
+  def bottom_y
+    y_px + h_px
+  end
+
+
+  Y_MARGIN_OF_ERROR = 10 # pixels considered probably the same line regardless 
+  # of skew, strange OCR, or bizarre printing
 
   # factory method for creating an arry of Annotation objectss from a raw hash
   # parsed from an AnnotationList 
-  def self.all_annotations(annotation_list_json, canvas)
+  def self.all_annotations(annotation_list_json)
     annotations = []
     annotation_list_json['resources'].each do |anno_json|
-      annotations << Annotation.from_oa(anno_json, canvas)
+      annotations << Annotation.from_oa(anno_json)
+    end
+
+    annotations.sort! do |a,b|
+      if (a.y_px - b.y_px).abs < Y_MARGIN_OF_ERROR
+        a.x_px <=> b.x_px
+      else
+        a.y_px <=> b.y_px
+      end
     end
 
     annotations
