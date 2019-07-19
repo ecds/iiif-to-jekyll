@@ -5,7 +5,7 @@
 # Static methods like `from_oa` or `ocr_annotations` parse WebAnnotation JSON
 # hashes and AnnotationLists into usable collections of Annotation objects.
 class Annotation
-  attr_accessor :x_px, :y_px, :w_px, :h_px, :motivation, :text, :user, :anno_id
+  attr_accessor :x_px, :y_px, :w_px, :h_px, :motivation, :text, :user, :anno_id, :canvas
 
   # Constants used for distinguishing OCR annotations from scholarly commentary
   module Motivation
@@ -44,7 +44,7 @@ class Annotation
 
   # Factory method creating Annotation objects from hashes created by
   # parsing individual JSON WebAnnotations.
-  def self.from_oa(json_hash)
+  def self.from_oa(json_hash, canvas)
     anno = Annotation.new
 
     # simple attributes
@@ -60,6 +60,7 @@ class Annotation
     anno.y_px = md[2].to_i
     anno.w_px = md[3].to_i
     anno.h_px = md[4].to_i
+    anno.canvas = canvas
 
     anno
   end
@@ -84,10 +85,10 @@ class Annotation
 
   # factory method for creating an arry of Annotation objectss from a raw hash
   # parsed from an AnnotationList 
-  def self.all_annotations(annotation_list_json)
+  def self.all_annotations(annotation_list_json, canvas)
     annotations = []
     annotation_list_json['resources'].each do |anno_json|
-      annotations << Annotation.from_oa(anno_json)
+      annotations << Annotation.from_oa(anno_json, canvas)
     end
 
     annotations.sort! do |a,b|

@@ -6,7 +6,7 @@ require 'optparse'
 
 options = {:local_annotations => false}
 OptionParser.new do |opts|
-  opts.banner = "Usage: iiif_to_jekyll [options] export_directory"
+  opts.banner = "Usage: iiif_to_jekyll [options] manifest_uri export_directory"
 
   opts.on("-q", "--quiet", "Run without output") do |q|
     options[:quiet] = q
@@ -20,16 +20,13 @@ OptionParser.new do |opts|
 end.parse!
 
 
-puts 'Readux export directory is required' unless ARGV[0] && Dir.exist?(ARGV[0])
-dir_name = ARGV[0]
-puts 'Export directory must contain manifest.json' unless File.exist?(File.join(dir_name, 'manifest.json'))
+puts 'IIIF manifest is required' unless ARGV[0]
+manifest_uri = ARGV[0]
+#puts 'Export directory must contain manifest.json' unless File.exist?(File.join(dir_name, 'manifest.json'))
 # FIXME: how to display option parser help instead?
-
 
 output_dir = ARGV[1]
 puts 'Jekyll directory is required' unless ARGV[1] && Dir.exist?(ARGV[1])
 
-IiifToJekyll.import(dir_name, output_dir, **options)
-
-#IiifToJekyll.import(ARGV[0], **options)
+IiifToJekyll.import(manifest_uri, output_dir, **options)
 

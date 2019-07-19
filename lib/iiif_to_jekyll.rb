@@ -27,13 +27,13 @@ module IiifToJekyll
   # @param dirname [String] directory containing Readux export
   #
   # This code is based extensively on teifacsimile-to-jekyll
-  def self.import(dirname, output_dir, opts={})
-    manifest = load_manifest(dirname)
+  def self.import(manifesturi, output_dir, opts={})
+    manifest = open_manifest(manifesturi)
 
     Dir.chdir(output_dir) do
       write_volume_pages(manifest, opts)
 
-      write_annotations(manifest, dirname, opts)
+      write_annotations(manifest, opts)
 
 # => Functionality not implemented yet in Readux 2
 #    output_tags(teidoc.tags, **opts)
@@ -320,7 +320,7 @@ module IiifToJekyll
   def self.oa_to_display(canvas, anno_list_json)
     page_ocr_html = ""
 #    p anno_list_json["resources"].map{|r| r["resource"]["chars"] }.join " "
-    words = Annotation.ocr_annotations(anno_list_json)
+    words = Annotation.ocr_annotations(anno_list_json, canvas)
     lines = OcrLine.lines_from_words(words)
     lines.each do |line|
       left_pct = x_px_to_pct(line.x_min, canvas)
@@ -407,7 +407,7 @@ module IiifToJekyll
     end
   end
 
-  def self.write_annotations(manifest, dirname, opts={})
+  def self.write_annotations(manifest, opts={})
     # generate an annotation document for every commenting annotation in the TEI
     puts "** Writing annotations" unless opts[:quiet]
     FileUtils.rm_rf(ANNOTATION_DIR)
@@ -428,12 +428,13 @@ module IiifToJekyll
     service
   end    
 
-  def self.load_manifest(dirname)
-    manifest_path = File.join(dirname, 'manifest.json')
-    manifest_json = File.read(manifest_path)
-    manifest = IIIF::Service.parse(manifest_json)
+  def self.open_manifest(manifest)
+    connection = open(manifest, {ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE})
+    raw_manifest = connection.read
+    json_manifest = JSON.parse(raw_manifest)
+    iiif_manifest = IIIF::Service.parse(json_manifest)
 
-    manifest
+    iiif_manifest
   end
 
 end
