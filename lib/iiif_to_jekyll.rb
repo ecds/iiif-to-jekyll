@@ -320,7 +320,7 @@ module IiifToJekyll
   def self.oa_to_display(canvas, anno_list_json)
     page_ocr_html = ""
 #    p anno_list_json["resources"].map{|r| r["resource"]["chars"] }.join " "
-    words = Annotation.ocr_annotations(anno_list_json)
+    words = Annotation.ocr_annotations(anno_list_json, canvas)
     lines = OcrLine.lines_from_words(words)
     lines.each do |line|
       left_pct = x_px_to_pct(line.x_min, canvas)

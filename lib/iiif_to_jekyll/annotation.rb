@@ -84,7 +84,7 @@ class Annotation
 
   # factory method for creating an arry of Annotation objectss from a raw hash
   # parsed from an AnnotationList 
-  def self.all_annotations(annotation_list_json)
+  def self.all_annotations(annotation_list_json, canvas)
     annotations = []
     annotation_list_json['resources'].each do |anno_json|
       annotations << Annotation.from_oa(anno_json)
