@@ -4,6 +4,7 @@ require "iiif_to_jekyll/ocr_line"
 require 'iiif/presentation'
 require 'date'
 require 'open-uri'
+require 'openssl'
 
 module IiifToJekyll
 
