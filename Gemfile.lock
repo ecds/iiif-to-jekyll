@@ -1,8 +1,9 @@
 PATH
   remote: .
   specs:
-    iiif_to_jekyll (0.2.0)
+    iiif_to_jekyll (0.2.1)
       iiif-presentation (~> 0.2.0)
+      openssl
 
 GEM
   remote: https://rubygems.org/
@@ -22,23 +23,26 @@ GEM
       activesupport (>= 3.2.18)
       faraday (>= 0.9)
       json
+    ipaddr (1.2.2)
     json (2.2.0)
     minitest (5.11.3)
     multipart-post (2.1.1)
+    openssl (2.1.2)
+      ipaddr
     rake (10.5.0)
     rspec (3.8.0)
       rspec-core (~> 3.8.0)
       rspec-expectations (~> 3.8.0)
       rspec-mocks (~> 3.8.0)
-    rspec-core (3.8.0)
+    rspec-core (3.8.2)
       rspec-support (~> 3.8.0)
-    rspec-expectations (3.8.3)
+    rspec-expectations (3.8.4)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.8.0)
-    rspec-mocks (3.8.0)
+    rspec-mocks (3.8.1)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.8.0)
-    rspec-support (3.8.0)
+    rspec-support (3.8.2)
     thread_safe (0.3.6)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)

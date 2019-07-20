@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.name          = "iiif_to_jekyll"
   spec.version       = IiifToJekyll::VERSION
   spec.authors       = ["Emory Center for Digital Scholarship"]
-  spec.email         = ["benwbrum@gmail.com"]
+  spec.email         = ["benwbrum@gmail.com", "saracarl@gmail.com"]
 
   spec.summary       = "Gem for converting a Readux-generated IIIF manifest to a static Jeckyll site."
 #  spec.description   = %q{TODO: Write a longer description or delete this line.}
@@ -42,4 +42,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec", "~> 3.0"
 
   spec.add_runtime_dependency "iiif-presentation", "~> 0.2.0"
+  spec.add_runtime_dependency "openssl"
 end
