@@ -270,6 +270,26 @@ module IiifToJekyll
 
     # TODO consider opts[:page_one] functionality; IIIF has something similar with `startCanvas`
     # cf. https://github.com/ecds/teifacsimile-to-jekyll/blob/master/lib/teifacsimile_to_jekyll.rb#L48-L67
+        # if an override start page is set, adjust the labels and set an
+        # override url
+        if opts[:page_one]
+            if page_number < opts[:page_one]
+                # pages before the start page will be output as front-#
+                permalink = '/pages/front-%s/' % page_number
+                front_matter['title'] = 'Front %s' % page_number
+                front_matter['short_label'] = 'f.'
+                front_matter['number'] = page_number
+            else
+                # otherwise, offset by requested start page (1-based counting)
+                adjusted_number = page_number - opts[:page_one] + 1
+                permalink = '/pages/%s/' % adjusted_number
+                front_matter['title'] = 'Page %s' % adjusted_number
+                # default short label configured as p.
+                front_matter['number'] = adjusted_number
+            end
+
+            front_matter['permalink'] = permalink
+        end
 
     return front_matter
   end
