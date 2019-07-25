@@ -1,10 +1,10 @@
 require "iiif_to_jekyll/version"
 require "iiif_to_jekyll/annotation"
 require "iiif_to_jekyll/ocr_line"
-require "pry"
 require 'iiif/presentation'
 require 'date'
 require 'open-uri'
+require 'openssl'
 
 module IiifToJekyll
 

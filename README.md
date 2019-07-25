@@ -32,7 +32,7 @@ Or install it yourself as:
 ## Usage
 
 For command-line usage, run 
-	$ ./bin/iiif_to_jekyll export_dir digitaledition-jekylltheme_dir
+	$ ./bin/iiif_to_jekyll manifest_uri digitaledition-jekylltheme_dir
 
 After this has been run, you can see your exported edition:
 	$ cd digitaledition-jekylltheme_dir
