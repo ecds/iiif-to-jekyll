@@ -278,7 +278,7 @@ module IiifToJekyll
                 permalink = '/pages/front-%s/' % page_number
                 front_matter['title'] = 'Front %s' % page_number
                 front_matter['short_label'] = 'f.'
-                front_matter['number'] = page_number
+                front_matter['number'] = page_number + 1
             else
                 # otherwise, offset by requested start page (1-based counting)
                 adjusted_number = page_number - opts[:page_one] + 1
@@ -435,7 +435,7 @@ module IiifToJekyll
 
     unless manifest.sequences.empty?
       manifest.sequences.first.canvases.each_with_index do |canvas,i|
-        output_page_annotations(canvas, i, opts)
+        output_page_annotations(canvas, i+1, opts)
       end
     end
   end
