@@ -1,3 +1,4 @@
+require "pry"
 # Class representing the data we need from WebAnnotations fetched from Readux
 # Attributes like `x_px` are data parsed from individual WebAnnotations
 # Helper methods like `left_pct` translate raw data into derivative formats 

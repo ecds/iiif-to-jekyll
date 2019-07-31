@@ -5,6 +5,7 @@ require 'iiif/presentation'
 require 'date'
 require 'open-uri'
 require 'openssl'
+require "pry"
 
 module IiifToJekyll
 
@@ -27,8 +28,12 @@ module IiifToJekyll
   # @param dirname [String] directory containing Readux export
   #
   # This code is based extensively on teifacsimile-to-jekyll
-  def self.import(manifesturi, output_dir, opts={})
-    manifest = open_manifest(manifesturi)
+  def self.import(manifesturi, dirname, output_dir, opts={})
+    if opts[:local_directory]
+      manifest = load_manifest(dirname)
+    else
+      manifest = open_manifest(manifesturi)
+    end
 
     Dir.chdir(output_dir) do
       write_volume_pages(manifest, opts)
@@ -45,10 +50,6 @@ module IiifToJekyll
     # includes images?
     # TODO: log issue in Pivotal
 
-    # # copy annotated tei into jekyll site
-    # opts['tei_filename'] = 'tei.xml'
-    # FileUtils.copy_file(filename, opts['tei_filename'])
-
       write_site_config(manifest, opts)
     end
   end
@@ -56,7 +57,7 @@ module IiifToJekyll
   # Update jekyll site config with values from the IIIF manifest
   # and necessary configurations for setting up jekyll collections
   # of volume pages and annotation content.
-  # @param manifest [TeiFacsimile]
+  # @param manifest
   # @param configfile [String] path to existing config file to be updated
   def self.update_site_config(manifest, configfile, opts={})
     siteconfig = YAML.load_file(configfile)
@@ -253,15 +254,13 @@ module IiifToJekyll
     }
 
     anno_list_json = fetch_annotation_list(canvas)
-    #binding.pry
     anno_count=Annotation.comment_annotations(anno_list_json, canvas).count
 
     # construct page front matter
     front_matter = {
       'sort_order'=> page_number,
       'canvas_id' => canvas['@id'],
-#          'annotation_count' => teipage.annotation_count,
-      'annotation_count' => anno_count,  # TODO
+      'annotation_count' => anno_count,
       'images' => images,
 #          'title'=> 'Page %s' % page_number,
       'title'=> canvas.label,
@@ -428,7 +427,7 @@ module IiifToJekyll
   end
 
   def self.write_annotations(manifest, opts={})
-    # generate an annotation document for every commenting annotation in the TEI
+    # generate an annotation document for every commenting annotation
     puts "** Writing annotations" unless opts[:quiet]
     FileUtils.rm_rf(ANNOTATION_DIR)
     Dir.mkdir(ANNOTATION_DIR) unless File.directory?(ANNOTATION_DIR)
@@ -455,6 +454,14 @@ module IiifToJekyll
     iiif_manifest = IIIF::Service.parse(json_manifest)
 
     iiif_manifest
+  end
+
+  def self.load_manifest(dirname)
+    manifest_path = File.join(dirname, 'manifest.json')
+    manifest_json = File.read(manifest_path)
+    manifest = IIIF::Service.parse(manifest_json)
+
+    manifest
   end
 
 end
