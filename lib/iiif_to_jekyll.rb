@@ -5,7 +5,6 @@ require 'iiif/presentation'
 require 'date'
 require 'open-uri'
 require 'openssl'
-require "pry"
 
 module IiifToJekyll
 
