@@ -252,7 +252,7 @@ module IiifToJekyll
       'thumbnail' => thumbnail
     }
 
-    anno_list_json = fetch_annotation_list(canvas)
+    anno_list_json = fetch_annotation_list(canvas, opts)
     anno_count=Annotation.comment_annotations(anno_list_json, canvas).count
 
     # construct page front matter
@@ -311,16 +311,28 @@ module IiifToJekyll
       # ensure separation between yaml and page content
       file.write  "\n---\n\n"
       # page text content as html with annotation highlights # TODO annotation highlights
-      json_list = fetch_annotation_list(canvas)
+      json_list = fetch_annotation_list(canvas, opts)
       file.write oa_to_display(canvas, json_list)
 
     end
   end
 
-  def self.fetch_annotation_list(canvas)
+  def self.fetch_annotation_list(canvas, opts={})
     # TODO figure out how to check SSL correctly in production mode
-    connection = open(canvas.other_content.first['@id'], {ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE})
-    raw_list = connection.read
+    anno_id = canvas.other_content.first['@id']
+    if opts[:local_directory]
+      stem = anno_id.sub(/.*\//,'')
+      filename = "annotation_list_#{stem}.json"
+      path = File.join(Dir.pwd, 'iiif_export', filename)
+      if File.exist?(path)
+        raw_list = File.read(path)
+      else
+        raw_list = '{"@context": "http://iiif.io/api/presentation/2/context.json", "@id": "", "@type": "sc:AnnotationList", "resources": []}'
+      end
+    else
+      connection = open(anno_id, {ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE})
+      raw_list = connection.read
+    end
     json_list = JSON.parse(raw_list)
 
     json_list
@@ -418,7 +430,7 @@ module IiifToJekyll
 
   def self.output_page_annotations(canvas, i, opts)
     # page text content as html with annotation highlights # TODO annotation highlights
-    anno_list_json = fetch_annotation_list(canvas)
+    anno_list_json = fetch_annotation_list(canvas, opts)
     Annotation.comment_annotations(anno_list_json, canvas).each do |anno|
       print "Found one!"
       output_annotation(anno, i, opts)
