@@ -9,7 +9,7 @@ class Annotation
 
   # Constants used for distinguishing OCR annotations from scholarly commentary
   module Motivation
-    COMMENTING = "['oa:commenting']"
+    COMMENTING = 'oa:commenting'
     PAINTING = "sc:painting"
   end
 
@@ -85,10 +85,12 @@ class Annotation
 
   # factory method for creating an arry of Annotation objectss from a raw hash
   # parsed from an AnnotationList 
-  def self.all_annotations(annotation_list_json, canvas)
+  def self.all_annotations(annotation_lists_json, canvas)
     annotations = []
-    annotation_list_json['resources'].each do |anno_json|
-      annotations << Annotation.from_oa(anno_json, canvas)
+    annotation_lists_json.each do |annotation_list|
+      annotation_list['resources'].each do |anno_json|
+        annotations << Annotation.from_oa(anno_json, canvas)
+      end
     end
 
     annotations.sort! do |a,b|
@@ -103,15 +105,15 @@ class Annotation
   end
 
   # factory method parsing only OCR annotations
-  def self.ocr_annotations(annotation_list_json, canvas)
-    annotations = all_annotations(annotation_list_json, canvas)
+  def self.ocr_annotations(annotation_lists_json, canvas)
+    annotations = all_annotations(annotation_lists_json, canvas)
     annotations.reject! { |anno| anno.motivation != Motivation::PAINTING }
     annotations || []
   end
 
   # factory method parsing only commentary annotations
-  def self.comment_annotations(annotation_list_json, canvas)
-    annotations = all_annotations(annotation_list_json, canvas)
+  def self.comment_annotations(annotation_lists_json, canvas)
+    annotations = all_annotations(annotation_lists_json, canvas)
     annotations.reject! { |anno| anno.motivation != Motivation::COMMENTING }
     annotations || []
   end

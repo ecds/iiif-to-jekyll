@@ -1,3 +1,4 @@
+require 'pry'
 require "iiif_to_jekyll/version"
 require "iiif_to_jekyll/annotation"
 require "iiif_to_jekyll/ocr_line"
@@ -252,8 +253,8 @@ module IiifToJekyll
       'thumbnail' => thumbnail
     }
 
-    anno_list_json = fetch_annotation_list(canvas, opts)
-    anno_count=Annotation.comment_annotations(anno_list_json, canvas).count
+    anno_lists_json = fetch_annotation_lists(canvas, opts)
+    anno_count=Annotation.comment_annotations(anno_lists_json, canvas).count
 
     # construct page front matter
     front_matter = {
@@ -311,31 +312,34 @@ module IiifToJekyll
       # ensure separation between yaml and page content
       file.write  "\n---\n\n"
       # page text content as html with annotation highlights # TODO annotation highlights
-      json_list = fetch_annotation_list(canvas, opts)
-      file.write oa_to_display(canvas, json_list)
+      json_lists = fetch_annotation_lists(canvas, opts)
+      file.write oa_to_display(canvas, json_lists)
 
     end
   end
 
-  def self.fetch_annotation_list(canvas, opts={})
+  def self.fetch_annotation_lists(canvas, opts={})
     # TODO figure out how to check SSL correctly in production mode
-    anno_id = canvas.other_content.first['@id']
-    if opts[:local_directory]
-      stem = anno_id.sub(/.*\//,'')
-      filename = "annotation_list_#{stem}.json"
-      path = File.join(Dir.pwd, 'iiif_export', filename)
-      if File.exist?(path)
-        raw_list = File.read(path)
+    json_lists = []
+    canvas.other_content.each do |endpoint|
+      anno_id = endpoint['@id']
+      if opts[:local_directory]
+        stem = anno_id.gsub(/\W/,'_')
+        filename = "#{stem}.json"
+        path = File.join(Dir.pwd, 'iiif_export', filename)
+        if File.exist?(path)
+          raw_list = File.read(path)
+        else
+          raw_list = '{"@context": "http://iiif.io/api/presentation/2/context.json", "@id": "", "@type": "sc:AnnotationList", "resources": []}'
+        end
       else
-        raw_list = '{"@context": "http://iiif.io/api/presentation/2/context.json", "@id": "", "@type": "sc:AnnotationList", "resources": []}'
+        connection = open(anno_id, {ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE})
+        raw_list = connection.read
       end
-    else
-      connection = open(anno_id, {ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE})
-      raw_list = connection.read
+      json_lists << JSON.parse(raw_list)
     end
-    json_list = JSON.parse(raw_list)
-
-    json_list
+#    binding.pry
+    json_lists
   end
 
   def self.x_px_to_pct(x, canvas)
@@ -347,10 +351,10 @@ module IiifToJekyll
   end
 
 
-  def self.oa_to_display(canvas, anno_list_json)
+  def self.oa_to_display(canvas, anno_lists_json)
     page_ocr_html = ""
 #    p anno_list_json["resources"].map{|r| r["resource"]["chars"] }.join " "
-    words = Annotation.ocr_annotations(anno_list_json, canvas)
+    words = Annotation.ocr_annotations(anno_lists_json, canvas)
     lines = OcrLine.lines_from_words(words)
     lines.each do |line|
       left_pct = x_px_to_pct(line.x_min, canvas)
@@ -430,8 +434,8 @@ module IiifToJekyll
 
   def self.output_page_annotations(canvas, i, opts)
     # page text content as html with annotation highlights # TODO annotation highlights
-    anno_list_json = fetch_annotation_list(canvas, opts)
-    Annotation.comment_annotations(anno_list_json, canvas).each do |anno|
+    anno_lists_json = fetch_annotation_lists(canvas, opts)
+    Annotation.comment_annotations(anno_lists_json, canvas).each do |anno|
       print "Found one!"
       output_annotation(anno, i, opts)
     end
