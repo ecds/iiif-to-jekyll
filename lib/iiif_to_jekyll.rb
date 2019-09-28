@@ -1,4 +1,3 @@
-require 'pry'
 require "iiif_to_jekyll/version"
 require "iiif_to_jekyll/annotation"
 require "iiif_to_jekyll/ocr_line"
