@@ -384,7 +384,7 @@ module IiifToJekyll
       'author' => annotation.user,
 #        'tei_target' => teinote.target,
       'annotated_page' => annotation.canvas["@id"],
-      'page_index' => i,
+      'page_index' => i - 1,
 #        'target' => teinote.start_target,
     }
 
