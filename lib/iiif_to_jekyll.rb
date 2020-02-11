@@ -5,6 +5,7 @@ require 'iiif/presentation'
 require 'date'
 require 'open-uri'
 require 'openssl'
+require 'pry'
 
 module IiifToJekyll
 
@@ -40,7 +41,7 @@ module IiifToJekyll
       write_annotations(manifest, opts)
 
 # => Functionality not implemented yet in Readux 2
-#    output_tags(teidoc.tags, **opts)
+    output_tags(tags_from_manifest(manifest, opts), **opts)
 
     # Readux 1 copies the TEI files produced by Readux into the static
     # site export so that scholars can download it (from the static site)
@@ -50,6 +51,38 @@ module IiifToJekyll
     # TODO: log issue in Pivotal
 
       write_site_config(manifest, opts)
+    end
+  end
+
+  def self.output_tags(tags, opts={})
+    puts "** Generating tags" unless opts[:quiet]
+    # create data dir if not already present
+    Dir.mkdir(DATA_DIR) unless File.directory?(DATA_DIR)
+    tag_data = {}
+    # create a jekyll data file with tag data
+    # structure tag data for lookup by slug, with a name attribute
+    tags.each do |tag|
+        tag_data[tag] = {'name' => tag}
+    end
+
+    File.open(TAG_FILE, 'w') do |file|
+        file.write tag_data.to_yaml
+    end
+
+    # Create a tag stub file for each tag
+    # create tag dir if not already present
+    Dir.mkdir(TAG_DIR) unless File.directory?(TAG_DIR)
+    tags.each do |tag|
+        puts "Tag #{tag}" unless opts[:quiet]
+        @tagfile =
+        File.open(File.join(TAG_DIR, "#{tag}.md"), 'w') do |file|
+            front_matter = {
+                'layout' => 'annotation_by_tag',
+                'tag' => tag
+            }
+            file.write front_matter.to_yaml
+            file.write  "\n---\n"
+        end
     end
   end
 
@@ -337,7 +370,6 @@ module IiifToJekyll
       end
       json_lists << JSON.parse(raw_list)
     end
-#    binding.pry
     json_lists
   end
 
@@ -388,10 +420,10 @@ module IiifToJekyll
 #        'target' => teinote.start_target,
     }
 
-    # TODO handle tags
-    # if not teinote.tags.empty?
-    #   front_matter['tags'] = teinote.tags
-    # end
+    #TODO handle tags
+    if not annotation.tags.empty?
+      front_matter['tags'] = annotation.tags
+    end
 
     # TODO handle related pages
     # if not teinote.related_pages.empty?
@@ -433,9 +465,9 @@ module IiifToJekyll
 
   def self.output_page_annotations(canvas, i, opts)
     # page text content as html with annotation highlights # TODO annotation highlights
+    #binding.pry
     anno_lists_json = fetch_annotation_lists(canvas, opts)
     Annotation.comment_annotations(anno_lists_json, canvas).each do |anno|
-      print "Found one!"
       output_annotation(anno, i, opts)
     end
   end
@@ -443,6 +475,7 @@ module IiifToJekyll
   def self.write_annotations(manifest, opts={})
     # generate an annotation document for every commenting annotation
     puts "** Writing annotations" unless opts[:quiet]
+    #binding.pry
     FileUtils.rm_rf(ANNOTATION_DIR)
     Dir.mkdir(ANNOTATION_DIR) unless File.directory?(ANNOTATION_DIR)
 
@@ -477,5 +510,26 @@ module IiifToJekyll
 
     manifest
   end
+
+  def self.tags_from_manifest(manifest, opts)
+    tags = []
+    unless manifest.sequences.empty?
+      manifest.sequences.first.canvases.each_with_index do |canvas,i|
+        tags += tags_for_canvas(canvas, opts)
+      end
+    end
+    tags.delete_if{|tag| tag == []}
+    tags.uniq!
+  end
+
+  def self.tags_for_canvas(canvas, opts)
+    tags = []
+    anno_lists_json = fetch_annotation_lists(canvas, opts)
+    Annotation.comment_annotations(anno_lists_json, canvas).each do |anno|
+      tags += anno.tags
+    end
+    tags
+  end
+
 
 end

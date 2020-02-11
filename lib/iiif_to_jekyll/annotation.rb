@@ -5,7 +5,7 @@
 # Static methods like `from_oa` or `ocr_annotations` parse WebAnnotation JSON
 # hashes and AnnotationLists into usable collections of Annotation objects.
 class Annotation
-  attr_accessor :x_px, :y_px, :w_px, :h_px, :motivation, :text, :user, :anno_id, :canvas
+  attr_accessor :x_px, :y_px, :w_px, :h_px, :motivation, :text, :user, :anno_id, :canvas, :tags
 
   # Constants used for distinguishing OCR annotations from scholarly commentary
   module Motivation
@@ -41,6 +41,20 @@ class Annotation
     '  <span>Ad vnamquamque praterea Euangelicam leétionem fua</span>' +
     '</div>'
 
+#this is what annotations of both types look like
+            #     "resource": [
+            #     {
+            #         "@type": "dctypes:Text",
+            #         "format": "text/html",
+            #         "chars": "<p>A.S.M.</p>",
+            #         "language": "en"
+            #     },
+            #     {
+            #         "@type": "oa:Tag",
+            #         "chars": "ben"
+            #     }
+            # ],
+
 
   # Factory method creating Annotation objects from hashes created by
   # parsing individual JSON WebAnnotations.
@@ -48,10 +62,22 @@ class Annotation
     anno = Annotation.new
 
     # simple attributes
-    anno.text = json_hash['resource']['chars']
     anno.anno_id = json_hash['@id']
     anno.motivation = json_hash['motivation']
     anno.user = json_hash['annotatedBy']['name']
+
+    if json_hash['resource'].kind_of? Array
+      annotation_body = json_hash['resource'].detect { |e| e['@type'] == "dctypes:Text" }
+      anno.text = annotation_body['chars']
+
+      tag_bodies = json_hash['resource'].keep_if { |e| e['@type'] == "oa:Tag" }
+      anno.tags = tag_bodies.map{|body| body["chars"]}
+    else
+      # ocr and comment-only annotations
+      anno.text = json_hash['resource']['chars']
+      anno.tags = []
+    end
+
 
     # complex/parsed attributes
     selector = json_hash['on']['selector']['value']
@@ -114,8 +140,11 @@ class Annotation
   # factory method parsing only commentary annotations
   def self.comment_annotations(annotation_lists_json, canvas)
     annotations = all_annotations(annotation_lists_json, canvas)
-    annotations.reject! { |anno| anno.motivation != Motivation::COMMENTING }
+    annotations.keep_if { |anno| anno.motivation == Motivation::COMMENTING || (anno.motivation.kind_of?(Array) && anno.motivation.include?(Motivation::COMMENTING)) }
     annotations || []
+  end
+
+  def self.all_tags
   end
 
 
