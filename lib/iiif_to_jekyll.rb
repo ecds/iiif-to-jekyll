@@ -518,7 +518,7 @@ module IiifToJekyll
       end
     end
     tags.delete_if{|tag| tag == []}
-    tags.uniq!
+    tags.uniq! || []
   end
 
   def self.tags_for_canvas(canvas, opts)
