@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    iiif_to_jekyll (0.3.1)
+    iiif_to_jekyll (0.4.2)
       iiif-presentation (~> 0.2.0)
       openssl
 

@@ -5,7 +5,7 @@
 # Static methods like `from_oa` or `ocr_annotations` parse WebAnnotation JSON
 # hashes and AnnotationLists into usable collections of Annotation objects.
 class Annotation
-  attr_accessor :x_px, :y_px, :w_px, :h_px, :motivation, :text, :user, :anno_id, :canvas, :tags
+  attr_accessor :x_px, :y_px, :w_px, :h_px, :motivation, :text, :user, :anno_id, :canvas, :tags, :target_start, :target_end
 
   # Constants used for distinguishing OCR annotations from scholarly commentary
   module Motivation
@@ -68,8 +68,11 @@ class Annotation
 
     if json_hash['resource'].kind_of? Array
       annotation_body = json_hash['resource'].detect { |e| e['@type'] == "dctypes:Text" }
-      anno.text = annotation_body['chars']
-
+      if annotation_body.nil?
+        anno.text=""
+      else
+        anno.text = annotation_body['chars']
+      end
       tag_bodies = json_hash['resource'].keep_if { |e| e['@type'] == "oa:Tag" }
       anno.tags = tag_bodies.map{|body| body["chars"]}
     else
@@ -87,6 +90,13 @@ class Annotation
     anno.w_px = md[3].to_i
     anno.h_px = md[4].to_i
     anno.canvas = canvas
+
+    if json_hash['on']['selector']['item'] && json_hash['on']['selector']['item']['startSelector'] && json_hash['on']['selector']['item']['endSelector'] 
+      raw_start = json_hash['on']['selector']['item']['startSelector']['value']
+      anno.target_start = raw_start.sub("//*[@id='",'').sub("']","")
+      raw_end = json_hash['on']['selector']['item']['endSelector']['value']
+      anno.target_end = raw_end.sub("//*[@id='",'').sub("']","")
+    end
 
     anno
   end

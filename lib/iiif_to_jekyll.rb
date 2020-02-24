@@ -381,10 +381,27 @@ module IiifToJekyll
   end
 
 
+  def self.add_highlight_attributes(annotation, text)
+    # somehow open up the span in the text and add attributes similar to these:
+    # class="annotator-hl" data-annotation-id="0168523d-0d9a-4241-930c-c5a5c946c77c"
+    text.gsub('<span', "<span class='annotator-hl' data-annotation-id='#{annotation.anno_id}' ")
+  end
+
+
   def self.oa_to_display(canvas, anno_lists_json)
     page_ocr_html = ""
-#    p anno_list_json["resources"].map{|r| r["resource"]["chars"] }.join " "
     words = Annotation.ocr_annotations(anno_lists_json, canvas)
+
+    # build a hash of ocr_words targeted by annotations on this page
+    annotations = Annotation.comment_annotations(anno_lists_json, canvas)
+    targets = {}
+    annotations.each do |anno|
+      targets[anno.target_start] = anno
+    end
+
+    state = :outside_target
+    current_anno = nil
+
     lines = OcrLine.lines_from_words(words)
     lines.each do |line|
       left_pct = x_px_to_pct(line.x_min, canvas)
@@ -396,11 +413,30 @@ module IiifToJekyll
       page_ocr_html << "<div class=\"ocr-line ocrtext\" style=\"#{style}\" data-vhfontsize=\"2\">\n"
       page_ocr_html << "\t<span>\n\t\t"
       # consider moving font-size to here
-      line.annotations.each do |anno|
-        page_ocr_html << "#{anno.text} "
+      line.annotations.each do |ocr_anno|
+        # look for the beginning of an annotation highlight
+        if targets[ocr_anno.anno_id]  # TODO this might need parsing to get the GUID from a URI
+          state = :inside_target
+          current_anno = targets[ocr_anno.anno_id] # TODO see comment above
+        end
+        
+        # look for the end of an annotation highlight
+        if state == :inside_target
+          if ocr_anno.anno_id == current_anno.target_end #test whether annos are inclusive or not.
+            state = :outside_target
+            current_anno = nil
+          end
+        end
+
+        if state == :inside_target
+          # apply highlight attributes and link this span to the annotation
+          page_ocr_html << "#{add_highlight_attributes(current_anno, ocr_anno.text)} "
+        else
+          page_ocr_html << "#{ocr_anno.text} "
+        end
+
       end
       page_ocr_html << "\t</span>\n"
-#      p line.annotations.map {|a| a.text}.join(" ")
       page_ocr_html << "</div>\n"
     end
     page_ocr_html
@@ -413,10 +449,10 @@ module IiifToJekyll
     front_matter = {
       'annotation_id' => annotation.anno_id,
       'author' => annotation.user,
-#        'tei_target' => teinote.target,
+      'tei_target' => annotation.target_start,
       'annotated_page' => annotation.canvas["@id"],
       'page_index' => i - 1,
-#        'target' => teinote.start_target,
+      'target' => annotation.target_start,
     }
 
     #TODO handle tags
@@ -464,7 +500,6 @@ module IiifToJekyll
 
   def self.output_page_annotations(canvas, i, opts)
     # page text content as html with annotation highlights # TODO annotation highlights
-    #binding.pry
     anno_lists_json = fetch_annotation_lists(canvas, opts)
     Annotation.comment_annotations(anno_lists_json, canvas).each do |anno|
       output_annotation(anno, i, opts)
@@ -474,7 +509,6 @@ module IiifToJekyll
   def self.write_annotations(manifest, opts={})
     # generate an annotation document for every commenting annotation
     puts "** Writing annotations" unless opts[:quiet]
-    #binding.pry
     FileUtils.rm_rf(ANNOTATION_DIR)
     Dir.mkdir(ANNOTATION_DIR) unless File.directory?(ANNOTATION_DIR)
 
