@@ -439,6 +439,20 @@ module IiifToJekyll
       page_ocr_html << "\t</span>\n"
       page_ocr_html << "</div>\n"
     end
+    annotation_id = "ab00ab28-8cfe-4d03-956d-fa657c5fe7be"
+    annotations = Annotation.image_comments(anno_lists_json, canvas)
+    annotations.each do |anno|
+      left_pct = x_px_to_pct(anno.x_px, canvas)
+      top_pct = y_px_to_pct(anno.y_px, canvas)
+      width_pct = x_px_to_pct(anno.w_px, canvas)
+      height_pct = y_px_to_pct(anno.h_px, canvas)
+      annotation_id = anno.anno_id
+      style="left:#{left_pct}%;top:#{top_pct}%;width:#{width_pct}%;height:#{height_pct}%;text-align:left;"
+
+      page_ocr_html << "<span class=\"annotator-hl image-annotation-highlight\" data-annotation-id=\"#{annotation_id}\" style=\"#{style}\">
+<a class=\"to-annotation\" href=\"##{annotation_id}\" name=\"hl-#{annotation_id}\" id=\"hl-#{annotation_id}\"></a>
+</span>"  
+      end
     page_ocr_html
   end    
 

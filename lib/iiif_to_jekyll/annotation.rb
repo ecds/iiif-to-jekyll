@@ -157,6 +157,12 @@ class Annotation
   def self.all_tags
   end
 
+  def self.image_comments(annotation_lists_json, canvas)
+    annotations = comment_annotations(annotation_lists_json, canvas)
+    annotations.keep_if { |anno| anno.target_start.nil?  }
+    annotations
+  end
+
 
 end
 
