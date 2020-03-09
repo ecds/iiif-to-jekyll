@@ -295,7 +295,7 @@ module IiifToJekyll
       'images' => images,
 #          'title'=> 'Page %s' % page_number,
       'title'=> canvas.label,
-      'number' => page_number
+      'number' => page_number + 1
     }
 
     # TODO consider opts[:page_one] functionality; IIIF has something similar with `startCanvas`
