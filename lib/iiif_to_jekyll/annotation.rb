@@ -5,7 +5,7 @@
 # Static methods like `from_oa` or `ocr_annotations` parse WebAnnotation JSON
 # hashes and AnnotationLists into usable collections of Annotation objects.
 class Annotation
-  attr_accessor :x_px, :y_px, :w_px, :h_px, :motivation, :text, :user, :anno_id, :canvas, :tags, :target_start, :target_end
+  attr_accessor :x_px, :y_px, :w_px, :h_px, :motivation, :text, :user, :anno_id, :canvas, :tags, :target_start, :target_end, :svg
 
   # Constants used for distinguishing OCR annotations from scholarly commentary
   module Motivation
@@ -90,6 +90,12 @@ class Annotation
     anno.w_px = md[3].to_i
     anno.h_px = md[4].to_i
     anno.canvas = canvas
+
+    if json_hash["on"]["selector"]["item"]["@type"] == "oa:Choice"
+      anno.svg = json_hash["on"]["selector"]["item"]["value"]
+    else
+      anno.svg=nil;
+    end
 
     if json_hash['on']['selector']['item'] && json_hash['on']['selector']['item']['startSelector'] && json_hash['on']['selector']['item']['endSelector'] 
       raw_start = json_hash['on']['selector']['item']['startSelector']['value']

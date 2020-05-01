@@ -442,17 +442,34 @@ module IiifToJekyll
     annotation_id = "ab00ab28-8cfe-4d03-956d-fa657c5fe7be"
     annotations = Annotation.image_comments(anno_lists_json, canvas)
     annotations.each do |anno|
-      left_pct = x_px_to_pct(anno.x_px, canvas)
-      top_pct = y_px_to_pct(anno.y_px, canvas)
-      width_pct = x_px_to_pct(anno.w_px, canvas)
-      height_pct = y_px_to_pct(anno.h_px, canvas)
-      annotation_id = anno.anno_id
-      style="left:#{left_pct}%;top:#{top_pct}%;width:#{width_pct}%;height:#{height_pct}%;text-align:left;"
+      if anno.svg
+        annotation_id = anno.anno_id
+# If it has an SVG selector, do not create a span; instead
+# Create an SVG element (as you would create a span) with the same ID you would have used to create the span.
+# Use the same class as are used for the spans, except eliminate whatever causes the background to be highlighted yellow.
+# Hard code the style attribute as follows:
+        style = "left:0%;top:0%;width:100%;height:100%;text-align:left;"
+        view_box = "0 0 #{canvas.width} #{canvas.height}"
+# Read the width and height of the original canvas and use them to populate the viewBox attribute of the svg element with "0 0 #{width} #{height}"
+# Within the svg element, create a path element.  This can be verbatim from the svg selector, so long as the double quotes are not escaped.
+# When printing the svg element, make sure to add the data-annotation-id attribute as we would in the span.
+        page_ocr_html << anno.svg.sub('<svg ', "<svg style=\"#{style}\" class=\"image-annotation-highlight\" viewBox=\"#{view_box}\" ").sub("<path ", "<path data-annotation-id=\"#{annotation_id}\" class=\"annotator-hl image-annotation-highlight\" ")
+  #       "<span class=\"image-annotation-highlight\" data-annotation-id=\"#{annotation_id}\" style=\"#{style}\">
+  # <a class=\"to-annotation\" href=\"##{annotation_id}\" name=\"hl-#{annotation_id}\" id=\"hl-#{annotation_id}\"></a>
+  # </span>"
+      else
+        left_pct = x_px_to_pct(anno.x_px, canvas)
+        top_pct = y_px_to_pct(anno.y_px, canvas)
+        width_pct = x_px_to_pct(anno.w_px, canvas)
+        height_pct = y_px_to_pct(anno.h_px, canvas)
+        annotation_id = anno.anno_id
+        style="left:#{left_pct}%;top:#{top_pct}%;width:#{width_pct}%;height:#{height_pct}%;text-align:left;"
 
-      page_ocr_html << "<span class=\"annotator-hl image-annotation-highlight\" data-annotation-id=\"#{annotation_id}\" style=\"#{style}\">
-<a class=\"to-annotation\" href=\"##{annotation_id}\" name=\"hl-#{annotation_id}\" id=\"hl-#{annotation_id}\"></a>
-</span>"  
-      end
+        page_ocr_html << "<span class=\"annotator-hl image-annotation-highlight\" data-annotation-id=\"#{annotation_id}\" style=\"#{style}\">
+  <a class=\"to-annotation\" href=\"##{annotation_id}\" name=\"hl-#{annotation_id}\" id=\"hl-#{annotation_id}\"></a>
+  </span>"
+      end  
+    end
     page_ocr_html
   end    
 
