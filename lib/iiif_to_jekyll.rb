@@ -453,7 +453,8 @@ module IiifToJekyll
 # Read the width and height of the original canvas and use them to populate the viewBox attribute of the svg element with "0 0 #{width} #{height}"
 # Within the svg element, create a path element.  This can be verbatim from the svg selector, so long as the double quotes are not escaped.
 # When printing the svg element, make sure to add the data-annotation-id attribute as we would in the span.
-        page_ocr_html << anno.svg.sub('<svg ', "<svg style=\"#{style}\" class=\"image-annotation-highlight\" viewBox=\"#{view_box}\" ").sub("<path ", "<path data-annotation-id=\"#{annotation_id}\" class=\"annotator-hl image-annotation-highlight\" ")
+        page_ocr_html << "\n"
+        page_ocr_html << anno.svg.sub('<svg ', "<svg style=\"#{style}\" class=\"image-annotation-highlight\" viewBox=\"#{view_box}\" ").sub("<path ", "\n\t\t<path data-annotation-id=\"#{annotation_id}\" class=\"annotator-hl image-annotation-highlight\" ").sub('stroke-width="5"', 'stroke-width="1rem"')
   #       "<span class=\"image-annotation-highlight\" data-annotation-id=\"#{annotation_id}\" style=\"#{style}\">
   # <a class=\"to-annotation\" href=\"##{annotation_id}\" name=\"hl-#{annotation_id}\" id=\"hl-#{annotation_id}\"></a>
   # </span>"
@@ -465,7 +466,7 @@ module IiifToJekyll
         annotation_id = anno.anno_id
         style="left:#{left_pct}%;top:#{top_pct}%;width:#{width_pct}%;height:#{height_pct}%;text-align:left;"
 
-        page_ocr_html << "<span class=\"annotator-hl image-annotation-highlight\" data-annotation-id=\"#{annotation_id}\" style=\"#{style}\">
+        page_ocr_html << "\n\t<span class=\"annotator-hl image-annotation-highlight\" data-annotation-id=\"#{annotation_id}\" style=\"#{style}\">
   <a class=\"to-annotation\" href=\"##{annotation_id}\" name=\"hl-#{annotation_id}\" id=\"hl-#{annotation_id}\"></a>
   </span>"
       end  
