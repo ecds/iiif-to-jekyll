@@ -9,7 +9,7 @@ require 'openssl'
 module IiifToJekyll
 
   class Error < StandardError; end
-  
+
   # jekyll volume pages directory
   VOLUME_PAGE_DIR = '_volume_pages'
   # jekyll annotation directory
@@ -28,26 +28,26 @@ module IiifToJekyll
   #
   # This code is based extensively on teifacsimile-to-jekyll
   def self.import(manifesturi, dirname, output_dir, opts={})
-    if opts[:local_directory]
-      manifest = load_manifest(dirname)
-    else
-      manifest = open_manifest(manifesturi)
-    end
+    manifest = if opts[:local_directory]
+                 load_manifest(dirname)
+               else
+                 open_manifest(manifesturi)
+               end
 
     Dir.chdir(output_dir) do
       write_volume_pages(manifest, opts)
 
       write_annotations(manifest, opts)
 
-# => Functionality not implemented yet in Readux 2
-    output_tags(tags_from_manifest(manifest, opts), **opts)
+      # => Functionality not implemented yet in Readux 2
+      output_tags(tags_from_manifest(manifest, opts), **opts)
 
-    # Readux 1 copies the TEI files produced by Readux into the static
-    # site export so that scholars can download it (from the static site)
-    # for reuse.  Should we do something similar with the IIIF bundle?
-    # If so, does that need to be the kind heavy-weight export that 
-    # includes images?
-    # TODO: log issue in Pivotal
+      # Readux 1 copies the TEI files produced by Readux into the static
+      # site export so that scholars can download it (from the static site)
+      # for reuse.  Should we do something similar with the IIIF bundle?
+      # If so, does that need to be the kind heavy-weight export that
+      # includes images?
+      # TODO: log issue in Pivotal
 
       write_site_config(manifest, opts)
     end
@@ -123,30 +123,27 @@ module IiifToJekyll
     # TODO deal with this
     # add source publication information, including
     # urls to volume and pdf on readux
-#      original = teidoc.source_bibl['original']
+    # original = teidoc.source_bibl['original']
     source_info = {
-      'title' => manifest.label, 
+      'title' => manifest.label,
       # 'author' => original.author,
-        # 'date' => original.date,
-        # 'url' => teidoc.source_bibl['digital'].references['digital-edition'].target,
-        # 'pdf_url' => teidoc.source_bibl['digital'].references['pdf'].target,
-        'via_readux' => true
+      # 'date' => original.date,
+      # 'url' => teidoc.source_bibl['digital'].references['digital-edition'].target,
+      # 'pdf_url' => teidoc.source_bibl['digital'].references['pdf'].target,
+      'via_readux' => true
       }
 
     # preliminary publication information for the annotated edition
     pub_info = {
       'title' => manifest.label,
-      'date' => Date.today.strftime("%Y"), # current year
-#          'author' => original.author,
-      'editors' => [],
+      'date' => Date.today.strftime('%Y'), # current year
+      # 'author' => original.author,
+      'editors' => []
     }
-
 
     # configure extra js for volume pages based on deep zoom configuration
     volume_js = ['volume-page.js', 'hammer.min.js']
-    if opts[:deep_zoom]
-      volume_js.push('deepzoom.js').push('openseadragon.min.js')
-    end
+    volume_js.push('deepzoom.js').push('openseadragon.min.js') if opts[:deep_zoom]
 
     # TODO: read annotator names
     # # add all annotator names to the document as editors
@@ -156,42 +153,47 @@ module IiifToJekyll
     # end
 
     # configure collections specific to tei facsimile + annotation data
-    siteconfig.merge!({
-      'source_info' => source_info,
-      'publication_info' => pub_info,
-      'collections' => {
-        # NOTE: annotations *must* come first, so content can
-        # be rendered for display in volume pages templates
-        'annotations' => {
-          'output' => true,
-          'permalink' => '/annotations/:path/'
-        },
-        'volume_pages' => {
-          'output' => true,
-          'permalink' => '/pages/:path/'
-        },
-      },
-      'defaults' => [{
-         'scope' => {
-            'path' => '',
-            'type' => 'volume_pages',
+    siteconfig.merge!(
+      {
+        'source_info' => source_info,
+        'publication_info' => pub_info,
+        'collections' => {
+          # NOTE: annotations *must* come first, so content can
+          # be rendered for display in volume pages templates
+          'annotations' => {
+            'output' => true,
+            'permalink' => '/annotations/:path/'
           },
-          'values' => {
-            'layout' => 'volume_page',
-            'short_label' => 'p.',
-            'deep_zoom' => opts[:deep_zoom],
-            'extra_js' => volume_js
+          'volume_pages' => {
+            'output' => true,
+            'permalink' => '/pages/:path/'
           }
         },
-        {'scope' => {
-            'path' => '',
-            'type' => 'annotations',
+        'defaults' => [
+          {
+            'scope' => {
+              'path' => '',
+              'type' => 'volume_pages',
+            },
+            'values' => {
+              'layout' => 'volume_page',
+              'short_label' => 'p.',
+              'deep_zoom' => opts[:deep_zoom],
+              'extra_js' => volume_js
+            }
           },
-          'values' => {
-            'layout' => 'annotation'
+          {
+            'scope' => {
+              'path' => '',
+              'type' => 'annotations',
+            },
+            'values' => {
+              'layout' => 'annotation'
+            }
           }
-      }]
-    })
+        ]
+      }
+    )
     # TODO:
     # - author information from resp statement?
 
@@ -206,10 +208,10 @@ module IiifToJekyll
   end
 
   def self.write_site_config(manifest, opts)
-    if File.exist?(CONFIG_FILE)
-      puts '** Updating site config' unless opts[:quiet]
-      update_site_config(manifest, CONFIG_FILE, opts)
-    end
+    return unless File.exist?(CONFIG_FILE)
+
+    puts '** Updating site config' unless opts[:quiet]
+    update_site_config(manifest, CONFIG_FILE, opts)
   end
 
   def self.write_volume_pages(manifest, opts={})
@@ -419,7 +421,7 @@ module IiifToJekyll
           state = :inside_target
           current_anno = targets[ocr_anno.anno_id] # TODO see comment above
         end
-        
+
         # look for the end of an annotation highlight
         if state == :inside_target
           if ocr_anno.anno_id == current_anno.target_end #test whether annos are inclusive or not.
@@ -454,7 +456,7 @@ module IiifToJekyll
 # Within the svg element, create a path element.  This can be verbatim from the svg selector, so long as the double quotes are not escaped.
 # When printing the svg element, make sure to add the data-annotation-id attribute as we would in the span.
         page_ocr_html << "\n"
-        page_ocr_html << anno.svg.sub('<svg ', "<svg style=\"#{style}\" class=\"image-annotation-highlight\" viewBox=\"#{view_box}\" ").sub("<path ", "\n\t\t<path data-annotation-id=\"#{annotation_id}\" class=\"annotator-hl image-annotation-highlight\" ").sub('stroke-width="5"', 'stroke-width="1rem"')
+        page_ocr_html << anno.svg.sub('<svg ', "<svg style=\"#{style}\" class=\"image-annotation-highlight\" viewBox=\"#{view_box}\" ").sub("<path ", "\n\t\t<path data-annotation-id=\"#{annotation_id}\" class=\"annotator-hl image-annotation-highlight\" ").sub('stroke-width="5"', 'stroke-width="0.25rem"')
   #       "<span class=\"image-annotation-highlight\" data-annotation-id=\"#{annotation_id}\" style=\"#{style}\">
   # <a class=\"to-annotation\" href=\"##{annotation_id}\" name=\"hl-#{annotation_id}\" id=\"hl-#{annotation_id}\"></a>
   # </span>"
@@ -469,10 +471,10 @@ module IiifToJekyll
         page_ocr_html << "\n\t<span class=\"annotator-hl image-annotation-highlight\" data-annotation-id=\"#{annotation_id}\" style=\"#{style}\">
   <a class=\"to-annotation\" href=\"##{annotation_id}\" name=\"hl-#{annotation_id}\" id=\"hl-#{annotation_id}\"></a>
   </span>"
-      end  
+      end
     end
     page_ocr_html
-  end    
+  end
 
   # Generate annotation metadata from a WebAnnotation to be used
   # in the jekyll annotation page front matter
@@ -557,7 +559,7 @@ module IiifToJekyll
     end
 
     service
-  end    
+  end
 
   def self.open_manifest(manifest)
     connection = open(manifest, {ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE})
