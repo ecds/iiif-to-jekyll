@@ -412,8 +412,8 @@ module IiifToJekyll
       height_pct = y_px_to_pct(line.height, canvas)
       font_size = line.font_size
       style="left:#{left_pct}%;top:#{top_pct}%;width:#{width_pct}%;height:#{height_pct}%;text-align:left;font-size:#{font_size}px"
-      page_ocr_html << "<div class=\"ocr-line ocrtext\" style=\"#{style}\" data-vhfontsize=\"2\">\n"
-      page_ocr_html << "\t<span>\n\t\t"
+      # page_ocr_html << "<div class=\"ocr-line ocrtext\" style=\"#{style}\" data-vhfontsize=\"2\">\n"
+      # page_ocr_html << "\t<span>\n\t\t"
       # consider moving font-size to here
       line.annotations.each do |ocr_anno|
         # look for the beginning of an annotation highlight
@@ -438,8 +438,8 @@ module IiifToJekyll
         end
 
       end
-      page_ocr_html << "\t</span>\n"
-      page_ocr_html << "</div>\n"
+      # page_ocr_html << "\t</span>\n"
+      # page_ocr_html << "</div>\n"
     end
     annotation_id = "ab00ab28-8cfe-4d03-956d-fa657c5fe7be"
     annotations = Annotation.image_comments(anno_lists_json, canvas)
