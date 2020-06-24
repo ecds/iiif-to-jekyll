@@ -1,6 +1,6 @@
 # Class representing the data we need from WebAnnotations fetched from Readux
 # Attributes like `x_px` are data parsed from individual WebAnnotations
-# Helper methods like `left_pct` translate raw data into derivative formats 
+# Helper methods like `left_pct` translate raw data into derivative formats
 # needed for Jekyll
 # Static methods like `from_oa` or `ocr_annotations` parse WebAnnotation JSON
 # hashes and AnnotationLists into usable collections of Annotation objects.
@@ -33,11 +33,18 @@ class Annotation
        {"@id"=>"https://0.0.0.0:3000/iiif/v2/readux:t9pgf/manifest",
         "@type"=>"sc:Manifest"},
       "selector"=>
-       {"@type"=>"oa:FragmentSelector", "value"=>"xywh=1082,616,172,40"}}}
+       {"@type"=>"oa:FragmentSelector", "value"=>"xywh=1082,616,172,40"}
+     },
+    "stylesheet" =>
+      {
+        "type" => "CssStylesheet",
+        "value" => ".anno-f87fef89-8176-4416-a7bb-ec0403016189: { height: 59px; width: 619px; font-size: 36.875px; letter-spacing: 50.34027777777778px;}"
+      }
+    }
 
   # Sample output for OCR display in current system
   EXAMPLE_OCR_OUT=
-    '<div class="ocr-line ocrtext" style="left:11.73%;top:64.23%;width:62.94%;height:2%;text-align:left;font-size:19.96px" data-vhfontsize="2">'+
+    '<div class="ocr-line ocrtext"  data-vhfontsize="2">'+
     '  <span>Ad vnamquamque praterea Euangelicam leétionem fua</span>' +
     '</div>'
 
@@ -97,7 +104,7 @@ class Annotation
       anno.svg=nil;
     end
 
-    if json_hash['on']['selector']['item'] && json_hash['on']['selector']['item']['startSelector'] && json_hash['on']['selector']['item']['endSelector'] 
+    if json_hash['on']['selector']['item'] && json_hash['on']['selector']['item']['startSelector'] && json_hash['on']['selector']['item']['endSelector']
       raw_start = json_hash['on']['selector']['item']['startSelector']['value']
       anno.target_start = raw_start.sub("//*[@id='",'').sub("']","")
       raw_end = json_hash['on']['selector']['item']['endSelector']['value']
@@ -107,7 +114,7 @@ class Annotation
     anno
   end
 
-  def font_size 
+  def font_size
     h_px
   end
 
@@ -122,11 +129,11 @@ class Annotation
   end
 
 
-  Y_MARGIN_OF_ERROR = 10 # pixels considered probably the same line regardless 
+  Y_MARGIN_OF_ERROR = 10 # pixels considered probably the same line regardless
   # of skew, strange OCR, or bizarre printing
 
   # factory method for creating an arry of Annotation objectss from a raw hash
-  # parsed from an AnnotationList 
+  # parsed from an AnnotationList
   def self.all_annotations(annotation_lists_json, canvas)
     annotations = []
     annotation_lists_json.each do |annotation_list|

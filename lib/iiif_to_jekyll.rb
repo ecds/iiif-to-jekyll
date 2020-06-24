@@ -391,7 +391,8 @@ module IiifToJekyll
 
 
   def self.oa_to_display(canvas, anno_lists_json)
-    page_ocr_html = ""
+    page_ocr_html = ''
+    svg_anno_html = "\n<svg style=\"left:0%;top:0%;width:100%;height:100%;text-align:left;\" class=\"image-annotation-highlight\" viewBox=\"0 0 1349 1875\" xmlns='http://www.w3.org/2000/svg'>"
     words = Annotation.ocr_annotations(anno_lists_json, canvas)
 
     # build a hash of ocr_words targeted by annotations on this page
@@ -455,8 +456,8 @@ module IiifToJekyll
 # Read the width and height of the original canvas and use them to populate the viewBox attribute of the svg element with "0 0 #{width} #{height}"
 # Within the svg element, create a path element.  This can be verbatim from the svg selector, so long as the double quotes are not escaped.
 # When printing the svg element, make sure to add the data-annotation-id attribute as we would in the span.
-        page_ocr_html << "\n"
-        page_ocr_html << anno.svg.sub('<svg ', "<svg style=\"#{style}\" class=\"image-annotation-highlight\" viewBox=\"#{view_box}\" ").sub("<path ", "\n\t\t<path data-annotation-id=\"#{annotation_id}\" class=\"annotator-hl image-annotation-highlight\" ").sub('stroke-width="5"', 'stroke-width="0.25rem"')
+        svg_anno_html << "\n"
+        svg_anno_html << anno.svg.sub("<path ", "\n\t\t<path data-annotation-id=\"#{annotation_id}\" class=\"annotator-hl image-annotation-highlight\" ").sub('stroke-width="5"', 'stroke-width="0.25rem"')
   #       "<span class=\"image-annotation-highlight\" data-annotation-id=\"#{annotation_id}\" style=\"#{style}\">
   # <a class=\"to-annotation\" href=\"##{annotation_id}\" name=\"hl-#{annotation_id}\" id=\"hl-#{annotation_id}\"></a>
   # </span>"
@@ -473,6 +474,8 @@ module IiifToJekyll
   </span>"
       end
     end
+    svg_anno_html << "\n</svg>"
+    page_ocr_html << svg_anno_html
     page_ocr_html
   end
 
