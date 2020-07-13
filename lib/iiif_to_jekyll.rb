@@ -392,7 +392,7 @@ module IiifToJekyll
 
   def self.oa_to_display(canvas, anno_lists_json)
     page_ocr_html = ''
-    svg_anno_html = "\n<svg style=\"left:0%;top:0%;width:100%;height:100%;text-align:left;\" class=\"image-annotation-highlight\" viewBox=\"0 0 1349 1875\" xmlns='http://www.w3.org/2000/svg'>"
+    svg_anno_html = "\n<svg style=\"left:0%;top:0%;width:100%;height:100%;text-align:left;\" class=\"image-annotation-highlight\" viewBox=\"0 0 #{canvas.width} #{canvas.height}\" xmlns='http://www.w3.org/2000/svg'>"
     words = Annotation.ocr_annotations(anno_lists_json, canvas)
 
     # build a hash of ocr_words targeted by annotations on this page
