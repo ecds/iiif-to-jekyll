@@ -91,27 +91,31 @@ class Annotation
 
     # complex/parsed attributes
     selector = json_hash['on']['selector']['value']
-    md = selector.match /(\d+),(\d+),(\d+),(\d+)/
-    anno.x_px = md[1].to_i
-    anno.y_px = md[2].to_i
-    anno.w_px = md[3].to_i
-    anno.h_px = md[4].to_i
-    anno.canvas = canvas
+    begin
+      md = selector.match /(\d+),(\d+),(\d+),(\d+)/
+      anno.x_px = md[1].to_i
+      anno.y_px = md[2].to_i
+      anno.w_px = md[3].to_i
+      anno.h_px = md[4].to_i
+      anno.canvas = canvas
 
-    if json_hash["on"]["selector"]["item"]["@type"] == "oa:Choice"
-      anno.svg = json_hash["on"]["selector"]["item"]["value"]
-    else
-      anno.svg=nil;
+      if json_hash["on"]["selector"]["item"]["@type"] == "oa:Choice"
+        anno.svg = json_hash["on"]["selector"]["item"]["value"]
+      else
+        anno.svg=nil;
+      end
+
+      if json_hash['on']['selector']['item'] && json_hash['on']['selector']['item']['startSelector'] && json_hash['on']['selector']['item']['endSelector']
+        raw_start = json_hash['on']['selector']['item']['startSelector']['value']
+        anno.target_start = raw_start.sub("//*[@id='",'').sub("']","")
+        raw_end = json_hash['on']['selector']['item']['endSelector']['value']
+        anno.target_end = raw_end.sub("//*[@id='",'').sub("']","")
+      end
+
+      anno
+    rescue NoMethodError
+      nil
     end
-
-    if json_hash['on']['selector']['item'] && json_hash['on']['selector']['item']['startSelector'] && json_hash['on']['selector']['item']['endSelector']
-      raw_start = json_hash['on']['selector']['item']['startSelector']['value']
-      anno.target_start = raw_start.sub("//*[@id='",'').sub("']","")
-      raw_end = json_hash['on']['selector']['item']['endSelector']['value']
-      anno.target_end = raw_end.sub("//*[@id='",'').sub("']","")
-    end
-
-    anno
   end
 
   def font_size
@@ -141,6 +145,8 @@ class Annotation
         annotations << Annotation.from_oa(anno_json, canvas)
       end
     end
+
+    annotations.compact!
 
     annotations.sort! do |a,b|
       if (a.y_px - b.y_px).abs < Y_MARGIN_OF_ERROR
@@ -175,7 +181,4 @@ class Annotation
     annotations.keep_if { |anno| anno.target_start.nil?  }
     annotations
   end
-
-
 end
-
