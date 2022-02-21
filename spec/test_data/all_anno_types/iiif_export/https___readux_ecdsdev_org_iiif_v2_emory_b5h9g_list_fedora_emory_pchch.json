@@ -1,0 +1,427 @@
+{
+    "@context": "http://iiif.io/api/presentation/2/context.json",
+    "@id": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/list/fedora:emory:pchch",
+    "@type": "sc:AnnotationList",
+    "resources": [
+        {
+            "@context": "http://iiif.io/api/presentation/2/context.json",
+            "@id": "ee7785b2-4800-4d1b-ad06-4d90b646b05f",
+            "@type": "oa:Annotation",
+            "motivation": "sc:painting",
+            "annotatedBy": {
+                "name": "OCR"
+            },
+            "resource": {
+                "@type": "cnt:ContentAsText",
+                "format": "text/html",
+                "chars": "<span id='ee7785b2-4800-4d1b-ad06-4d90b646b05f' style='height: 53px; width: 329px; font-size: 33.125px; letter-spacing: 6.9375px' data-letter-spacing='0.02108662613981763'>\"Black lacob,\"</span>",
+                "language": "en"
+            },
+            "on": {
+                "full": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/canvas/fedora:emory:pchch",
+                "@type": "oa:SpecificResource",
+                "within": {
+                    "@id": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/manifest",
+                    "@type": "sc:Manifest"
+                },
+                "selector": {
+                    "@type": "oa:FragmentSelector",
+                    "value": "xywh=523,116,329,53",
+                    "item": {
+                        "@type": "oa:FragmentSelector"
+                    }
+                }
+            }
+        },
+        {
+            "@context": "http://iiif.io/api/presentation/2/context.json",
+            "@id": "dd2a2c91-4fed-49ea-b38b-48360b50885b",
+            "@type": "oa:Annotation",
+            "motivation": "sc:painting",
+            "annotatedBy": {
+                "name": "OCR"
+            },
+            "resource": {
+                "@type": "cnt:ContentAsText",
+                "format": "text/html",
+                "chars": "<span id='dd2a2c91-4fed-49ea-b38b-48360b50885b' style='height: 23px; width: 511px; font-size: 14.375px; letter-spacing: 18.3625px' data-letter-spacing='0.03593444227005871'>A MONUMENT OF GRACE.</span>",
+                "language": "en"
+            },
+            "on": {
+                "full": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/canvas/fedora:emory:pchch",
+                "@type": "oa:SpecificResource",
+                "within": {
+                    "@id": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/manifest",
+                    "@type": "sc:Manifest"
+                },
+                "selector": {
+                    "@type": "oa:FragmentSelector",
+                    "value": "xywh=429,192,511,23",
+                    "item": {
+                        "@type": "oa:FragmentSelector"
+                    }
+                }
+            }
+        },
+        {
+            "@context": "http://iiif.io/api/presentation/2/context.json",
+            "@id": "8859bb4b-3163-4862-a835-e3d5f55b792b",
+            "@type": "oa:Annotation",
+            "motivation": "sc:painting",
+            "annotatedBy": {
+                "name": "OCR"
+            },
+            "resource": {
+                "@type": "cnt:ContentAsText",
+                "format": "text/html",
+                "chars": "<span id='8859bb4b-3163-4862-a835-e3d5f55b792b' style='height: 51px; width: 321px; font-size: 31.875px; letter-spacing: 24.1875px' data-letter-spacing='0.07535046728971963'>THE LIFE</span>",
+                "language": "en"
+            },
+            "on": {
+                "full": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/canvas/fedora:emory:pchch",
+                "@type": "oa:SpecificResource",
+                "within": {
+                    "@id": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/manifest",
+                    "@type": "sc:Manifest"
+                },
+                "selector": {
+                    "@type": "oa:FragmentSelector",
+                    "value": "xywh=525,355,321,51",
+                    "item": {
+                        "@type": "oa:FragmentSelector"
+                    }
+                }
+            }
+        },
+        {
+            "@context": "http://iiif.io/api/presentation/2/context.json",
+            "@id": "3305b32f-9a66-42b1-a0d7-f3235b96fbed",
+            "@type": "oa:Annotation",
+            "motivation": "sc:painting",
+            "annotatedBy": {
+                "name": "OCR"
+            },
+            "resource": {
+                "@type": "cnt:ContentAsText",
+                "format": "text/html",
+                "chars": "<span id='3305b32f-9a66-42b1-a0d7-f3235b96fbed' style='height: 22px; width: 42px; font-size: 13.75px; letter-spacing: 14.125px' data-letter-spacing='0.33630952380952384'>OF</span>",
+                "language": "en"
+            },
+            "on": {
+                "full": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/canvas/fedora:emory:pchch",
+                "@type": "oa:SpecificResource",
+                "within": {
+                    "@id": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/manifest",
+                    "@type": "sc:Manifest"
+                },
+                "selector": {
+                    "@type": "oa:FragmentSelector",
+                    "value": "xywh=664,486,42,22",
+                    "item": {
+                        "@type": "oa:FragmentSelector"
+                    }
+                }
+            }
+        },
+        {
+            "@context": "http://iiif.io/api/presentation/2/context.json",
+            "@id": "0d1aba25-2dd9-4f43-81d0-545f17462681",
+            "@type": "oa:Annotation",
+            "motivation": "sc:painting",
+            "annotatedBy": {
+                "name": "OCR"
+            },
+            "resource": {
+                "@type": "cnt:ContentAsText",
+                "format": "text/html",
+                "chars": "<span id='0d1aba25-2dd9-4f43-81d0-545f17462681' style='height: 90px; width: 706px; font-size: 56.25px; letter-spacing: 26.182692307692307px' data-letter-spacing='0.03708596644149052'>JACOB HODGES,</span>",
+                "language": "en"
+            },
+            "on": {
+                "full": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/canvas/fedora:emory:pchch",
+                "@type": "oa:SpecificResource",
+                "within": {
+                    "@id": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/manifest",
+                    "@type": "sc:Manifest"
+                },
+                "selector": {
+                    "@type": "oa:FragmentSelector",
+                    "value": "xywh=330,588,706,90",
+                    "item": {
+                        "@type": "oa:FragmentSelector"
+                    }
+                }
+            }
+        },
+        {
+            "@context": "http://iiif.io/api/presentation/2/context.json",
+            "@id": "65e42f88-b168-4c57-b1e5-3e8a815ea9da",
+            "@type": "oa:Annotation",
+            "motivation": "sc:painting",
+            "annotatedBy": {
+                "name": "OCR"
+            },
+            "resource": {
+                "@type": "cnt:ContentAsText",
+                "format": "text/html",
+                "chars": "<span id='65e42f88-b168-4c57-b1e5-3e8a815ea9da' style='height: 29px; width: 367px; font-size: 18.125px; letter-spacing: 12.525735294117647px' data-letter-spacing='0.03413006892130149'>AN AFRICAN NEGRO,</span>",
+                "language": "en"
+            },
+            "on": {
+                "full": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/canvas/fedora:emory:pchch",
+                "@type": "oa:SpecificResource",
+                "within": {
+                    "@id": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/manifest",
+                    "@type": "sc:Manifest"
+                },
+                "selector": {
+                    "@type": "oa:FragmentSelector",
+                    "value": "xywh=499,762,367,29",
+                    "item": {
+                        "@type": "oa:FragmentSelector"
+                    }
+                }
+            }
+        },
+        {
+            "@context": "http://iiif.io/api/presentation/2/context.json",
+            "@id": "3569a696-6feb-4505-9410-8ca0d1f88331",
+            "@type": "oa:Annotation",
+            "motivation": "sc:painting",
+            "annotatedBy": {
+                "name": "OCR"
+            },
+            "resource": {
+                "@type": "cnt:ContentAsText",
+                "format": "text/html",
+                "chars": "<span id='3569a696-6feb-4505-9410-8ca0d1f88331' style='height: 24px; width: 802px; font-size: 15.0px; letter-spacing: 10.727272727272727px' data-letter-spacing='0.013375651779641803'>WHO DIED IN CANANDAIGUA, N. T\u201e FEBRUART. !\u00ab1</span>",
+                "language": "en"
+            },
+            "on": {
+                "full": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/canvas/fedora:emory:pchch",
+                "@type": "oa:SpecificResource",
+                "within": {
+                    "@id": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/manifest",
+                    "@type": "sc:Manifest"
+                },
+                "selector": {
+                    "@type": "oa:FragmentSelector",
+                    "value": "xywh=276,874,802,24",
+                    "item": {
+                        "@type": "oa:FragmentSelector"
+                    }
+                }
+            }
+        },
+        {
+            "@context": "http://iiif.io/api/presentation/2/context.json",
+            "@id": "9d68e810-a40e-4cc4-9171-d93a83e94057",
+            "@type": "oa:Annotation",
+            "motivation": "sc:painting",
+            "annotatedBy": {
+                "name": "OCR"
+            },
+            "resource": {
+                "@type": "cnt:ContentAsText",
+                "format": "text/html",
+                "chars": "<span id='9d68e810-a40e-4cc4-9171-d93a83e94057' style='height: 31px; width: 383px; font-size: 19.375px; letter-spacing: 17.669642857142858px' data-letter-spacing='0.04613483774710929'>BY A. D. EDDY,</span>",
+                "language": "en"
+            },
+            "on": {
+                "full": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/canvas/fedora:emory:pchch",
+                "@type": "oa:SpecificResource",
+                "within": {
+                    "@id": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/manifest",
+                    "@type": "sc:Manifest"
+                },
+                "selector": {
+                    "@type": "oa:FragmentSelector",
+                    "value": "xywh=492,1007,383,31",
+                    "item": {
+                        "@type": "oa:FragmentSelector"
+                    }
+                }
+            }
+        },
+        {
+            "@context": "http://iiif.io/api/presentation/2/context.json",
+            "@id": "22d0894a-9818-4086-869d-2d0a4d9afdd8",
+            "@type": "oa:Annotation",
+            "motivation": "sc:painting",
+            "annotatedBy": {
+                "name": "OCR"
+            },
+            "resource": {
+                "@type": "cnt:ContentAsText",
+                "format": "text/html",
+                "chars": "<span id='22d0894a-9818-4086-869d-2d0a4d9afdd8' style='height: 23px; width: 147px; font-size: 14.375px; letter-spacing: 2.0px' data-letter-spacing='0.013605442176870748'>.tfewarA, Jf. /\u2022</span>",
+                "language": "en"
+            },
+            "on": {
+                "full": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/canvas/fedora:emory:pchch",
+                "@type": "oa:SpecificResource",
+                "within": {
+                    "@id": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/manifest",
+                    "@type": "sc:Manifest"
+                },
+                "selector": {
+                    "@type": "oa:FragmentSelector",
+                    "value": "xywh=606,1055,147,23",
+                    "item": {
+                        "@type": "oa:FragmentSelector"
+                    }
+                }
+            }
+        },
+        {
+            "@context": "http://iiif.io/api/presentation/2/context.json",
+            "@id": "dba26a45-ec73-4a2e-976c-9eb51cdb6d9d",
+            "@type": "oa:Annotation",
+            "motivation": "sc:painting",
+            "annotatedBy": {
+                "name": "OCR"
+            },
+            "resource": {
+                "@type": "cnt:ContentAsText",
+                "format": "text/html",
+                "chars": "<span id='dba26a45-ec73-4a2e-976c-9eb51cdb6d9d' style='height: 19px; width: 649px; font-size: 11.875px; letter-spacing: 10.2875px' data-letter-spacing='0.015851309707241912'>BEVISED BY THE COMMITTEE OF PUBLICATMlt.</span>",
+                "language": "en"
+            },
+            "on": {
+                "full": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/canvas/fedora:emory:pchch",
+                "@type": "oa:SpecificResource",
+                "within": {
+                    "@id": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/manifest",
+                    "@type": "sc:Manifest"
+                },
+                "selector": {
+                    "@type": "oa:FragmentSelector",
+                    "value": "xywh=352,1270,649,19",
+                    "item": {
+                        "@type": "oa:FragmentSelector"
+                    }
+                }
+            }
+        },
+        {
+            "@context": "http://iiif.io/api/presentation/2/context.json",
+            "@id": "ac221f04-c9fd-4e4f-8744-c98bd91d4cbf",
+            "@type": "oa:Annotation",
+            "motivation": "sc:painting",
+            "annotatedBy": {
+                "name": "OCR"
+            },
+            "resource": {
+                "@type": "cnt:ContentAsText",
+                "format": "text/html",
+                "chars": "<span id='ac221f04-c9fd-4e4f-8744-c98bd91d4cbf' style='height: 26px; width: 303px; font-size: 16.25px; letter-spacing: 15.182692307692308px' data-letter-spacing='0.05010789540492511'>PHILADELPHIA:</span>",
+                "language": "en"
+            },
+            "on": {
+                "full": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/canvas/fedora:emory:pchch",
+                "@type": "oa:SpecificResource",
+                "within": {
+                    "@id": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/manifest",
+                    "@type": "sc:Manifest"
+                },
+                "selector": {
+                    "@type": "oa:FragmentSelector",
+                    "value": "xywh=526,1488,303,26",
+                    "item": {
+                        "@type": "oa:FragmentSelector"
+                    }
+                }
+            }
+        },
+        {
+            "@context": "http://iiif.io/api/presentation/2/context.json",
+            "@id": "6f5e33fc-de2a-4abd-82a9-197fa87bebf2",
+            "@type": "oa:Annotation",
+            "motivation": "sc:painting",
+            "annotatedBy": {
+                "name": "OCR"
+            },
+            "resource": {
+                "@type": "cnt:ContentAsText",
+                "format": "text/html",
+                "chars": "<span id='6f5e33fc-de2a-4abd-82a9-197fa87bebf2' style='height: 35px; width: 707px; font-size: 21.875px; letter-spacing: 13.441810344827585px' data-letter-spacing='0.019012461590986685'>AMERICAN SUNDAY-SCHOOL UNION,</span>",
+                "language": "en"
+            },
+            "on": {
+                "full": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/canvas/fedora:emory:pchch",
+                "@type": "oa:SpecificResource",
+                "within": {
+                    "@id": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/manifest",
+                    "@type": "sc:Manifest"
+                },
+                "selector": {
+                    "@type": "oa:FragmentSelector",
+                    "value": "xywh=319,1539,707,35",
+                    "item": {
+                        "@type": "oa:FragmentSelector"
+                    }
+                }
+            }
+        },
+        {
+            "@context": "http://iiif.io/api/presentation/2/context.json",
+            "@id": "d2dc6048-b3b2-4e39-9a4f-ff39b534c1f2",
+            "@type": "oa:Annotation",
+            "motivation": "sc:painting",
+            "annotatedBy": {
+                "name": "OCR"
+            },
+            "resource": {
+                "@type": "cnt:ContentAsText",
+                "format": "text/html",
+                "chars": "<span id='d2dc6048-b3b2-4e39-9a4f-ff39b534c1f2' style='height: 22px; width: 313px; font-size: 13.75px; letter-spacing: 8.029761904761905px' data-letter-spacing='0.02565419138901567'>1122 Chestnut Street.</span>",
+                "language": "en"
+            },
+            "on": {
+                "full": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/canvas/fedora:emory:pchch",
+                "@type": "oa:SpecificResource",
+                "within": {
+                    "@id": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/manifest",
+                    "@type": "sc:Manifest"
+                },
+                "selector": {
+                    "@type": "oa:FragmentSelector",
+                    "value": "xywh=519,1586,313,22",
+                    "item": {
+                        "@type": "oa:FragmentSelector"
+                    }
+                }
+            }
+        },
+        {
+            "@context": "http://iiif.io/api/presentation/2/context.json",
+            "@id": "f14479d1-b37b-4ad4-a9a9-27d93cc8856f",
+            "@type": "oa:Annotation",
+            "motivation": "sc:painting",
+            "annotatedBy": {
+                "name": "OCR"
+            },
+            "resource": {
+                "@type": "cnt:ContentAsText",
+                "format": "text/html",
+                "chars": "<span id='f14479d1-b37b-4ad4-a9a9-27d93cc8856f' style='height: 23px; width: 490px; font-size: 14.375px; letter-spacing: 14.116847826086957px' data-letter-spacing='0.028809893522626442'>NEW YORK: 599 BROADWAY.</span>",
+                "language": "en"
+            },
+            "on": {
+                "full": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/canvas/fedora:emory:pchch",
+                "@type": "oa:SpecificResource",
+                "within": {
+                    "@id": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/manifest",
+                    "@type": "sc:Manifest"
+                },
+                "selector": {
+                    "@type": "oa:FragmentSelector",
+                    "value": "xywh=432,1664,490,23",
+                    "item": {
+                        "@type": "oa:FragmentSelector"
+                    }
+                }
+            }
+        }
+    ]
+}

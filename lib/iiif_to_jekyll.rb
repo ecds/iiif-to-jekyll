@@ -1,6 +1,5 @@
-require "iiif_to_jekyll/version"
-require "iiif_to_jekyll/annotation"
-require "iiif_to_jekyll/ocr_line"
+require 'iiif_to_jekyll/version'
+require 'iiif_to_jekyll/annotation'
 require 'iiif/presentation'
 require 'date'
 require 'open-uri'
@@ -8,27 +7,29 @@ require 'openssl'
 require 'fileutils'
 
 module IiifToJekyll
-
   class Error < StandardError; end
 
   # jekyll volume pages directory
-  VOLUME_PAGE_DIR = '_volume_pages'
+  VOLUME_PAGE_DIR = '_volume_pages'.freeze
   # jekyll annotation directory
-  ANNOTATION_DIR = '_annotations'
+  ANNOTATION_DIR = '_annotations'.freeze
   # jekyll config file
-  CONFIG_FILE = '_config.yml'
+  CONFIG_FILE = '_config.yml'.freeze
   # jekyll data dir
-  DATA_DIR = '_data'
+  DATA_DIR = '_data'.freeze
   # tags data file
   TAG_FILE = File.join(DATA_DIR, 'tags.yml')
   # directory where tag stub pages should be created
-  TAG_DIR = 'tags'
+  TAG_DIR = 'tags'.freeze
+
+  ANNOTATION_JSON_DIR = File.join(DATA_DIR, 'annotations')
+  OCR_JSON_DIR = File.join(DATA_DIR, 'ocr')
 
   # Import IIIF metadata, structure, and annotation content into a jekyll site
   # @param dirname [String] directory containing Readux export
   #
   # This code is based extensively on teifacsimile-to-jekyll
-  def self.import(manifesturi, dirname, output_dir, opts={})
+  def self.import(manifesturi, dirname, output_dir, opts = {})
     manifest = if opts[:local_directory]
                  load_manifest(dirname)
                else
@@ -54,7 +55,7 @@ module IiifToJekyll
     end
   end
 
-  def self.output_tags(tags, opts={})
+  def self.output_tags(tags, opts = {})
     puts "** Generating tags" unless opts[:quiet]
     # create data dir if not already present
     Dir.mkdir(DATA_DIR) unless File.directory?(DATA_DIR)
@@ -62,26 +63,26 @@ module IiifToJekyll
     # create a jekyll data file with tag data
     # structure tag data for lookup by slug, with a name attribute
     tags.each do |tag|
-        tag_data[tag] = {'name' => tag}
+      tag_data[tag] = { 'name' => tag }
     end
 
     File.open(TAG_FILE, 'w') do |file|
-        file.write tag_data.to_yaml
+      file.write tag_data.to_yaml
     end
 
     # Create a tag stub file for each tag
     # create tag dir if not already present
     Dir.mkdir(TAG_DIR) unless File.directory?(TAG_DIR)
     tags.each do |tag|
-        puts "Tag #{tag}" unless opts[:quiet]
-        @tagfile =
+      puts "Tag #{tag}" unless opts[:quiet]
+      @tagfile =
         File.open(File.join(TAG_DIR, "#{tag}.md"), 'w') do |file|
-            front_matter = {
-                'layout' => 'annotation_by_tag',
-                'tag' => tag
-            }
-            file.write front_matter.to_yaml
-            file.write  "\n---\n"
+          front_matter = {
+            'layout' => 'annotation_by_tag',
+            'tag' => tag
+          }
+          file.write front_matter.to_yaml
+          file.write "\n---\n"
         end
     end
   end
@@ -91,12 +92,12 @@ module IiifToJekyll
   # of volume pages and annotation content.
   # @param manifest
   # @param configfile [String] path to existing config file to be updated
-  def self.update_site_config(manifest, configfile, opts={})
+  def self.update_site_config(manifest, configfile, opts = {})
     siteconfig = YAML.load_file(configfile)
 
     # set site title and subtitle from the tei
     siteconfig['title'] = manifest.label
-#      siteconfig['tagline'] = teidoc.title_statement.subtitle
+    #      siteconfig['tagline'] = teidoc.title_statement.subtitle
 
     # placeholder description for author to edit (todo: include annotation author name here?)
     siteconfig['description'] = 'An annotated digital edition created with <a href="http://readux.library.emory.edu/">Readux</a>'
@@ -108,15 +109,13 @@ module IiifToJekyll
     # image for the home page
     siteconfig['homepage_image'] = first_canvas.images.first.resource['@id']
 
-
-    # TODO
-    # add image dimensions to config so that thumbnail display can be tailored
+    # TODO: add image dimensions to config so that thumbnail display can be tailored
     # to the current volume page size
     # thumbnail_width, thumbnail_height = FastImage.size(teidoc.pages[0].images_by_type['thumbnail'].url)
     # sm_thumbnail_width, sm_thumbnail_height = FastImage.size(teidoc.pages[0].images_by_type['small-thumbnail'].url)
     page_img_width, page_img_height = first_canvas.height, first_canvas.width
     siteconfig['image_size'] = {
-      'page' => {'width' => page_img_width, 'height' => page_img_height},
+      'page' => { 'width' => page_img_width, 'height' => page_img_height },
       # 'thumbnail' => {'width' => thumbnail_width, 'height' => thumbnail_height},
       # 'small-thumbnail' => {'width' => sm_thumbnail_width, 'height' => sm_thumbnail_height}
     }
@@ -132,7 +131,7 @@ module IiifToJekyll
       # 'url' => teidoc.source_bibl['digital'].references['digital-edition'].target,
       # 'pdf_url' => teidoc.source_bibl['digital'].references['pdf'].target,
       'via_readux' => true
-      }
+    }
 
     # preliminary publication information for the annotated edition
     pub_info = {
@@ -186,7 +185,7 @@ module IiifToJekyll
           {
             'scope' => {
               'path' => '',
-              'type' => 'annotations',
+              'type' => 'annotations'
             },
             'values' => {
               'layout' => 'annotation'
@@ -195,8 +194,7 @@ module IiifToJekyll
         ]
       }
     )
-    # TODO:
-    # - author information from resp statement?
+    # TODO: - author information from resp statement?
 
     # NOTE: this generates a config file without any comments,
     # and removes existing comments - which is not very user-friendly;
@@ -215,20 +213,20 @@ module IiifToJekyll
     update_site_config(manifest, CONFIG_FILE, opts)
   end
 
-  def self.write_volume_pages(manifest, opts={})
+  def self.write_volume_pages(manifest, opts = {})
     # generate a volume page document for every canvasin the manifest
     puts "** Writing volume pages" unless opts[:quiet]
     FileUtils.rm_rf(VOLUME_PAGE_DIR)
     Dir.mkdir(VOLUME_PAGE_DIR) unless File.directory?(VOLUME_PAGE_DIR)
     unless manifest.sequences.empty?
-      manifest.sequences.first.canvases.each_with_index do |canvas,i|
+      manifest.sequences.first.canvases.each_with_index do |canvas, i|
         output_page(canvas, i, opts)
       end
     end
   end
 
   def self.stem_from_full(full_uri)
-    full_uri.sub('full/full/0/default.jpg','')
+    full_uri.sub('full/full/0/default.jpg', '')
   end
 
   def self.info_from_full(full_uri)
@@ -254,19 +252,17 @@ module IiifToJekyll
   # number: 4
   # ---
 
-
-
   # Generate page metadata from a TEI Page to be used
   # in the jekyll annotation page front matter
   # @param canvas
   # @param index
-  def self.page_frontmatter(canvas, index, opts={})
+  def self.page_frontmatter(canvas, index, opts = {})
     # by default, use page number from the tei
     page_number = index
 
     # retrieve page graphic urls by type for inclusion in front matter
-    images = {}  # hash of image urls by rend attribute
-#      teipage.images.each { |img| images[img.rend] = img.url }
+    images = {} # hash of image urls by rend attribute
+    #      teipage.images.each { |img| images[img.rend] = img.url }
     # TODO: check all values once they are put into use
     #   small-thumbnail: https://readux.ecds.emory.edu/books/emory:b73fx/pages/emory:gtmmg/mini-thumbnail/
     #   json: https://readux.ecds.emory.edu/books/emory:b73fx/pages/emory:gtmmg/info/
@@ -277,7 +273,7 @@ module IiifToJekyll
     full = image.resource['@id']
     page = full
     thumbnail = image.resource.thumbnail || thumbnail_from_full(full)
-    small_thumbnail=thumbnail
+    small_thumbnail = thumbnail
     info = info_from_full(full)
     images = {
       'small-thumbnail' => small_thumbnail,
@@ -288,52 +284,51 @@ module IiifToJekyll
     }
 
     anno_lists_json = fetch_annotation_lists(canvas, opts)
-    anno_count=Annotation.comment_annotations(anno_lists_json, canvas).count
+    anno_count = Annotation.comment_annotations(anno_lists_json, canvas).count
 
     # construct page front matter
     front_matter = {
-      'sort_order'=> page_number,
-      'canvas_id' => canvas['@id'],
-      'annotation_count' => anno_count,
-      'images' => images,
-#          'title'=> 'Page %s' % page_number,
-      'title'=> canvas.label,
-      'number' => page_number + 1
+      sort_order: page_number,
+      canvas_id: canvas['@id'],
+      annotation_count: anno_count,
+      images: images,
+      #          'title'=> 'Page %s' % page_number,
+      title: canvas.label,
+      number: page_number + 1,
+      ocr: "#{canvas.label}.json",
+      annotation_overlay: "#{canvas.label}.json"
     }
 
-    # TODO consider opts[:page_one] functionality; IIIF has something similar with `startCanvas`
+    # TODO: consider opts[:page_one] functionality; IIIF has something similar with `startCanvas`
     # cf. https://github.com/ecds/teifacsimile-to-jekyll/blob/master/lib/teifacsimile_to_jekyll.rb#L48-L67
-        # if an override start page is set, adjust the labels and set an
-        # override url
-        if opts[:page_one]
-            if page_number < opts[:page_one]
-                # pages before the start page will be output as front-#
-                permalink = '/pages/front-%s/' % page_number
-                front_matter['title'] = 'Front %s' % page_number
-                front_matter['short_label'] = 'f.'
-                front_matter['number'] = page_number + 1
-            else
-                # otherwise, offset by requested start page (1-based counting)
-                adjusted_number = page_number - opts[:page_one] + 1
-                permalink = '/pages/%s/' % adjusted_number
-                front_matter['title'] = 'Page %s' % adjusted_number
-                # default short label configured as p.
-                front_matter['number'] = adjusted_number
-            end
+    # if an override start page is set, adjust the labels and set an
+    # override url
+    if opts[:page_one]
+      if page_number < opts[:page_one]
+        # pages before the start page will be output as front-#
+        permalink = '/pages/front-%s/' % page_number
+        front_matter['title'] = 'Front %s' % page_number
+        front_matter['short_label'] = 'f.'
+        front_matter['number'] = page_number + 1
+      else
+        # otherwise, offset by requested start page (1-based counting)
+        adjusted_number = page_number - opts[:page_one] + 1
+        permalink = '/pages/%s/' % adjusted_number
+        front_matter['title'] = 'Page %s' % adjusted_number
+        # default short label configured as p.
+        front_matter['number'] = adjusted_number
+      end
 
-            front_matter['permalink'] = permalink
-        end
+      front_matter['permalink'] = permalink
+    end
 
     return front_matter
   end
 
-
-
-
   # Generate a jekyll collection volume page with appropriate yaml
   # metadata from a canvas
   # @param canvas
-  def self.output_page(canvas, index, opts={})
+  def self.output_page(canvas, index, opts = {})
     puts "Page #{index}" unless opts[:quiet]
     # base output filename on page number
     path = File.join(VOLUME_PAGE_DIR, "%04d.html" % index)
@@ -344,21 +339,20 @@ module IiifToJekyll
       # write out front matter as yaml
       file.write front_matter.to_yaml
       # ensure separation between yaml and page content
-      file.write  "\n---\n\n"
+      file.write "\n---\n\n"
       # page text content as html with annotation highlights # TODO annotation highlights
       json_lists = fetch_annotation_lists(canvas, opts)
-      file.write oa_to_display(canvas, json_lists)
-
+      # file.write oa_to_display(canvas, json_lists)
     end
   end
 
-  def self.fetch_annotation_lists(canvas, opts={})
-    # TODO figure out how to check SSL correctly in production mode
+  def self.fetch_annotation_lists(canvas, opts = {})
+    # TODO: figure out how to check SSL correctly in production mode
     json_lists = []
     canvas.other_content.each do |endpoint|
       anno_id = endpoint['@id']
       if opts[:local_directory]
-        stem = anno_id.gsub(/\W/,'_')
+        stem = anno_id.gsub(/\W/, '_')
         filename = "#{stem}.json"
         path = File.join(Dir.pwd, 'iiif_export', filename)
         if File.exist?(path)
@@ -366,8 +360,10 @@ module IiifToJekyll
         else
           raw_list = '{"@context": "http://iiif.io/api/presentation/2/context.json", "@id": "", "@type": "sc:AnnotationList", "resources": []}'
         end
+
+        write_annotation_files(canvas, JSON.parse(raw_list))
       else
-        connection = open(anno_id, {ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE})
+        connection = open(anno_id, { ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE })
         raw_list = connection.read
       end
       json_lists << JSON.parse(raw_list)
@@ -383,102 +379,111 @@ module IiifToJekyll
     (100 * y.to_f / canvas.height).floor(2)
   end
 
-
   def self.add_highlight_attributes(annotation, text)
     # somehow open up the span in the text and add attributes similar to these:
     # class="annotator-hl" data-annotation-id="0168523d-0d9a-4241-930c-c5a5c946c77c"
     text.gsub('<span', "<span class='annotator-hl' data-annotation-id='#{annotation.anno_id}' ")
   end
 
+  # def self.oa_to_display(canvas, anno_lists_json)
+  #   # 10.times { puts '$'}
+  #   # puts anno_lists_json['resources'].first
+  #   # page_ocr_html = ''
+  #   # svg_anno_html = "\n<svg style=\"left:0%;top:0%;width:100%;height:100%;text-align:left;\" class=\"image-annotation-highlight\" viewBox=\"0 0 #{canvas.width} #{canvas.height}\" xmlns='http://www.w3.org/2000/svg'>"
+  #   # words = Annotation.ocr_annotations(anno_lists_json, canvas)
+  #   # build a hash of ocr_words targeted by annotations on this page
+  #   annotations = Annotation.comment_annotations(anno_lists_json, canvas)
+  #   targets = {}
+  #   annotations.each do |anno|
+  #     targets[anno.target_start] = anno
+  #   end
 
-  def self.oa_to_display(canvas, anno_lists_json)
-    page_ocr_html = ''
-    svg_anno_html = "\n<svg style=\"left:0%;top:0%;width:100%;height:100%;text-align:left;\" class=\"image-annotation-highlight\" viewBox=\"0 0 #{canvas.width} #{canvas.height}\" xmlns='http://www.w3.org/2000/svg'>"
-    words = Annotation.ocr_annotations(anno_lists_json, canvas)
+  #   state = :outside_target
+  #   current_anno = nil
 
-    # build a hash of ocr_words targeted by annotations on this page
-    annotations = Annotation.comment_annotations(anno_lists_json, canvas)
-    targets = {}
-    annotations.each do |anno|
-      targets[anno.target_start] = anno
-    end
+  #   # lines = OcrLine.lines_from_words(words)
+  #   # lines.each do |line|
+  #   #   left_pct = x_px_to_pct(line.x_min, canvas)
+  #   #   top_pct = y_px_to_pct(line.y_min, canvas)
+  #   #   width_pct = x_px_to_pct(line.width, canvas)
+  #   #   height_pct = y_px_to_pct(line.height, canvas)
+  #   #   font_size = line.font_size
+  #   #   style = "left:#{left_pct}%;top:#{top_pct}%;width:#{width_pct}%;height:#{height_pct}%;text-align:left;font-size:#{font_size}px"
+  #   #   page_ocr_html << "<div class=\"ocr-line ocrtext\" style=\"#{style}\" data-vhfontsize=\"2\">\n"
+  #   #   page_ocr_html << "\t<span>\n\t\t"
+  #   #   # consider moving font-size to here
+  #   #   line.annotations.each do |ocr_anno|
+  #   #     # look for the beginning of an annotation highlight
+  #   #     if targets[ocr_anno.anno_id] # TODO this might need parsing to get the GUID from a URI
+  #   #       state = :inside_target
+  #   #       current_anno = targets[ocr_anno.anno_id] # TODO see comment above
+  #   #     end
 
-    state = :outside_target
-    current_anno = nil
+  #   #     # look for the end of an annotation highlight
+  #   #     if state == :inside_target
+  #   #       if ocr_anno.anno_id == current_anno.target_end # test whether annos are inclusive or not.
+  #   #         state = :outside_target
+  #   #         current_anno = nil
+  #   #       end
+  #   #     end
 
-    lines = OcrLine.lines_from_words(words)
-    lines.each do |line|
-      left_pct = x_px_to_pct(line.x_min, canvas)
-      top_pct = y_px_to_pct(line.y_min, canvas)
-      width_pct = x_px_to_pct(line.width, canvas)
-      height_pct = y_px_to_pct(line.height, canvas)
-      font_size = line.font_size
-      style="left:#{left_pct}%;top:#{top_pct}%;width:#{width_pct}%;height:#{height_pct}%;text-align:left;font-size:#{font_size}px"
-      page_ocr_html << "<div class=\"ocr-line ocrtext\" style=\"#{style}\" data-vhfontsize=\"2\">\n"
-      page_ocr_html << "\t<span>\n\t\t"
-      # consider moving font-size to here
-      line.annotations.each do |ocr_anno|
-        # look for the beginning of an annotation highlight
-        if targets[ocr_anno.anno_id]  # TODO this might need parsing to get the GUID from a URI
-          state = :inside_target
-          current_anno = targets[ocr_anno.anno_id] # TODO see comment above
-        end
+  #   #     if state == :inside_target
+  #   #       # apply highlight attributes and link this span to the annotation
+  #   #       page_ocr_html << "#{add_highlight_attributes(current_anno, ocr_anno.text)} "
+  #   #     else
+  #   #       page_ocr_html << "#{ocr_anno.text} "
+  #   #     end
+  #   #   end
+  #   #   page_ocr_html << "\t</span>\n"
+  #   #   page_ocr_html << "</div>\n"
+  #   # end
 
-        # look for the end of an annotation highlight
-        if state == :inside_target
-          if ocr_anno.anno_id == current_anno.target_end #test whether annos are inclusive or not.
-            state = :outside_target
-            current_anno = nil
-          end
-        end
 
-        if state == :inside_target
-          # apply highlight attributes and link this span to the annotation
-          page_ocr_html << "#{add_highlight_attributes(current_anno, ocr_anno.text)} "
-        else
-          page_ocr_html << "#{ocr_anno.text} "
-        end
+  #   # page_ocr_html = "<div class=\"ocr-line ocrtext\" style=\"\" data-vhfontsize=\"2\">\n"
+  #   # page_ocr_html << words.map { |w| "\t#{w.text}\n" }.join('')
+  #   # page_ocr_html << '</div>'
 
-      end
-      page_ocr_html << "\t</span>\n"
-      page_ocr_html << "</div>\n"
-    end
-    annotation_id = "ab00ab28-8cfe-4d03-956d-fa657c5fe7be"
-    annotations = Annotation.image_comments(anno_lists_json, canvas)
-    annotations.each do |anno|
-      if anno.svg
-        annotation_id = anno.anno_id
-# If it has an SVG selector, do not create a span; instead
-# Create an SVG element (as you would create a span) with the same ID you would have used to create the span.
-# Use the same class as are used for the spans, except eliminate whatever causes the background to be highlighted yellow.
-# Hard code the style attribute as follows:
-        style = "left:0%;top:0%;width:100%;height:100%;text-align:left;"
-        view_box = "0 0 #{canvas.width} #{canvas.height}"
-# Read the width and height of the original canvas and use them to populate the viewBox attribute of the svg element with "0 0 #{width} #{height}"
-# Within the svg element, create a path element.  This can be verbatim from the svg selector, so long as the double quotes are not escaped.
-# When printing the svg element, make sure to add the data-annotation-id attribute as we would in the span.
-        svg_anno_html << "\n"
-        svg_anno_html << anno.svg.sub("<path ", "\n\t\t<path data-annotation-id=\"#{annotation_id}\" class=\"annotator-hl image-annotation-highlight\" ").sub('stroke-width="5"', 'stroke-width="0.25rem"')
-  #       "<span class=\"image-annotation-highlight\" data-annotation-id=\"#{annotation_id}\" style=\"#{style}\">
+  #   if words.any? { |w| w.style.present? }
+  #     page_ocr_html = "<style>\n#{words.map { |w| "\t#{w.style}" }.join("\n")}\n</style>\n#{page_ocr_html}"
+  #     page_ocr_html.gsub!('ocr-line', 'ocr-block')
+  #   end
+
+  #   annotation_id = "ab00ab28-8cfe-4d03-956d-fa657c5fe7be"
+  #   annotations = Annotation.image_comments(anno_lists_json, canvas)
+  #   annotations.each do |anno|
+  #     if anno.svg
+  #       annotation_id = anno.anno_id
+  #       # If it has an SVG selector, do not create a span; instead
+  #       # Create an SVG element (as you would create a span) with the same ID you would have used to create the span.
+  #       # Use the same class as are used for the spans, except eliminate whatever causes the background to be highlighted yellow.
+  #       # Hard code the style attribute as follows:
+  #       style = "left:0%;top:0%;width:100%;height:100%;text-align:left;"
+  #       view_box = "0 0 #{canvas.width} #{canvas.height}"
+  #       # Read the width and height of the original canvas and use them to populate the viewBox attribute of the svg element with "0 0 #{width} #{height}"
+  #       # Within the svg element, create a path element.  This can be verbatim from the svg selector, so long as the double quotes are not escaped.
+  #       # When printing the svg element, make sure to add the data-annotation-id attribute as we would in the span.
+  #       svg_anno_html << "\n"
+  #       svg_anno_html << anno.svg.sub("<path ", "\n\t\t<path data-annotation-id=\"#{annotation_id}\" class=\"annotator-hl image-annotation-highlight\" ").sub('stroke-width="5"', 'stroke-width="0.25rem"')
+  #     #       "<span class=\"image-annotation-highlight\" data-annotation-id=\"#{annotation_id}\" style=\"#{style}\">
+  #     # <a class=\"to-annotation\" href=\"##{annotation_id}\" name=\"hl-#{annotation_id}\" id=\"hl-#{annotation_id}\"></a>
+  #     # </span>"
+  #     else
+  #       left_pct = x_px_to_pct(anno.x_px, canvas)
+  #       top_pct = y_px_to_pct(anno.y_px, canvas)
+  #       width_pct = x_px_to_pct(anno.w_px, canvas)
+  #       height_pct = y_px_to_pct(anno.h_px, canvas)
+  #       annotation_id = anno.anno_id
+  #       style = "left:#{left_pct}%;top:#{top_pct}%;width:#{width_pct}%;height:#{height_pct}%;text-align:left;"
+
+  #       page_ocr_html << "\n\t<span class=\"annotator-hl image-annotation-highlight\" data-annotation-id=\"#{annotation_id}\" style=\"#{style}\">
   # <a class=\"to-annotation\" href=\"##{annotation_id}\" name=\"hl-#{annotation_id}\" id=\"hl-#{annotation_id}\"></a>
   # </span>"
-      else
-        left_pct = x_px_to_pct(anno.x_px, canvas)
-        top_pct = y_px_to_pct(anno.y_px, canvas)
-        width_pct = x_px_to_pct(anno.w_px, canvas)
-        height_pct = y_px_to_pct(anno.h_px, canvas)
-        annotation_id = anno.anno_id
-        style="left:#{left_pct}%;top:#{top_pct}%;width:#{width_pct}%;height:#{height_pct}%;text-align:left;"
-
-        page_ocr_html << "\n\t<span class=\"annotator-hl image-annotation-highlight\" data-annotation-id=\"#{annotation_id}\" style=\"#{style}\">
-  <a class=\"to-annotation\" href=\"##{annotation_id}\" name=\"hl-#{annotation_id}\" id=\"hl-#{annotation_id}\"></a>
-  </span>"
-      end
-    end
-    svg_anno_html << "\n</svg>"
-    page_ocr_html << svg_anno_html
-    page_ocr_html
-  end
+  #     end
+  #   end
+  #   svg_anno_html << "\n</svg>"
+  #   page_ocr_html << svg_anno_html
+  #   page_ocr_html
+  # end
 
   # Generate annotation metadata from a WebAnnotation to be used
   # in the jekyll annotation page front matter
@@ -493,7 +498,7 @@ module IiifToJekyll
       'target' => annotation.target_start,
     }
 
-    #TODO handle tags
+    # TODO handle tags
     if not annotation.tags.empty?
       front_matter['tags'] = annotation.tags
     end
@@ -511,8 +516,6 @@ module IiifToJekyll
     return front_matter
   end
 
-
-
   # Generate a jekyll collection annotation with appropriate yaml
   # metadata from a commenting annotation
   # @param annotation
@@ -529,12 +532,11 @@ module IiifToJekyll
     File.open(path, 'w') do |file|
       # write out front matter as yaml
       file.write front_matter.to_yaml
-      file.write  "\n---\n"
+      file.write "\n---\n"
       # annotation content
       file.write annotation.text
     end
   end
-
 
   def self.output_page_annotations(canvas, i, opts)
     # page text content as html with annotation highlights # TODO annotation highlights
@@ -544,15 +546,15 @@ module IiifToJekyll
     end
   end
 
-  def self.write_annotations(manifest, opts={})
+  def self.write_annotations(manifest, opts = {})
     # generate an annotation document for every commenting annotation
     puts "** Writing annotations" unless opts[:quiet]
     FileUtils.rm_rf(ANNOTATION_DIR)
     Dir.mkdir(ANNOTATION_DIR) unless File.directory?(ANNOTATION_DIR)
 
     unless manifest.sequences.empty?
-      manifest.sequences.first.canvases.each_with_index do |canvas,i|
-        output_page_annotations(canvas, i+1, opts)
+      manifest.sequences.first.canvases.each_with_index do |canvas, i|
+        output_page_annotations(canvas, i + 1, opts)
       end
     end
   end
@@ -566,7 +568,7 @@ module IiifToJekyll
   end
 
   def self.open_manifest(manifest)
-    connection = open(manifest, {ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE})
+    connection = open(manifest, { ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE })
     raw_manifest = connection.read
     json_manifest = JSON.parse(raw_manifest)
     iiif_manifest = IIIF::Service.parse(json_manifest)
@@ -585,11 +587,11 @@ module IiifToJekyll
   def self.tags_from_manifest(manifest, opts)
     tags = []
     unless manifest.sequences.empty?
-      manifest.sequences.first.canvases.each_with_index do |canvas,i|
+      manifest.sequences.first.canvases.each_with_index do |canvas, i|
         tags += tags_for_canvas(canvas, opts)
       end
     end
-    tags.delete_if{|tag| tag == []}
+    tags.delete_if { |tag| tag == [] }
     tags.uniq! || []
   end
 
@@ -601,6 +603,42 @@ module IiifToJekyll
     end
     tags
   end
+end
 
+def write_annotation_files(canvas, json)
+  if json['resources']&.any? { |anno| anno['motivation']&.include? 'painting' }
+    write_ocr_json_file(canvas, json)
+  elsif json['resources']&.any? { |anno| anno['motivation']&.include? 'commenting' }
+    write_user_annotation_json_file(canvas, json)
+  end
+end
 
+def write_ocr_json_file(canvas, json)
+  json['resources'].reject! { |resource| resource['motivation'] != 'sc:painting' }
+  ocr_dir = File.join(Dir.pwd, 'overlays', 'ocr')
+  FileUtils.makedirs(ocr_dir) unless File.exist?(ocr_dir)
+  ocr_file = File.join(ocr_dir, "#{canvas.label}.json")
+
+  if File.exist?(ocr_file)
+    ocr_json = JSON.parse(File.read(ocr_file))
+    json['resources'].concat(ocr_json['resources'])
+
+  end
+
+  File.write(ocr_file, JSON.dump(json))
+end
+
+def write_user_annotation_json_file(canvas, json)
+  json['resources'].reject! { |resource| resource['motivation'] != 'oa:commenting' }
+  user_annotation_dir = File.join(Dir.pwd, 'overlays', 'annotations')
+  FileUtils.makedirs(user_annotation_dir) unless File.exist?(user_annotation_dir)
+  user_annotation_file = File.join(user_annotation_dir, "#{canvas.label}.json")
+
+  if File.exist?(user_annotation_file)
+    user_annotation_json = JSON.parse(File.read(user_annotation_file))
+    json['resources'].concat(user_annotation_json['resources'])
+
+  end
+
+  File.write(user_annotation_file, JSON.dump(json))
 end

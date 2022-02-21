@@ -1,0 +1,187 @@
+{
+    "@context": "http://iiif.io/api/presentation/2/context.json",
+    "@id": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/list/fedora:emory:pchdn",
+    "@type": "sc:AnnotationList",
+    "resources": [
+        {
+            "@context": "http://iiif.io/api/presentation/2/context.json",
+            "@id": "8f7d37a4-2089-4e15-ba70-eca2aea880ce",
+            "@type": "oa:Annotation",
+            "motivation": "sc:painting",
+            "annotatedBy": {
+                "name": "OCR"
+            },
+            "resource": {
+                "@type": "cnt:ContentAsText",
+                "format": "text/html",
+                "chars": "<span id='8f7d37a4-2089-4e15-ba70-eca2aea880ce' style='height: 29px; width: 814px; font-size: 18.125px; letter-spacing: 5.7375px' data-letter-spacing='0.007048525798525798'>Entered according to Act of Congress, in the year 1842,</span>",
+                "language": "en"
+            },
+            "on": {
+                "full": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/canvas/fedora:emory:pchdn",
+                "@type": "oa:SpecificResource",
+                "within": {
+                    "@id": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/manifest",
+                    "@type": "sc:Manifest"
+                },
+                "selector": {
+                    "@type": "oa:FragmentSelector",
+                    "value": "xywh=286,775,814,29",
+                    "item": {
+                        "@type": "oa:FragmentSelector"
+                    }
+                }
+            }
+        },
+        {
+            "@context": "http://iiif.io/api/presentation/2/context.json",
+            "@id": "d1c655b3-ac9a-498a-ab23-884f52297646",
+            "@type": "oa:Annotation",
+            "motivation": "sc:painting",
+            "annotatedBy": {
+                "name": "OCR"
+            },
+            "resource": {
+                "@type": "cnt:ContentAsText",
+                "format": "text/html",
+                "chars": "<span id='d1c655b3-ac9a-498a-ab23-884f52297646' style='height: 28px; width: 843px; font-size: 17.5px; letter-spacing: 6.0394736842105265px' data-letter-spacing='0.0071642629705937445'>by Herman Cope, Treasurer, in trust tor the American Sun\u00ac</span>",
+                "language": "en"
+            },
+            "on": {
+                "full": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/canvas/fedora:emory:pchdn",
+                "@type": "oa:SpecificResource",
+                "within": {
+                    "@id": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/manifest",
+                    "@type": "sc:Manifest"
+                },
+                "selector": {
+                    "@type": "oa:FragmentSelector",
+                    "value": "xywh=257,825,843,28",
+                    "item": {
+                        "@type": "oa:FragmentSelector"
+                    }
+                }
+            }
+        },
+        {
+            "@context": "http://iiif.io/api/presentation/2/context.json",
+            "@id": "e20cf769-ba22-420d-b98f-4f4779855ef3",
+            "@type": "oa:Annotation",
+            "motivation": "sc:painting",
+            "annotatedBy": {
+                "name": "OCR"
+            },
+            "resource": {
+                "@type": "cnt:ContentAsText",
+                "format": "text/html",
+                "chars": "<span id='e20cf769-ba22-420d-b98f-4f4779855ef3' style='height: 28px; width: 844px; font-size: 17.5px; letter-spacing: 5.086065573770492px' data-letter-spacing='0.006026144044751768'>day-school Union, in the Clerk's Oifice of the District Court</span>",
+                "language": "en"
+            },
+            "on": {
+                "full": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/canvas/fedora:emory:pchdn",
+                "@type": "oa:SpecificResource",
+                "within": {
+                    "@id": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/manifest",
+                    "@type": "sc:Manifest"
+                },
+                "selector": {
+                    "@type": "oa:FragmentSelector",
+                    "value": "xywh=256,875,844,28",
+                    "item": {
+                        "@type": "oa:FragmentSelector"
+                    }
+                }
+            }
+        },
+        {
+            "@context": "http://iiif.io/api/presentation/2/context.json",
+            "@id": "0f127d57-8457-45ea-b98b-9e31b8877f80",
+            "@type": "oa:Annotation",
+            "motivation": "sc:painting",
+            "annotatedBy": {
+                "name": "OCR"
+            },
+            "resource": {
+                "@type": "cnt:ContentAsText",
+                "format": "text/html",
+                "chars": "<span id='0f127d57-8457-45ea-b98b-9e31b8877f80' style='height: 30px; width: 557px; font-size: 18.75px; letter-spacing: 4.55px' data-letter-spacing='0.008168761220825852'>of the Eastern District of Pennsylvania.</span>",
+                "language": "en"
+            },
+            "on": {
+                "full": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/canvas/fedora:emory:pchdn",
+                "@type": "oa:SpecificResource",
+                "within": {
+                    "@id": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/manifest",
+                    "@type": "sc:Manifest"
+                },
+                "selector": {
+                    "@type": "oa:FragmentSelector",
+                    "value": "xywh=257,924,557,30",
+                    "item": {
+                        "@type": "oa:FragmentSelector"
+                    }
+                }
+            }
+        },
+        {
+            "@context": "http://iiif.io/api/presentation/2/context.json",
+            "@id": "b2ff77da-9d9b-40a4-85ba-ee48162d40e9",
+            "@type": "oa:Annotation",
+            "motivation": "sc:painting",
+            "annotatedBy": {
+                "name": "OCR"
+            },
+            "resource": {
+                "@type": "cnt:ContentAsText",
+                "format": "text/html",
+                "chars": "<span id='b2ff77da-9d9b-40a4-85ba-ee48162d40e9' style='height: 24px; width: 360px; font-size: 15.0px; letter-spacing: 9.642857142857142px' data-letter-spacing='0.026785714285714284'>JOHNSON, STEREOTYFEK,</span>",
+                "language": "en"
+            },
+            "on": {
+                "full": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/canvas/fedora:emory:pchdn",
+                "@type": "oa:SpecificResource",
+                "within": {
+                    "@id": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/manifest",
+                    "@type": "sc:Manifest"
+                },
+                "selector": {
+                    "@type": "oa:FragmentSelector",
+                    "value": "xywh=301,1580,360,24",
+                    "item": {
+                        "@type": "oa:FragmentSelector"
+                    }
+                }
+            }
+        },
+        {
+            "@context": "http://iiif.io/api/presentation/2/context.json",
+            "@id": "2f67f9e5-3367-487c-853c-c30e9854a8a3",
+            "@type": "oa:Annotation",
+            "motivation": "sc:painting",
+            "annotatedBy": {
+                "name": "OCR"
+            },
+            "resource": {
+                "@type": "cnt:ContentAsText",
+                "format": "text/html",
+                "chars": "<span id='2f67f9e5-3367-487c-853c-c30e9854a8a3' style='height: 19px; width: 219px; font-size: 11.875px; letter-spacing: 8.6625px' data-letter-spacing='0.03955479452054794'>PHILAJlF.LPHIA.</span>",
+                "language": "en"
+            },
+            "on": {
+                "full": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/canvas/fedora:emory:pchdn",
+                "@type": "oa:SpecificResource",
+                "within": {
+                    "@id": "https://readux.ecdsdev.org/iiif/v2/emory:b5h9g/manifest",
+                    "@type": "sc:Manifest"
+                },
+                "selector": {
+                    "@type": "oa:FragmentSelector",
+                    "value": "xywh=350,1613,219,19",
+                    "item": {
+                        "@type": "oa:FragmentSelector"
+                    }
+                }
+            }
+        }
+    ]
+}

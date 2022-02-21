@@ -1,0 +1,132 @@
+{
+  "@context": "http://iiif.io/api/presentation/2/context.json",
+  "@id": "https://readux.ecdsdev.org/iiif/v2/2qqnt6zf/manifest",
+  "@type": "sc:Manifest",
+  "label": "Roma ricercata nel suo sito",
+  "metadata": [{
+    "label": "Author",
+    "value": "Martinelli, Fioravante, active 17th century. "
+  }, {
+    "label": "Publisher",
+    "value": "Presso Michel'Angelo Barbiellini al Palazzo Massimi "
+  }, {
+    "label": "Place of Publication",
+    "value": "Roma"
+  }, {
+    "label": "Publication Date",
+    "value": "1769"
+  }, {
+    "label": "Notes",
+    "value": null
+  }, {
+    "label": "Record Created",
+    "value": "2021-11-04T22:24:39.066Z"
+  }, {
+    "label": "Edition Type",
+    "value": "Readux IIIF Exported Edition"
+  }, {
+    "label": "About Readux",
+    "value": "https://readux.ecdsdev.org/about/"
+  }, {
+    "label": "Annotators",
+    "value": ""
+  }, {
+    "label": "Export Date",
+    "value": "2022-01-10T15:34:45.174"
+  }],
+  "description": "Roma ricercata nel suo sito: con tutte le curiosit\u00e0, che in esso si ritrovano tanto antiche, come moderne, cioe' chiese, monasterj, ospidali, collegj, seminarj, tempj, teatri, anfiteatri, naumachie, cerchi, fori, curie, palazzi, statue, librarie, musei, pitture, e sculture, ed i nomi degli artefici. The online edition of this book in the public domain, i.e., not protected by copyright, has been produced by Emory University Libraries. Includes index.",
+  "related": ["https://readux.ecdsdev.org/volume/2qqnt6zf/page/all"],
+  "within": ["https://readux.ecdsdev.org/collection/views-of-rome"],
+  "thumbnail": {
+    "@id": "https://images.readux.ecds.emory.edu:8443/cantaloupe/iiif/2/2qqnt6zf_00000001.jpg/full/600,/0/default.jpg",
+    "service": {
+      "@context": "http://iiif.io/api/image/2/context.json",
+      "@id": "https://images.readux.ecds.emory.edu:8443/cantaloupe/iiif/2/2qqnt6zf_00000001.jpg",
+      "profile": "http://iiif.io/api/image/2/level1.json"
+    }
+  },
+  "attribution": "Emory University Libraries",
+  "logo": "https://readux.ecdsdev.org/media/logos/lits-logo-web.png",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "viewingDirection": "left-to-right",
+  "viewingHint": "paged",
+  "sequences": [{
+    "@id": "https://readux.ecdsdev.org/iiif/v2/2qqnt6zf/sequence/normal",
+    "@type": "sc:Sequence",
+    "label": "Current Page Order",
+    "startCanvas": "https://readux.ecdsdev.org/iiif/2qqnt6zf/canvas/2qqnt6zf_00000001.jpg",
+    "canvases": [{
+      "@context": "http://iiif.io/api/presentation/2/context.json",
+      "@id": "https://readux.ecdsdev.org/iiif/2qqnt6zf/canvas/2qqnt6zf_00000001.jpg",
+      "@type": "sc:Canvas",
+      "label": "1",
+      "height": 3600,
+      "width": 2531,
+      "images": [{
+        "@context": "http://iiif.io/api/presentation/2/context.json",
+        "@id": "https://readux.ecdsdev.org/iiif/2qqnt6zf/annotation/2qqnt6zf_00000001.jpg",
+        "@type": "oa:Annotation",
+        "motivation": "sc:painting",
+        "resource": {
+          "@id": "https://images.readux.ecds.emory.edu:8443/cantaloupe/iiif/2/2qqnt6zf_00000001.jpg/full/full/0/default.jpg",
+          "@type": "dctypes:Image",
+          "format": "image/jpeg",
+          "height": 3600,
+          "width": 2531,
+          "service": {
+            "@context": "https://iiif.io/api/image/2/context.json",
+            "@id": "https://images.readux.ecds.emory.edu:8443/cantaloupe/iiif/2/2qqnt6zf_00000001.jpg",
+            "profile": "https://iiif.io/api/image/2/level2.json"
+          }
+        },
+        "on": "https://readux.ecdsdev.org/iiif/2qqnt6zf/canvas/2qqnt6zf_00000001.jpg"
+      }],
+      "thumbnail": {
+        "@id": "https://images.readux.ecds.emory.edu:8443/cantaloupe/iiif/2/2qqnt6zf_00000001.jpg/full/200,/0/default.jpg",
+        "height": 250,
+        "width": 200
+      },
+      "otherContent": [{
+        "@id": "https://readux.ecdsdev.org/iiif/v2/2qqnt6zf/list/2qqnt6zf_00000001.jpg",
+        "@type": "sc:AnnotationList",
+        "label": "OCR Text"
+      }]
+    }, {
+      "@context": "http://iiif.io/api/presentation/2/context.json",
+      "@id": "https://readux.ecdsdev.org/iiif/2qqnt6zf/canvas/2qqnt6zf_00000002.jpg",
+      "@type": "sc:Canvas",
+      "label": "2",
+      "height": 3600,
+      "width": 2545,
+      "images": [{
+        "@context": "http://iiif.io/api/presentation/2/context.json",
+        "@id": "https://readux.ecdsdev.org/iiif/2qqnt6zf/annotation/2qqnt6zf_00000002.jpg",
+        "@type": "oa:Annotation",
+        "motivation": "sc:painting",
+        "resource": {
+          "@id": "https://images.readux.ecds.emory.edu:8443/cantaloupe/iiif/2/2qqnt6zf_00000002.jpg/full/full/0/default.jpg",
+          "@type": "dctypes:Image",
+          "format": "image/jpeg",
+          "height": 3600,
+          "width": 2545,
+          "service": {
+            "@context": "https://iiif.io/api/image/2/context.json",
+            "@id": "https://images.readux.ecds.emory.edu:8443/cantaloupe/iiif/2/2qqnt6zf_00000002.jpg",
+            "profile": "https://iiif.io/api/image/2/level2.json"
+          }
+        },
+        "on": "https://readux.ecdsdev.org/iiif/2qqnt6zf/canvas/2qqnt6zf_00000002.jpg"
+      }],
+      "thumbnail": {
+        "@id": "https://images.readux.ecds.emory.edu:8443/cantaloupe/iiif/2/2qqnt6zf_00000002.jpg/full/200,/0/default.jpg",
+        "height": 250,
+        "width": 200
+      },
+      "otherContent": [{
+        "@id": "https://readux.ecdsdev.org/iiif/v2/2qqnt6zf/list/2qqnt6zf_00000002.jpg",
+        "@type": "sc:AnnotationList",
+        "label": "OCR Text"
+      }]
+    }]
+  }]
+}

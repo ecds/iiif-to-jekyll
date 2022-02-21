@@ -1,0 +1,6 @@
+{
+  "@context": "http://iiif.io/api/presentation/2/context.json",
+  "@id": "https://readux.ecdsdev.org/iiif/v2/2qqnt6zf/list/2qqnt6zf_00000001.jpg",
+  "@type": "sc:AnnotationList",
+  "resources": []
+}

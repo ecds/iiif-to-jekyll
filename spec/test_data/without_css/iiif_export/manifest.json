@@ -1,0 +1,208 @@
+{
+    "@context": "http://iiif.io/api/presentation/2/context.json",
+    "@id": "https://readux.io/iiif/v2/09359080.4757.emory.edu/manifest",
+    "@type": "sc:Manifest",
+    "label": "Address by Hon. Frederick Douglass, delivered in the Metropolitan A.M.E. Church, Washington",
+    "metadata": [
+        {
+            "label": "Author",
+            "value": "Douglass, Frederick, 1818-1895.; Metropolitan A.M.E. Church (Washington, D.C.)"
+        },
+        {
+            "label": "Publisher",
+            "value": "1894"
+        },
+        {
+            "label": "Place of Publication",
+            "value": "Baltimore"
+        },
+        {
+            "label": "Publication Date",
+            "value": "Press of Thomas & Evans"
+        },
+        {
+            "label": "Notes",
+            "value": [
+                {}
+            ]
+        },
+        {
+            "label": "Record Created",
+            "value": "2019-10-30T14:13:02.928Z"
+        },
+        {
+            "label": "Edition Type",
+            "value": "Readux IIIF Exported Edition"
+        },
+        {
+            "label": "About Readux",
+            "value": "https://readux.ecdsdev.org/about/"
+        },
+        {
+            "label": "Annotators",
+            "value": "Jay Varner"
+        },
+        {
+            "label": "Export Date",
+            "value": "2021-11-30T02:29:09.850"
+        }
+    ],
+    "description": "Electronic reproduction.\r\n    digitized\r\n    The online edition of this book in the public domain, i.e., not protected by copyright, has been produced by the Emory University Digital library Publications Program.\r\n    Manuscript, Archives, and Rare Book Library copy from the library of William H. Scott.",
+    "related": [
+        "https://readux.io/volume/09359080.4757.emory.edu/page/all"
+    ],
+    "within": [
+        "https://readux.io/collection/african-american-literature"
+    ],
+    "thumbnail": {
+        "@id": "https://iiif.archivelab.org/iiif//None/full/600,/0/default.jpg",
+        "service": {
+            "@context": "http://iiif.io/api/image/2/context.json",
+            "@id": "https://iiif.archivelab.org/iiif//None",
+            "profile": "http://iiif.io/api/image/2/level1.json"
+        }
+    },
+    "attribution": "Emory University Libraries",
+    "logo": "https://readux.io/media/logos/lits-logo-web.png",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "viewingDirection": "left-to-right",
+    "viewingHint": "paged",
+    "sequences": [
+        {
+            "@id": "https://readux.io/iiif/v2/09359080.4757.emory.edu/sequence/normal",
+            "@type": "sc:Sequence",
+            "label": "Current Page Order",
+            "startCanvas": "https://readux.io/iiif/09359080.4757.emory.edu/canvas/09359080.4757.emory.edu$1",
+            "canvases": [
+                {
+                    "@context": "http://iiif.io/api/presentation/2/context.json",
+                    "@id": "https://readux.io/iiif/09359080.4757.emory.edu/canvas/09359080.4757.emory.edu$1",
+                    "@type": "sc:Canvas",
+                    "label": "2",
+                    "height": 2908,
+                    "width": 2039,
+                    "images": [
+                        {
+                            "@context": "http://iiif.io/api/presentation/2/context.json",
+                            "@id": "https://readux.io/iiif/09359080.4757.emory.edu/annotation/09359080.4757.emory.edu$1",
+                            "@type": "oa:Annotation",
+                            "motivation": "sc:painting",
+                            "resource": {
+                                "@id": "https://iiif.archivelab.org/iiif//09359080.4757.emory.edu$1/full/full/0/default.jpg",
+                                "@type": "dctypes:Image",
+                                "format": "image/jpeg",
+                                "height": 2908,
+                                "width": 2039,
+                                "service": {
+                                    "@context": "https://iiif.io/api/image/2/context.json",
+                                    "@id": "https://iiif.archivelab.org/iiif//09359080.4757.emory.edu$1",
+                                    "profile": "https://iiif.io/api/image/2/level2.json"
+                                }
+                            },
+                            "on": "https://readux.io/iiif/09359080.4757.emory.edu/canvas/09359080.4757.emory.edu$1"
+                        }
+                    ],
+                    "thumbnail": {
+                        "@id": "https://iiif.archivelab.org/iiif//09359080.4757.emory.edu$1/full/200,/0/default.jpg",
+                        "height": 250,
+                        "width": 200
+                    },
+                    "otherContent": [
+                        {
+                            "@id": "https://readux.io/iiif/v2/09359080.4757.emory.edu/list/09359080.4757.emory.edu$1",
+                            "@type": "sc:AnnotationList",
+                            "label": "OCR Text"
+                        },
+                        {
+                            "label": "Annotations by jay",
+                            "@type": "sc:AnnotationList",
+                            "@id": "https://readux.io/annotations/jay/09359080.4757.emory.edu/list/09359080.4757.emory.edu$1"
+                        }
+                    ]
+                },
+                {
+                    "@context": "http://iiif.io/api/presentation/2/context.json",
+                    "@id": "https://readux.io/iiif/09359080.4757.emory.edu/canvas/09359080.4757.emory.edu$2",
+                    "@type": "sc:Canvas",
+                    "label": "3",
+                    "height": 2908,
+                    "width": 2039,
+                    "images": [
+                        {
+                            "@context": "http://iiif.io/api/presentation/2/context.json",
+                            "@id": "https://readux.io/iiif/09359080.4757.emory.edu/annotation/09359080.4757.emory.edu$2",
+                            "@type": "oa:Annotation",
+                            "motivation": "sc:painting",
+                            "resource": {
+                                "@id": "https://iiif.archivelab.org/iiif//09359080.4757.emory.edu$2/full/full/0/default.jpg",
+                                "@type": "dctypes:Image",
+                                "format": "image/jpeg",
+                                "height": 2908,
+                                "width": 2039,
+                                "service": {
+                                    "@context": "https://iiif.io/api/image/2/context.json",
+                                    "@id": "https://iiif.archivelab.org/iiif//09359080.4757.emory.edu$2",
+                                    "profile": "https://iiif.io/api/image/2/level2.json"
+                                }
+                            },
+                            "on": "https://readux.io/iiif/09359080.4757.emory.edu/canvas/09359080.4757.emory.edu$2"
+                        }
+                    ],
+                    "thumbnail": {
+                        "@id": "https://iiif.archivelab.org/iiif//09359080.4757.emory.edu$2/full/200,/0/default.jpg",
+                        "height": 250,
+                        "width": 200
+                    },
+                    "otherContent": [
+                        {
+                            "@id": "https://readux.io/iiif/v2/09359080.4757.emory.edu/list/09359080.4757.emory.edu$2",
+                            "@type": "sc:AnnotationList",
+                            "label": "OCR Text"
+                        }
+                    ]
+                },
+                {
+                    "@context": "http://iiif.io/api/presentation/2/context.json",
+                    "@id": "https://readux.io/iiif/09359080.4757.emory.edu/canvas/09359080.4757.emory.edu$3",
+                    "@type": "sc:Canvas",
+                    "label": "4",
+                    "height": 2909,
+                    "width": 2040,
+                    "images": [
+                        {
+                            "@context": "http://iiif.io/api/presentation/2/context.json",
+                            "@id": "https://readux.io/iiif/09359080.4757.emory.edu/annotation/09359080.4757.emory.edu$3",
+                            "@type": "oa:Annotation",
+                            "motivation": "sc:painting",
+                            "resource": {
+                                "@id": "https://iiif.archivelab.org/iiif//09359080.4757.emory.edu$3/full/full/0/default.jpg",
+                                "@type": "dctypes:Image",
+                                "format": "image/jpeg",
+                                "height": 2909,
+                                "width": 2040,
+                                "service": {
+                                    "@context": "https://iiif.io/api/image/2/context.json",
+                                    "@id": "https://iiif.archivelab.org/iiif//09359080.4757.emory.edu$3",
+                                    "profile": "https://iiif.io/api/image/2/level2.json"
+                                }
+                            },
+                            "on": "https://readux.io/iiif/09359080.4757.emory.edu/canvas/09359080.4757.emory.edu$3"
+                        }
+                    ],
+                    "thumbnail": {
+                        "@id": "https://iiif.archivelab.org/iiif//09359080.4757.emory.edu$3/full/200,/0/default.jpg",
+                        "height": 250,
+                        "width": 200
+                    },
+                    "otherContent": [
+                        {
+                            "@id": "https://readux.io/iiif/v2/09359080.4757.emory.edu/list/09359080.4757.emory.edu$3",
+                            "@type": "sc:AnnotationList",
+                            "label": "OCR Text"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

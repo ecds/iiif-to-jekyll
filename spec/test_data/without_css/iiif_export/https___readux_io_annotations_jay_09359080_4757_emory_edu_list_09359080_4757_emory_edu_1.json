@@ -1,0 +1,42 @@
+{
+    "@context": "http://iiif.io/api/presentation/2/context.json",
+    "@id": "https://readux.io/annotations/jay/09359080.4757.emory.edu/list/09359080.4757.emory.edu$1",
+    "@type": "sc:AnnotationList",
+    "resources": [
+        {
+            "@context": "http://iiif.io/api/presentation/2/context.json",
+            "@id": "d4556752-fd77-4972-9c5d-4d7c94f313a3",
+            "@type": "oa:Annotation",
+            "motivation": "oa:commenting",
+            "annotatedBy": {
+                "name": "Jay Varner"
+            },
+            "resource": {
+                "@type": "dctypes:Text",
+                "format": "text/html",
+                "chars": "<p>fdbgfdf</p>",
+                "language": "en"
+            },
+            "on": {
+                "full": "https://readux.io/iiif/v2/09359080.4757.emory.edu/canvas/09359080.4757.emory.edu$1",
+                "@type": "oa:SpecificResource",
+                "within": {
+                    "@id": "https://readux.io/iiif/v2/09359080.4757.emory.edu/manifest",
+                    "@type": "sc:Manifest"
+                },
+                "selector": {
+                    "@type": "oa:FragmentSelector",
+                    "value": "xywh=433,877,958,742",
+                    "item": {
+                        "@type": "oa:Choice",
+                        "value": "<svg xmlns='http://www.w3.org/2000/svg'><path xmlns=\"http://www.w3.org/2000/svg\" d=\"M432.9707,876.79121h479.00916v0h479.00916v371.15751v371.15751h-479.00916h-479.00916v-371.15751z\" data-paper-data=\"{&quot;strokeWidth&quot;:1,&quot;rotation&quot;:0,&quot;deleteIcon&quot;:null,&quot;rotationIcon&quot;:null,&quot;group&quot;:null,&quot;newlyCreatedStrokeFactor&quot;:5,&quot;newlyCreated&quot;:true,&quot;editable&quot;:true,&quot;annotation&quot;:null}\" id=\"rectangle_36529340-3d1d-4848-87eb-273f0ddb83f3\" fill-opacity=\"0\" fill=\"#00bfff\" fill-rule=\"nonzero\" stroke=\"#00bfff\" stroke-width=\"5\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"10\" stroke-dasharray=\"\" stroke-dashoffset=\"0\" font-family=\"none\" font-weight=\"none\" font-size=\"none\" text-anchor=\"none\" style=\"mix-blend-mode: normal\"/></svg>",
+                        "default": {
+                            "@type": "oa:FragmentSelector",
+                            "value": "xywh=433,877,958,742"
+                        }
+                    }
+                }
+            }
+        }
+    ]
+}

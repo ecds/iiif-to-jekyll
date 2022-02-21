@@ -1,0 +1,369 @@
+{
+  "@context": "http://iiif.io/api/presentation/2/context.json",
+  "@id": "https://readux.ecdsdev.org/iiif/v2/2qqnt6zf/list/2qqnt6zf_00000002.jpg",
+  "@type": "sc:AnnotationList",
+  "resources": [{
+    "@context": "http://iiif.io/api/presentation/2/context.json",
+    "@id": "47271ac7-54e3-4e8c-868d-3b958d5e5e8b",
+    "@type": "oa:Annotation",
+    "motivation": "sc:painting",
+    "annotatedBy": {
+      "name": "OCR"
+    },
+    "resource": {
+      "@type": "cnt:ContentAsText",
+      "format": "text/html",
+      "chars": "<span id='47271ac7-54e3-4e8c-868d-3b958d5e5e8b' class='anno-47271ac7-54e3-4e8c-868d-3b958d5e5e8b' data-letter-spacing='0.07386363636363637'>ROBERT</span>",
+      "language": "en"
+    },
+    "on": {
+      "full": "https://readux.ecdsdev.org/iiif/v2/2qqnt6zf/canvas/2qqnt6zf_00000002.jpg",
+      "@type": "oa:SpecificResource",
+      "within": {
+        "@id": "https://readux.ecdsdev.org/iiif/v2/2qqnt6zf/manifest",
+        "@type": "sc:Manifest"
+      },
+      "selector": {
+        "@type": "oa:FragmentSelector",
+        "value": "xywh=945,1458,330,98",
+        "item": {
+          "@type": "oa:FragmentSelector"
+        }
+      }
+    },
+    "stylesheet": {
+      "type": "CssStylesheet",
+      "value": ".anno-47271ac7-54e3-4e8c-868d-3b958d5e5e8b { left: 37.131630648%; top: 40.5%; height: 2.722222222%; width: 12.966601179%; font-size: 2.722222222em; letter-spacing: 0.07386363636363637vw; position: absolute;}"
+    }
+  }, {
+    "@context": "http://iiif.io/api/presentation/2/context.json",
+    "@id": "def88b4b-0b80-4084-b8c9-d39dcfe62994",
+    "@type": "oa:Annotation",
+    "motivation": "sc:painting",
+    "annotatedBy": {
+      "name": "OCR"
+    },
+    "resource": {
+      "@type": "cnt:ContentAsText",
+      "format": "text/html",
+      "chars": "<span id='def88b4b-0b80-4084-b8c9-d39dcfe62994' class='anno-def88b4b-0b80-4084-b8c9-d39dcfe62994' data-letter-spacing='0.2833029197080292'>W.</span>",
+      "language": "en"
+    },
+    "on": {
+      "full": "https://readux.ecdsdev.org/iiif/v2/2qqnt6zf/canvas/2qqnt6zf_00000002.jpg",
+      "@type": "oa:SpecificResource",
+      "within": {
+        "@id": "https://readux.ecdsdev.org/iiif/v2/2qqnt6zf/manifest",
+        "@type": "sc:Manifest"
+      },
+      "selector": {
+        "@type": "oa:FragmentSelector",
+        "value": "xywh=1298,1463,137,95",
+        "item": {
+          "@type": "oa:FragmentSelector"
+        }
+      }
+    },
+    "stylesheet": {
+      "type": "CssStylesheet",
+      "value": ".anno-def88b4b-0b80-4084-b8c9-d39dcfe62994 { left: 51.001964637%; top: 40.638888889%; height: 2.638888889%; width: 5.383104126%; font-size: 2.638888889em; letter-spacing: 0.2833029197080292vw; position: absolute;}"
+    }
+  }, {
+    "@context": "http://iiif.io/api/presentation/2/context.json",
+    "@id": "a4c2e4e9-3f1b-4bee-94f1-5abaf8a2972c",
+    "@type": "oa:Annotation",
+    "motivation": "sc:painting",
+    "annotatedBy": {
+      "name": "OCR"
+    },
+    "resource": {
+      "@type": "cnt:ContentAsText",
+      "format": "text/html",
+      "chars": "<span id='a4c2e4e9-3f1b-4bee-94f1-5abaf8a2972c' class='anno-a4c2e4e9-3f1b-4bee-94f1-5abaf8a2972c' data-letter-spacing='0.058855291576673865'>WOODRUFF</span>",
+      "language": "en"
+    },
+    "on": {
+      "full": "https://readux.ecdsdev.org/iiif/v2/2qqnt6zf/canvas/2qqnt6zf_00000002.jpg",
+      "@type": "oa:SpecificResource",
+      "within": {
+        "@id": "https://readux.ecdsdev.org/iiif/v2/2qqnt6zf/manifest",
+        "@type": "sc:Manifest"
+      },
+      "selector": {
+        "@type": "oa:FragmentSelector",
+        "value": "xywh=1426,1465,463,98",
+        "item": {
+          "@type": "oa:FragmentSelector"
+        }
+      }
+    },
+    "stylesheet": {
+      "type": "CssStylesheet",
+      "value": ".anno-a4c2e4e9-3f1b-4bee-94f1-5abaf8a2972c { left: 56.031434185%; top: 40.694444444%; height: 2.722222222%; width: 18.192534381%; font-size: 2.722222222em; letter-spacing: 0.058855291576673865vw; position: absolute;}"
+    }
+  }, {
+    "@context": "http://iiif.io/api/presentation/2/context.json",
+    "@id": "88ed449e-7c79-4498-86c2-f0e0f91fd061",
+    "@type": "oa:Annotation",
+    "motivation": "sc:painting",
+    "annotatedBy": {
+      "name": "OCR"
+    },
+    "resource": {
+      "@type": "cnt:ContentAsText",
+      "format": "text/html",
+      "chars": "<span id='88ed449e-7c79-4498-86c2-f0e0f91fd061' class='anno-88ed449e-7c79-4498-86c2-f0e0f91fd061' data-letter-spacing='0.055883032824780396'>LIBRARY</span>",
+      "language": "en"
+    },
+    "on": {
+      "full": "https://readux.ecdsdev.org/iiif/v2/2qqnt6zf/canvas/2qqnt6zf_00000002.jpg",
+      "@type": "oa:SpecificResource",
+      "within": {
+        "@id": "https://readux.ecdsdev.org/iiif/v2/2qqnt6zf/manifest",
+        "@type": "sc:Manifest"
+      },
+      "selector": {
+        "@type": "oa:FragmentSelector",
+        "value": "xywh=1264,1581,309,86",
+        "item": {
+          "@type": "oa:FragmentSelector"
+        }
+      }
+    },
+    "stylesheet": {
+      "type": "CssStylesheet",
+      "value": ".anno-88ed449e-7c79-4498-86c2-f0e0f91fd061 { left: 49.666011788%; top: 43.916666667%; height: 2.388888889%; width: 12.141453831%; font-size: 2.388888889em; letter-spacing: 0.055883032824780396vw; position: absolute;}"
+    }
+  }, {
+    "@context": "http://iiif.io/api/presentation/2/context.json",
+    "@id": "cfae9fd6-13a8-4ea8-8376-0337c83477ca",
+    "@type": "oa:Annotation",
+    "motivation": "sc:painting",
+    "annotatedBy": {
+      "name": "OCR"
+    },
+    "resource": {
+      "@type": "cnt:ContentAsText",
+      "format": "text/html",
+      "chars": "<span id='cfae9fd6-13a8-4ea8-8376-0337c83477ca' class='anno-cfae9fd6-13a8-4ea8-8376-0337c83477ca' data-letter-spacing='0.029891304347826088'>www</span>",
+      "language": "en"
+    },
+    "on": {
+      "full": "https://readux.ecdsdev.org/iiif/v2/2qqnt6zf/canvas/2qqnt6zf_00000002.jpg",
+      "@type": "oa:SpecificResource",
+      "within": {
+        "@id": "https://readux.ecdsdev.org/iiif/v2/2qqnt6zf/manifest",
+        "@type": "sc:Manifest"
+      },
+      "selector": {
+        "@type": "oa:FragmentSelector",
+        "value": "xywh=1193,1906,138,134",
+        "item": {
+          "@type": "oa:FragmentSelector"
+        }
+      }
+    },
+    "stylesheet": {
+      "type": "CssStylesheet",
+      "value": ".anno-cfae9fd6-13a8-4ea8-8376-0337c83477ca { left: 46.876227898%; top: 52.944444444%; height: 3.722222222%; width: 138px; font-size: 3.722222222em; letter-spacing: 0.029891304347826088vw; position: absolute;}"
+    }
+  }, {
+    "@context": "http://iiif.io/api/presentation/2/context.json",
+    "@id": "3f616e08-d02a-4fdd-b90d-2674839a19a8",
+    "@type": "oa:Annotation",
+    "motivation": "sc:painting",
+    "annotatedBy": {
+      "name": "OCR"
+    },
+    "resource": {
+      "@type": "cnt:ContentAsText",
+      "format": "text/html",
+      "chars": "<span id='3f616e08-d02a-4fdd-b90d-2674839a19a8' class='anno-3f616e08-d02a-4fdd-b90d-2674839a19a8' data-letter-spacing='0.11864355231143553'>EMORY</span>",
+      "language": "en"
+    },
+    "on": {
+      "full": "https://readux.ecdsdev.org/iiif/v2/2qqnt6zf/canvas/2qqnt6zf_00000002.jpg",
+      "@type": "oa:SpecificResource",
+      "within": {
+        "@id": "https://readux.ecdsdev.org/iiif/v2/2qqnt6zf/manifest",
+        "@type": "sc:Manifest"
+      },
+      "selector": {
+        "@type": "oa:FragmentSelector",
+        "value": "xywh=858,2884,411,107",
+        "item": {
+          "@type": "oa:FragmentSelector"
+        }
+      }
+    },
+    "stylesheet": {
+      "type": "CssStylesheet",
+      "value": ".anno-3f616e08-d02a-4fdd-b90d-2674839a19a8 { left: 33.713163065%; top: 80.111111111%; height: 2.972222222%; width: 16.149312377%; font-size: 2.972222222em; letter-spacing: 0.11864355231143553vw; position: absolute;}"
+    }
+  }, {
+    "@context": "http://iiif.io/api/presentation/2/context.json",
+    "@id": "bf5e22ce-fcd5-4436-aeb7-889332aac34c",
+    "@type": "oa:Annotation",
+    "motivation": "sc:painting",
+    "annotatedBy": {
+      "name": "OCR"
+    },
+    "resource": {
+      "@type": "cnt:ContentAsText",
+      "format": "text/html",
+      "chars": "<span id='bf5e22ce-fcd5-4436-aeb7-889332aac34c' class='anno-bf5e22ce-fcd5-4436-aeb7-889332aac34c' data-letter-spacing='0.052368233618233624'>UNIVERSITY</span>",
+      "language": "en"
+    },
+    "on": {
+      "full": "https://readux.ecdsdev.org/iiif/v2/2qqnt6zf/canvas/2qqnt6zf_00000002.jpg",
+      "@type": "oa:SpecificResource",
+      "within": {
+        "@id": "https://readux.ecdsdev.org/iiif/v2/2qqnt6zf/manifest",
+        "@type": "sc:Manifest"
+      },
+      "selector": {
+        "@type": "oa:FragmentSelector",
+        "value": "xywh=1282,2884,702,107",
+        "item": {
+          "@type": "oa:FragmentSelector"
+        }
+      }
+    },
+    "stylesheet": {
+      "type": "CssStylesheet",
+      "value": ".anno-bf5e22ce-fcd5-4436-aeb7-889332aac34c { left: 50.373280943%; top: 80.111111111%; height: 2.972222222%; width: 27.583497053%; font-size: 2.972222222em; letter-spacing: 0.052368233618233624vw; position: absolute;}"
+    }
+  }, {
+    "@context": "http://iiif.io/api/presentation/2/context.json",
+    "@id": "48ddc28a-2249-4ef2-be2b-6665b2bfbd01",
+    "@type": "oa:Annotation",
+    "motivation": "sc:painting",
+    "annotatedBy": {
+      "name": "OCR"
+    },
+    "resource": {
+      "@type": "cnt:ContentAsText",
+      "format": "text/html",
+      "chars": "<span id='48ddc28a-2249-4ef2-be2b-6665b2bfbd01' class='anno-48ddc28a-2249-4ef2-be2b-6665b2bfbd01' data-letter-spacing='0.03248480243161094'>Special</span>",
+      "language": "en"
+    },
+    "on": {
+      "full": "https://readux.ecdsdev.org/iiif/v2/2qqnt6zf/canvas/2qqnt6zf_00000002.jpg",
+      "@type": "oa:SpecificResource",
+      "within": {
+        "@id": "https://readux.ecdsdev.org/iiif/v2/2qqnt6zf/manifest",
+        "@type": "sc:Manifest"
+      },
+      "selector": {
+        "@type": "oa:FragmentSelector",
+        "value": "xywh=908,3026,235,83",
+        "item": {
+          "@type": "oa:FragmentSelector"
+        }
+      }
+    },
+    "stylesheet": {
+      "type": "CssStylesheet",
+      "value": ".anno-48ddc28a-2249-4ef2-be2b-6665b2bfbd01 { left: 35.717092338%; top: 84.055555556%; height: 2.305555556%; width: 9.233791749%; font-size: 2.305555556em; letter-spacing: 0.03248480243161094vw; position: absolute;}"
+    }
+  }, {
+    "@context": "http://iiif.io/api/presentation/2/context.json",
+    "@id": "46bc708c-17cf-4c36-be1e-407c31998ff8",
+    "@type": "oa:Annotation",
+    "motivation": "sc:painting",
+    "annotatedBy": {
+      "name": "OCR"
+    },
+    "resource": {
+      "@type": "cnt:ContentAsText",
+      "format": "text/html",
+      "chars": "<span id='46bc708c-17cf-4c36-be1e-407c31998ff8' class='anno-46bc708c-17cf-4c36-be1e-407c31998ff8' data-letter-spacing='0.020895429706905114'>Collections</span>",
+      "language": "en"
+    },
+    "on": {
+      "full": "https://readux.ecdsdev.org/iiif/v2/2qqnt6zf/canvas/2qqnt6zf_00000002.jpg",
+      "@type": "oa:SpecificResource",
+      "within": {
+        "@id": "https://readux.ecdsdev.org/iiif/v2/2qqnt6zf/manifest",
+        "@type": "sc:Manifest"
+      },
+      "selector": {
+        "@type": "oa:FragmentSelector",
+        "value": "xywh=1171,3025,366,82",
+        "item": {
+          "@type": "oa:FragmentSelector"
+        }
+      }
+    },
+    "stylesheet": {
+      "type": "CssStylesheet",
+      "value": ".anno-46bc708c-17cf-4c36-be1e-407c31998ff8 { left: 46.011787819%; top: 84.027777778%; height: 2.277777778%; width: 14.381139489%; font-size: 2.277777778em; letter-spacing: 0.020895429706905114vw; position: absolute;}"
+    }
+  }, {
+    "@context": "http://iiif.io/api/presentation/2/context.json",
+    "@id": "964abe71-1193-4944-84c8-07ba8247f0e2",
+    "@type": "oa:Annotation",
+    "motivation": "sc:painting",
+    "annotatedBy": {
+      "name": "OCR"
+    },
+    "resource": {
+      "@type": "cnt:ContentAsText",
+      "format": "text/html",
+      "chars": "<span id='964abe71-1193-4944-84c8-07ba8247f0e2' class='anno-964abe71-1193-4944-84c8-07ba8247f0e2' data-letter-spacing='-0.09375'>&</span>",
+      "language": "en"
+    },
+    "on": {
+      "full": "https://readux.ecdsdev.org/iiif/v2/2qqnt6zf/canvas/2qqnt6zf_00000002.jpg",
+      "@type": "oa:SpecificResource",
+      "within": {
+        "@id": "https://readux.ecdsdev.org/iiif/v2/2qqnt6zf/manifest",
+        "@type": "sc:Manifest"
+      },
+      "selector": {
+        "@type": "oa:FragmentSelector",
+        "value": "xywh=1567,3023,24,84",
+        "item": {
+          "@type": "oa:FragmentSelector"
+        }
+      }
+    },
+    "stylesheet": {
+      "type": "CssStylesheet",
+      "value": ".anno-964abe71-1193-4944-84c8-07ba8247f0e2 { left: 61.571709234%; top: 84.055555556%; height: 2.333333333%; width: 0.94302554%; font-size: 2.333333333em; letter-spacing: -0.09375vw; position: absolute;}"
+    }
+  }, {
+    "@context": "http://iiif.io/api/presentation/2/context.json",
+    "@id": "d6cea0c5-895a-4334-a0b6-fc43736c0517",
+    "@type": "oa:Annotation",
+    "motivation": "sc:painting",
+    "annotatedBy": {
+      "name": "OCR"
+    },
+    "resource": {
+      "@type": "cnt:ContentAsText",
+      "format": "text/html",
+      "chars": "<span id='d6cea0c5-895a-4334-a0b6-fc43736c0517' class='anno-d6cea0c5-895a-4334-a0b6-fc43736c0517' data-letter-spacing='0.02857806691449814'>Archives</span>",
+      "language": "en"
+    },
+    "on": {
+      "full": "https://readux.ecdsdev.org/iiif/v2/2qqnt6zf/canvas/2qqnt6zf_00000002.jpg",
+      "@type": "oa:SpecificResource",
+      "within": {
+        "@id": "https://readux.ecdsdev.org/iiif/v2/2qqnt6zf/manifest",
+        "@type": "sc:Manifest"
+      },
+      "selector": {
+        "@type": "oa:FragmentSelector",
+        "value": "xywh=1656,3022,269,83",
+        "item": {
+          "@type": "oa:FragmentSelector"
+        }
+      }
+    },
+    "stylesheet": {
+      "type": "CssStylesheet",
+      "value": ".anno-d6cea0c5-895a-4334-a0b6-fc43736c0517 { left: 65.068762279%; top: 83.944444444%; height: 2.305555556%; width: 11.63064833%; font-size: 2.305555556em; letter-spacing: 0.02857806691449814vw; position: absolute;}"
+    }
+  }]
+}

@@ -4,7 +4,7 @@ require "bundler/setup"
 require "iiif_to_jekyll"
 require 'optparse'
 
-options = {:local_annotations => false, :deep_zoom => true}
+options = { :local_annotations => false, :deep_zoom => true }
 OptionParser.new do |opts|
   opts.banner = "Usage: iiif_to_jekyll [options] manifest_uri/manifest_directory export_directory"
 
@@ -13,33 +13,30 @@ OptionParser.new do |opts|
   end
 
   opts.on("--local-directory",
-      "Configure configure site to use a local iiif manifest and annotations from the export.") do |q|
+          "Configure configure site to use a local iiif manifest and annotations from the export.") do |q|
     options[:local_directory] = true
   end
 
   opts.on("--page-one [N]", OptionParser::DecimalInteger,
-        "Page where numbering should start in the export") do |n|
+          "Page where numbering should start in the export") do |n|
     options[:page_one] = n
   end
 
   opts.on("--no-deep-zoom",
-      "Configure site to run without deep zoom page images") do |q|
+          "Configure site to run without deep zoom page images") do |q|
     options[:deep_zoom] = false
   end
-
 end.parse!
-
 
 puts 'IIIF manifest is required' unless ARGV[0]
 if options[:local_directory]
-	dir_name = ARGV[0]
-	puts 'Export directory must contain manifest.json' unless File.exist?(File.join(dir_name, 'manifest.json'))
+  dir_name = ARGV[0]
+  puts 'Export directory must contain manifest.json' unless File.exist?(File.join(dir_name, 'manifest.json'))
 else
-	manifest_uri = ARGV[0]
+  manifest_uri = ARGV[0]
 end
 
 output_dir = ARGV[1]
 puts 'Jekyll directory is required' unless ARGV[1] && Dir.exist?(ARGV[1])
 
 IiifToJekyll.import(manifest_uri, dir_name, output_dir, **options)
-
