@@ -142,8 +142,14 @@ module IiifToJekyll
     }
 
     # configure extra js for volume pages based on deep zoom configuration
-    volume_js = ['volume-page.js', 'hammer.min.js']
-    volume_js.push('deepzoom.js').push('openseadragon.min.js') if opts[:deep_zoom]
+    # volume_js = ['volume-page.js', 'hammer.min.js']
+    # volume_js.push('deepzoom.js').push('openseadragon.min.js') if opts[:deep_zoom]
+    volume_js = [
+      'openseadragon.min.js',
+      'openseadragon-svg-overlay.js',
+      'text-annotations.js',
+      'viewer.js'
+    ]
 
     # TODO: read annotator names
     # # add all annotator names to the document as editors
@@ -288,15 +294,17 @@ module IiifToJekyll
 
     # construct page front matter
     front_matter = {
-      sort_order: page_number,
-      canvas_id: canvas['@id'],
-      annotation_count: anno_count,
-      images: images,
+      'sort_order' => page_number,
+      'canvas_id' => canvas['@id'],
+      'annotation_count' => anno_count,
+      'canvas_width' => canvas['width'],
+      'canvas_height' => canvas['height'],
+      'images' => images,
       #          'title'=> 'Page %s' % page_number,
-      title: canvas.label,
-      number: page_number + 1,
-      ocr: "#{canvas.label}.json",
-      annotation_overlay: "#{canvas.label}.json"
+      'title' => canvas.label,
+      'number' => page_number + 1,
+      'ocr' => "#{canvas.label}.json",
+      'annotation_overlay' => "#{canvas.label}.json"
     }
 
     # TODO: consider opts[:page_one] functionality; IIIF has something similar with `startCanvas`
@@ -341,7 +349,7 @@ module IiifToJekyll
       # ensure separation between yaml and page content
       file.write "\n---\n\n"
       # page text content as html with annotation highlights # TODO annotation highlights
-      json_lists = fetch_annotation_lists(canvas, opts)
+      # json_lists = fetch_annotation_lists(canvas, opts)
       # file.write oa_to_display(canvas, json_lists)
     end
   end
