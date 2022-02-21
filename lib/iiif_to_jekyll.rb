@@ -286,7 +286,8 @@ module IiifToJekyll
       'json' => info,
       'full' => full,
       'page' => page,
-      'thumbnail' => thumbnail
+      'thumbnail' => thumbnail,
+      'tile_source' => image.resource.service['@id']
     }
 
     anno_lists_json = fetch_annotation_lists(canvas, opts)
