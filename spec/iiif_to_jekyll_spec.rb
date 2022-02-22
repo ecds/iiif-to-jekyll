@@ -44,6 +44,9 @@ RSpec.describe IiifToJekyll do
     expect(File).to exist(File.join(@output_dir, '_volume_pages', '0002.html'))
     expect(File).to exist(File.join(@output_dir, 'overlays', 'ocr', '2.json'))
     expect(File).to exist(File.join(@output_dir, 'overlays', 'annotations', '2.json'))
+    expect(File).to exist(File.join(@output_dir, 'tags', 'tag1.md'))
+    tag_data = File.read(File.join(@output_dir, '_data', 'tags.yml'))
+    expect(tag_data).to include('tag1')
   end
 
   it 'makes some ocr' do
