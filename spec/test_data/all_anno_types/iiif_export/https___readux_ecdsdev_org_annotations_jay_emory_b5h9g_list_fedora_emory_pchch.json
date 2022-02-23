@@ -7,7 +7,7 @@
             "@context": "http://iiif.io/api/presentation/2/context.json",
             "@id": "30e4595c-9018-4ba4-88b3-afc4266010f6",
             "@type": "oa:Annotation",
-            "motivation": "oa:commenting",
+            "motivation": ["oa:commenting"],
             "annotatedBy": {
                 "name": "Jay Varner"
             },
@@ -63,7 +63,7 @@
             "@context": "http://iiif.io/api/presentation/2/context.json",
             "@id": "b9210405-415d-4152-bb20-c452a64cec7b",
             "@type": "oa:Annotation",
-            "motivation": "oa:commenting",
+            "motivation": ["oa:commenting"],
             "annotatedBy": {
                 "name": "Jay Varner"
             },
@@ -98,7 +98,7 @@
             "@context": "http://iiif.io/api/presentation/2/context.json",
             "@id": "546afa77-4e7f-4e90-85ba-71609d61c28d",
             "@type": "oa:Annotation",
-            "motivation": "oa:commenting",
+            "motivation": ["oa:commenting"],
             "annotatedBy": {
                 "name": "Jay Varner"
             },
@@ -133,7 +133,7 @@
             "@context": "http://iiif.io/api/presentation/2/context.json",
             "@id": "003794dd-1d08-4f34-a943-0ff6c35ad845",
             "@type": "oa:Annotation",
-            "motivation": "oa:commenting",
+            "motivation": ["oa:commenting"],
             "annotatedBy": {
                 "name": "Jay Varner"
             },
@@ -168,7 +168,7 @@
             "@context": "http://iiif.io/api/presentation/2/context.json",
             "@id": "aa0e50a0-48ea-4cd9-8926-8946bda0957b",
             "@type": "oa:Annotation",
-            "motivation": "oa:commenting",
+            "motivation": ["oa:commenting"],
             "annotatedBy": {
                 "name": "Jay Varner"
             },
@@ -203,7 +203,7 @@
             "@context": "http://iiif.io/api/presentation/2/context.json",
             "@id": "7ebd013f-b605-4151-98c9-79bd352f4433",
             "@type": "oa:Annotation",
-            "motivation": "oa:commenting",
+            "motivation": ["oa:commenting"],
             "annotatedBy": {
                 "name": "Jay Varner"
             },

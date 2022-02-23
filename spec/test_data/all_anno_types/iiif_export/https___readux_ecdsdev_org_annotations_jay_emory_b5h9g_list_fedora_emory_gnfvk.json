@@ -7,7 +7,7 @@
             "@context": "http://iiif.io/api/presentation/2/context.json",
             "@id": "bcf43df5-39d9-4479-a365-59cd209c5af3",
             "@type": "oa:Annotation",
-            "motivation": "oa:commenting",
+            "motivation": ["oa:commenting"],
             "annotatedBy": {
                 "name": "Jay Varner"
             },

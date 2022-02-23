@@ -367,7 +367,7 @@ module IiifToJekyll
         if File.exist?(path)
           raw_list = File.read(path)
         else
-          raw_list = '{"@context": "http://iiif.io/api/presentation/2/context.json", "@id": "", "@type": "sc:AnnotationList", "resources": []}'
+          raw_list = '{"@context": "fuckme", "@id": "", "@type": "sc:AnnotationList", "resources": []}'
         end
 
         write_annotation_files(canvas, JSON.parse(raw_list))
@@ -602,6 +602,7 @@ module IiifToJekyll
     end
     tags.delete_if { |tag| tag == [] }
     tags.uniq! || []
+    tags
   end
 
   def self.tags_for_canvas(canvas, opts)
@@ -617,7 +618,8 @@ end
 def write_annotation_files(canvas, json)
   if json['resources']&.any? { |anno| anno['motivation']&.include? 'painting' }
     write_ocr_json_file(canvas, json)
-  elsif json['resources']&.any? { |anno| anno['motivation']&.include? 'commenting' }
+  # elsif json['resources']&.any? { |anno| anno['motivation']&.include? 'commenting' }
+  else
     write_user_annotation_json_file(canvas, json)
   end
 end
@@ -638,7 +640,16 @@ def write_ocr_json_file(canvas, json)
 end
 
 def write_user_annotation_json_file(canvas, json)
-  json['resources'].reject! { |resource| resource['motivation'] != 'oa:commenting' }
+  resources = []
+  json['resources'].each do |resource|
+    if resource['motivation'].is_a?(Array) && resource['motivation'].include?('oa:commenting')
+      resources.push(resource)
+    elsif resource['motivation'].is_a?(String) && resource['motivation'] == 'oa:commenting'
+      resources.push(resource)
+    end
+  end
+  # json['resources'].reject! { |resource| resource['motivation'] != 'oa:commenting' }
+  json['resources'] = resources
   user_annotation_dir = File.join(Dir.pwd, 'overlays', 'annotations')
   FileUtils.makedirs(user_annotation_dir) unless File.exist?(user_annotation_dir)
   user_annotation_file = File.join(user_annotation_dir, "#{canvas.label}.json")
